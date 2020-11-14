@@ -39,7 +39,8 @@ class _HomePageState extends State<HomePage> {
       items: [
         BottomNavigationBarItem(icon: Icon(Icons.history), label: 'Historial'),
         BottomNavigationBarItem(icon: Icon(Icons.location_searching ), label: 'Principal'),
-        // device_hub_outlined, domain, grain, group, group_work. leak_add, location_searching, coronavirus_outlined
+        // device_hub_outlined, domain, grain, group, group_work. leak_add, location_searching, coronavirus_outlined, people_outline
+        // perm_scan_wifi, pearson_search, pin_drop, rss, scatter_plot, track_changes, wifi_outlined, wifi_tethering
         BottomNavigationBarItem(icon: Icon(Icons.bar_chart_outlined), label: 'Gráficas'),
       ]
     );
