@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'graficas_page.dart';
 import 'historial_page.dart';
-import 'mapas_page.dart';
+import 'principal_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,7 +16,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Apliacion')
+        backgroundColor: Colors.grey,
+        title: Text('Tinkvice')
       ),
       body: _llamarPagina(_currentIndex),
       bottomNavigationBar: _crearBottomNavigationBar(),
@@ -25,15 +26,23 @@ class _HomePageState extends State<HomePage> {
 
   Widget _crearBottomNavigationBar() {
     return BottomNavigationBar(
-        currentIndex: 0,
-        onTap: (index) {
-          setState(() => _currentIndex = index);
-        },
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.ac_unit), label: 'hola'),
-          BottomNavigationBarItem(icon: Icon(Icons.ac_unit), label: 'hola'),
-          BottomNavigationBarItem(icon: Icon(Icons.ac_unit), label: 'hola'),
-        ]);
+      backgroundColor: Colors.grey,
+      showUnselectedLabels: false,
+      showSelectedLabels: false,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.black26,
+      iconSize: 35.0,
+      currentIndex: _currentIndex,
+      onTap: (index) {
+        setState(() => _currentIndex = index);
+      },
+      items: [
+        BottomNavigationBarItem(icon: Icon(Icons.history), label: 'Historial'),
+        BottomNavigationBarItem(icon: Icon(Icons.location_searching ), label: 'Principal'),
+        // device_hub_outlined, domain, grain, group, group_work. leak_add, location_searching, coronavirus_outlined
+        BottomNavigationBarItem(icon: Icon(Icons.bar_chart_outlined), label: 'Gráficas'),
+      ]
+    );
   }
 
   Widget _llamarPagina(int paginaActual) {
@@ -41,11 +50,11 @@ class _HomePageState extends State<HomePage> {
       case 0:
         return HistorialPage();
       case 1:
-        return MapasPage();
+        return PrincipalPage();
       case 2:
         return GraficasPage();
       default:
-        return HistorialPage();
+        return PrincipalPage();
     }
   }
 }
