@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class GraficasPage extends StatelessWidget {
@@ -15,6 +13,7 @@ class GraficasPage extends StatelessWidget {
           child: Container(
             color: Colors.grey,
             child: TabBar(
+              indicatorWeight: 3.0,
               indicatorColor: Colors.black,
               tabs: [
                 Tab(child: Text('GRÁFICAS', style: TextStyle(color: Colors.white, fontSize: 17))),

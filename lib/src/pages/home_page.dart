@@ -31,17 +31,26 @@ class _HomePageState extends State<HomePage> {
       showSelectedLabels: false,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.black26,
-      iconSize: 35.0,
+      iconSize: 27.0,
       currentIndex: _currentIndex,
       onTap: (index) {
         setState(() => _currentIndex = index);
       },
       items: [
-        BottomNavigationBarItem(icon: Icon(Icons.history), label: 'Historial'),
-        BottomNavigationBarItem(icon: Icon(Icons.location_searching ), label: 'Principal'),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.history), 
+          label: 'Historial',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.location_searching),
+          label: 'Principal'
+        ),
         // device_hub_outlined, domain, grain, group, group_work. leak_add, location_searching, coronavirus_outlined, people_outline
         // perm_scan_wifi, pearson_search, pin_drop, rss, scatter_plot, track_changes, wifi_outlined, wifi_tethering
-        BottomNavigationBarItem(icon: Icon(Icons.bar_chart_outlined), label: 'Gráficas'),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.bar_chart_outlined),
+          label: 'Gráficas'
+        ),
       ]
     );
   }
