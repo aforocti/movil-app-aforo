@@ -45,7 +45,7 @@ class Card3 extends StatelessWidget {
     buildList() {
       return Column(
         children: <Widget>[
-          for (var i in [1, 2, 3, 4]) buildItem("AP ${i}"),
+          for (var i in [1, 2, 3, 4]) buildItem("AP $i"),
         ],
       );
     }
@@ -76,7 +76,7 @@ class Card3 extends StatelessWidget {
                             child: ListTile(
                               title: Text('WLC - name1'),
                               subtitle: Text("Clientes: 7, Intrusos: 3"),
-                              leading: Icon(Icons.device_hub),
+                              // leading: Icon(Icons.device_hub),
                               trailing: Icon(Icons.crop_square,size: 40.0),
                             ),
                           ),
