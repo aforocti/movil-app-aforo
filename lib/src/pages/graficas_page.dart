@@ -5,29 +5,16 @@ class GraficasPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 1,
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight- 15),
-          child: Container(
-            color: Colors.grey,
-            child: TabBar(
-              indicatorWeight: 3.0,
-              indicatorColor: Colors.black,
-              tabs: [
-                Tab(child: Text('GRÁFICAS', style: TextStyle(color: Colors.white, fontSize: 17))),
-              ],
-            ),
-          )
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight - 15),
+        child: Container(
+          color: Colors.grey,
+          child: Tab(child: Text('GRAFICAS',style: TextStyle(color: Colors.white,fontSize: 17))),
         ),
-        body: TabBarView(
-          children: [
-            Center(
-              child: Text('GRAFICAS'),
-            ),
-          ],
-        ),
+      ),
+      body: Center(
+        child: Text('GRAFICAS'),
       ),
     );
   }

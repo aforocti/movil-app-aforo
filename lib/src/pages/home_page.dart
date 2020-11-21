@@ -17,7 +17,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey,
-        title: Text('Tinkvice')
+        title: Text('Tinkvice'),
+        actions: [
+          Icon(Icons.settings_outlined,size: 26),
+          SizedBox(width: 15.0)
+        ],
       ),
       body: _llamarPagina(_currentIndex),
       bottomNavigationBar: _crearBottomNavigationBar(),

@@ -1,3 +1,5 @@
+import 'package:app_deteccion_personas/src/pages/datos_page.dart';
+import 'package:app_deteccion_personas/src/pages/planos_page.dart';
 import 'package:flutter/material.dart';
 
 class PrincipalPage extends StatelessWidget {
@@ -25,10 +27,10 @@ class PrincipalPage extends StatelessWidget {
         body: TabBarView(
           children: [
             Center(
-              child: Text('PLANOS'),
+              child: PlanosPage()
             ),
             Center(
-              child: Text('DATOS'),
+              child: DatosPage()
             )
           ],
         ),
