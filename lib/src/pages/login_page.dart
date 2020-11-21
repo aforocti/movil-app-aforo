@@ -21,37 +21,44 @@ class _LoginPageState extends State<LoginPage> {
     final size = MediaQuery.of(context).size;
 
     final circulo = Container(
-      width: size.width * 0.55,
-      height: size.width * 0.55,
+      width: size.width * 0.57,
+      height: size.width * 0.57,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(size.width * 0.6),
-          color: Color.fromRGBO(170, 102, 95, 1.0)),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+              color: Color.fromRGBO(231, 210, 205, 1.0),
+              blurRadius: 2.0,
+              // offset: Offset(0.0, 0.0),
+              spreadRadius: 3.0)
+        ],
+        borderRadius: BorderRadius.circular(size.width * 0.6),
+        color: Color.fromRGBO(231, 210, 205, 1.0)),
     );
 
     final fondo = Container(
       height: double.infinity,
       width: double.infinity,
-      decoration: BoxDecoration(color: Color.fromRGBO(168, 97, 93, 1.0)),
+      decoration: BoxDecoration(color: Color.fromRGBO(239, 218, 213, 1.0)),
     );
 
     return Stack(
       children: [
         fondo,
         Positioned(child: circulo, top: -40.0, left: -40.0),
-        Positioned(child: circulo, top: 150.0, right: -70.0),
+        Positioned(child: circulo, top: 150.0, right: -90.0),
         SafeArea(
           child: Container(
             padding: EdgeInsets.only(top: 40.0), // 40
             child: Column(
               children: [
                 CircleAvatar(
-                  backgroundColor: Color.fromRGBO(239, 218, 213, 1.0),
+                  backgroundColor: Color.fromRGBO(247, 243, 241, 1.0),
                   radius: size.height * 0.1, // h: 0.1
                   child: Icon(Icons.people, size: size.height * 0.1),
                 ),
                 SizedBox(height: 10.0, width: double.infinity),
                 Text('Iniciar Sesión',
-                    style: TextStyle(color: Colors.white, fontSize: 25.0)) // 25
+                    style: TextStyle(color: Color.fromRGBO(168, 97, 93, 1.0), fontSize: 25.0)) // 25
               ],
             ),
           ),
@@ -73,15 +80,16 @@ class _LoginPageState extends State<LoginPage> {
             width: size.width * 0.85,
             padding: EdgeInsets.symmetric(horizontal: 20.0),
             decoration: BoxDecoration(
-                color: Color.fromRGBO(247, 243, 241, 1.0),
-                borderRadius: BorderRadius.circular(7.0),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 5.0,
-                      offset: Offset(0.0, 5.0),
-                      spreadRadius: 3.0)
-                ]),
+              color: Color.fromRGBO(247, 243, 241, 1.0),
+              borderRadius: BorderRadius.circular(7.0),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 5.0,
+                    offset: Offset(0.0, 5.0),
+                    spreadRadius: 3.0)
+              ]
+            ),
             child: Column(
               children: [
                 SizedBox(height: 50.0),

@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
 }
 
 
-// COLORES
+
 // Color.fromRGBO(247, 243, 241, 1.0)
 // Color.fromRGBO(239, 218, 213, 1.0)
 // Color.fromRGBO(255, 199, 124, 1.0)
