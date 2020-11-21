@@ -9,7 +9,7 @@ class HistorialPage extends StatelessWidget {
       length: 1,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
+          preferredSize: Size.fromHeight(kToolbarHeight - 15),
           child: Container(
             color: Colors.grey,
             child: TabBar(
