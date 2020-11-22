@@ -9,8 +9,8 @@ class HistorialPage extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight - 15),
         child: Container(
-          color: Colors.grey,
-          child: Tab(child: Text('HISTORIAL',style: TextStyle(color: Colors.white,fontSize: 17))),
+          color: Color.fromRGBO(239, 218, 213, 1.0),
+          child: Tab(child: Text('HISTORIAL',style: TextStyle(color: Color.fromRGBO(10, 52, 68, 1.0),fontSize: 17))),
         ),
       ),
       body: Center(

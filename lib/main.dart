@@ -10,17 +10,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Material App',
+      title: 'Tinkvice',
       debugShowCheckedModeBanner: false,
-      initialRoute: 'login',
+      initialRoute: 'splash',
       routes: {
         'home' : ( BuildContext context ) => HomePage(),
         'login' : ( BuildContext context ) => LoginPage(),
         'splash' : ( BuildContext context ) => SplashPage()
       },
       theme: ThemeData(
-          primaryColor: Color.fromRGBO(168, 97, 93, 1.0)
-        ),
+        primaryColor: Color.fromRGBO(168, 97, 93, 1.0),
+        appBarTheme: AppBarTheme(
+          color : Color.fromRGBO(239, 218, 213, 1.0),
+          actionsIconTheme: IconThemeData(
+            color: Color.fromRGBO(168, 97, 93, 1.0),
+            size: 26
+          )
+        )
+      ),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'graficas_page.dart';
@@ -16,12 +18,21 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey,
-        title: Text('Tinkvice'),
+        title: Text('Tinkvice', style: TextStyle(color: Color.fromRGBO(10, 52, 68, 1.0))),
         actions: [
-          Icon(Icons.settings_outlined,size: 26),
+          Icon(Icons.settings_outlined),
           SizedBox(width: 15.0)
         ],
+        leading: Container(
+          padding: EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
+          child: Image(
+            fit: BoxFit.fill,
+            image: AssetImage('assets/ic_appbar.png')
+          ),
+        ),
+        elevation: 10.0,
+        shadowColor: Color.fromRGBO(168, 97, 93, 0.5),
+        titleSpacing: 6.0,
       ),
       body: _llamarPagina(_currentIndex),
       bottomNavigationBar: _crearBottomNavigationBar(),
@@ -30,12 +41,15 @@ class _HomePageState extends State<HomePage> {
 
   Widget _crearBottomNavigationBar() {
     return BottomNavigationBar(
-      backgroundColor: Colors.grey,
+      backgroundColor: Color.fromRGBO(239, 218, 213, 1.0),
       showUnselectedLabels: false,
       showSelectedLabels: false,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.black26,
-      iconSize: 27.0,
+      // selectedItemColor: Colors.white,
+      unselectedItemColor: Color.fromRGBO(168, 97, 93, 0.4),
+      iconSize: 30.0,
+      unselectedIconTheme: IconThemeData(
+        size: 25.0
+      ),
       currentIndex: _currentIndex,
       onTap: (index) {
         setState(() => _currentIndex = index);

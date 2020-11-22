@@ -28,14 +28,11 @@ class _SplashPageState extends State<SplashPage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget> [
-                CircleAvatar(
-                  backgroundColor: Color.fromRGBO(10, 52, 68, 1.0),
-                  radius: 60.0,
-                  child: Icon(
-                    Icons.group,
-                    color: Color.fromRGBO(247, 243, 241, 1.0),
-                    size: 60.0,
-                  ),
+                Image(
+                  height: 144.0 + 20.0,
+                  width: 144.0 + 20.0,
+                  fit: BoxFit.fill,
+                  image: AssetImage('assets/ic_splash.png'),
                 ),
                 SizedBox(
                   height: 10.0,

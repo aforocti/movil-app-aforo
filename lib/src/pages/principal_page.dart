@@ -13,15 +13,14 @@ class PrincipalPage extends StatelessWidget {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight - 15),
           child: Container(
-            color: Colors.grey,
+            color: Color.fromRGBO(239, 218, 213, 1.0),
                 child: TabBar(
-                  indicatorColor: Colors.black,
+                  indicatorColor: Color.fromRGBO(10, 52, 68, 1.0),
                   tabs: [
-                    Tab(child: Text('PLANOS', style: TextStyle(color: Colors.white,fontSize: 17))),
-                    Tab(child: Text('DATOS', style: TextStyle(color: Colors.white,fontSize: 17)))
+                    Tab(child: Text('PLANOS', style: TextStyle(color: Color.fromRGBO(10, 52, 68, 1.0),fontSize: 17))),
+                    Tab(child: Text('DATOS', style: TextStyle(color: Color.fromRGBO(10, 52, 68, 1.0),fontSize: 17)))
                   ],
                 )
-
           ),
         ),
         body: TabBarView(
