@@ -1,0 +1,44 @@
+{
+    "alertas" : [
+        {
+            "fecha" : "20 septiembre 2020",
+            "hora" : "16h30",
+            "area": "area 1 piso 1"
+        },
+        {
+            "fecha" : "2 octubre 2020",
+            "hora" : "12h30",
+            "area": "area 3 piso 1"
+        },
+        {
+            "fecha" : "10 octubre 2020",
+            "hora" : "11h00",
+            "area": "area 1 piso 1"
+        },
+        {
+            "fecha" : "2 septiembre 2020",
+            "hora" : "16h30",
+            "area": "area 1 piso 2"
+        },
+        {
+            "fecha" : "20 septiembre 2020",
+            "hora" : "16h30",
+            "area": "area 1 piso 1"
+        },
+        {
+            "fecha" : "20 septiembre 2020",
+            "hora" : "16h30",
+            "area": "area 1 piso 1"
+        },
+        {
+            "fecha" : "20 septiembre 2020",
+            "hora" : "16h30",
+            "area": "area 1 piso 1"
+        },
+        {
+            "fecha" : "20 septiembre 2020",
+            "hora" : "16h30",
+            "area": "area 2 piso 1"
+        }
+    ]
+}
