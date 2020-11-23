@@ -54,7 +54,15 @@ class _LoginPageState extends State<LoginPage> {
                 CircleAvatar(
                   backgroundColor: Color.fromRGBO(247, 243, 241, 1.0),
                   radius: size.height * 0.1, // h: 0.1
-                  child: Icon(Icons.people, size: size.height * 0.1),
+                  child: Padding(
+                    padding: const EdgeInsets.only( bottom: 10.0 ),
+                    child: Image(
+                      height: size.height * 0.14,
+                      width: size.height * 0.14,
+                      fit: BoxFit.fill,
+                      image: AssetImage('assets/ic_splash.png'),
+                    ),
+                  ),
                 ),
                 SizedBox(height: 10.0, width: double.infinity),
                 Text('Iniciar Sesión',
@@ -74,8 +82,8 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         children: [
           SafeArea(
-              child:
-                  Container(height: (40.0 + (3 * 25.0) + size.height * 0.2))),
+            child: Container(height: (40.0 + (3 * 25.0) + size.height * 0.2))
+          ),
           Container(
             width: size.width * 0.85,
             padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -84,10 +92,10 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.circular(7.0),
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 5.0,
-                    offset: Offset(0.0, 5.0),
-                    spreadRadius: 3.0)
+                  color: Colors.black26,
+                  blurRadius: 5.0,
+                  offset: Offset(0.0, 5.0),
+                  spreadRadius: 3.0)
               ]
             ),
             child: Column(
