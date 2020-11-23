@@ -1,20 +1,27 @@
-
+import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
+
+
 
 class _MenuProvider {
 
-  List<dynamic> alertas = [];
+  List<dynamic> alerta = [];
 
   _MenuProvider(){
     cargarData();
       }
     
-    cargarData() {
+    Future<List<dynamic>> cargarData() async {
 
-      rootBundle.loadString('data/alertas.json')
-        .then((data){
-          print (data);
-        });
+      final resp = await rootBundle.loadString('data/alertas.json');
+        
+          Map dataMap = json.decode(resp);
+          print(dataMap['alertas']);
+          alerta= dataMap['alertas'];
+      
+      return alerta;
+
+
     }
 
 }
