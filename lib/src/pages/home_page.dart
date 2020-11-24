@@ -19,8 +19,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Tinkvice', style: TextStyle(color: Color.fromRGBO(10, 52, 68, 1.0))),
-        actions: [
-          Icon(Icons.settings_outlined),
+        actions:<Widget> [
+          IconButton(
+            icon: Icon(Icons.settings_outlined),
+            onPressed: () =>  Navigator.pushNamed( context, 'setting' ) 
+          ),
+          
           SizedBox(width: 15.0)
         ],
         leading: Container(

@@ -1,4 +1,5 @@
 import 'package:app_deteccion_personas/src/pages/home_page.dart';
+import 'package:app_deteccion_personas/src/pages/settings_page.dart';
 import 'package:app_deteccion_personas/src/pages/splash_page.dart';
 import 'package:flutter/material.dart';
 
@@ -12,11 +13,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Tinkvice',
       debugShowCheckedModeBanner: false,
-      initialRoute: 'splash',
+      initialRoute: 'home',
       routes: {
         'home' : ( BuildContext context ) => HomePage(),
         'login' : ( BuildContext context ) => LoginPage(),
-        'splash' : ( BuildContext context ) => SplashPage()
+        'splash' : ( BuildContext context ) => SplashPage(),
+        'setting' : ( BuildContext context ) => SettingPage()
       },
       theme: ThemeData(
         primaryColor: Color.fromRGBO(168, 97, 93, 1.0),
@@ -25,6 +27,9 @@ class MyApp extends StatelessWidget {
           actionsIconTheme: IconThemeData(
             color: Color.fromRGBO(168, 97, 93, 1.0),
             size: 26
+          ),
+          iconTheme: IconThemeData(
+            color:  Color.fromRGBO(168, 97, 93, 1.0)
           )
         )
       ),
