@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   expandable: ^4.1.4
   rxdart: ^0.24.1
+  http:
 
 dev_dependencies:
   flutter_test:
