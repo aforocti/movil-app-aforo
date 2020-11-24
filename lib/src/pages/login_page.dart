@@ -1,3 +1,4 @@
+import 'package:app_deteccion_personas/src/blocs/provider.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -24,15 +25,15 @@ class _LoginPageState extends State<LoginPage> {
       width: size.width * 0.57,
       height: size.width * 0.57,
       decoration: BoxDecoration(
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-              color: Color.fromRGBO(231, 210, 205, 1.0),
-              blurRadius: 2.0,
-              // offset: Offset(0.0, 0.0),
-              spreadRadius: 3.0)
-        ],
-        borderRadius: BorderRadius.circular(size.width * 0.6),
-        color: Color.fromRGBO(231, 210, 205, 1.0)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Color.fromRGBO(231, 210, 205, 1.0),
+                blurRadius: 2.0,
+                // offset: Offset(0.0, 0.0),
+                spreadRadius: 3.0)
+          ],
+          borderRadius: BorderRadius.circular(size.width * 0.6),
+          color: Color.fromRGBO(231, 210, 205, 1.0)),
     );
 
     final fondo = Container(
@@ -55,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                   backgroundColor: Color.fromRGBO(247, 243, 241, 1.0),
                   radius: size.height * 0.1, // h: 0.1
                   child: Padding(
-                    padding: const EdgeInsets.only( bottom: 10.0 ),
+                    padding: const EdgeInsets.only(bottom: 10.0),
                     child: Image(
                       height: size.height * 0.14,
                       width: size.height * 0.14,
@@ -66,7 +67,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 10.0, width: double.infinity),
                 Text('Iniciar Sesión',
-                    style: TextStyle(color: Color.fromRGBO(168, 97, 93, 1.0), fontSize: 25.0)) // 25
+                    style: TextStyle(
+                        color: Color.fromRGBO(168, 97, 93, 1.0),
+                        fontSize: 25.0)) // 25
               ],
             ),
           ),
@@ -76,38 +79,38 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _loginForm(BuildContext context) {
+    final bloc = Provider.of(context);
     final size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
       child: Column(
         children: [
           SafeArea(
-            child: Container(height: (40.0 + (3 * 25.0) + size.height * 0.2))
-          ),
+              child:
+                  Container(height: (40.0 + (3 * 25.0) + size.height * 0.2))),
           Container(
             width: size.width * 0.85,
             padding: EdgeInsets.symmetric(horizontal: 20.0),
             decoration: BoxDecoration(
-              color: Color.fromRGBO(247, 243, 241, 1.0),
-              borderRadius: BorderRadius.circular(7.0),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 5.0,
-                  offset: Offset(0.0, 5.0),
-                  spreadRadius: 3.0)
-              ]
-            ),
+                color: Color.fromRGBO(247, 243, 241, 1.0),
+                borderRadius: BorderRadius.circular(7.0),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 5.0,
+                      offset: Offset(0.0, 5.0),
+                      spreadRadius: 3.0)
+                ]),
             child: Column(
               children: [
                 SizedBox(height: 50.0),
-                _userInput(),
+                _userInput(bloc),
                 SizedBox(height: 50.0),
-                _passwordInput(),
+                _passwordInput(bloc),
                 SizedBox(height: 10.0),
                 _textRecovery(),
                 SizedBox(height: 50.0),
-                _makeButton(),
+                _makeButton(bloc),
                 SizedBox(height: 50.0),
               ],
             ),
@@ -118,38 +121,56 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _userInput() {
-    return TextField(
-      onChanged: (valor) {},
-      autofocus: false,
-      decoration: InputDecoration(
-        hintText: 'Usuario',
-        labelText: 'Usuario',
-        icon: Icon(Icons.account_circle),
-      ),
+  Widget _userInput(LoginBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.userStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return TextField(
+          onChanged: bloc.changeUser,
+
+          ///
+          autofocus: false,
+          decoration: InputDecoration(
+            hintText: 'Usuario',
+            labelText: 'Usuario',
+            errorText: snapshot.error,
+            counterText: snapshot.data,
+            icon: Icon(Icons.account_circle),
+          ),
+        );
+      },
     );
   }
 
-  Widget _passwordInput() {
-    return TextField(
-      obscureText: _obscureText,
-      onChanged: (valor) {},
-      decoration: InputDecoration(
-        icon: Icon(Icons.lock),
-        hintText: 'Contraseña',
-        labelText: 'Contraseña',
-        suffixIcon: IconButton(
-          icon: new Icon(_iconPassword),
-          onPressed: () => setState(() {
-            if (_obscureText) {
-              _iconPassword = Icons.remove_red_eye;
-            } else {
-              _iconPassword = Icons.remove_red_eye_outlined;
-            }
-            _obscureText = !_obscureText;
-          }),
-        ),
-      ),
+  Widget _passwordInput(LoginBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.passwordStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return TextField(
+          obscureText: _obscureText,
+          onChanged: bloc.changePassword,
+
+          ///
+          decoration: InputDecoration(
+            icon: Icon(Icons.lock),
+            hintText: 'Contraseña',
+            labelText: 'Contraseña',
+            errorText: snapshot.error,
+            counterText: snapshot.data,
+            suffixIcon: IconButton(
+              icon: new Icon(_iconPassword),
+              onPressed: () => setState(() {
+                if (_obscureText) {
+                  _iconPassword = Icons.remove_red_eye;
+                } else {
+                  _iconPassword = Icons.remove_red_eye_outlined;
+                }
+                _obscureText = !_obscureText;
+              }),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -166,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _makeButton() {
+  Widget _makeButton(LoginBloc bloc) {
     return RaisedButton(
       child: Container(
           padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
@@ -175,7 +196,16 @@ class _LoginPageState extends State<LoginPage> {
       elevation: 0.0,
       color: Color.fromRGBO(138, 67, 63, 1.0),
       textColor: Colors.white,
-      onPressed: () => print("Ingresar"),
+      onPressed: () => _login(context, bloc),
     );
+  }
+
+  _login(BuildContext context, LoginBloc bloc) {
+    print('=====================');
+    print('User: ${bloc.user}');
+    print('Password: ${bloc.password}');
+    print('=====================');
+
+    Navigator.pushReplacementNamed(context,'home');
   }
 }

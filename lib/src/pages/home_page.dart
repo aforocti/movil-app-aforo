@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () =>  Navigator.pushNamed( context, 'setting' ) 
           ),
           
-          SizedBox(width: 15.0)
+          SizedBox(width: 10.0)
         ],
         leading: Container(
           padding: EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
