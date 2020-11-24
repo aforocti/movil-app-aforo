@@ -2,6 +2,7 @@ import 'package:app_deteccion_personas/src/blocs/provider.dart';
 import 'package:app_deteccion_personas/src/pages/home_page.dart';
 import 'package:app_deteccion_personas/src/pages/settings_page.dart';
 import 'package:app_deteccion_personas/src/pages/splash_page.dart';
+import 'package:app_deteccion_personas/src/pages/splash_page_animated.dart';
 import 'package:flutter/material.dart';
 
 import 'src/pages/login_page.dart';
@@ -15,11 +16,12 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Tinkvice',
         debugShowCheckedModeBanner: false,
-        initialRoute: 'splash',
+        initialRoute: 'splashAnimated',
         routes: {
           'home' : ( BuildContext context ) => HomePage(),
           'login' : ( BuildContext context ) => LoginPage(),
           'splash' : ( BuildContext context ) => SplashPage(),
+          'splashAnimated' : ( BuildContext context ) => SplashPageAnimated(),
           'setting' : ( BuildContext context ) => SettingPage()
         },
         theme: ThemeData(
