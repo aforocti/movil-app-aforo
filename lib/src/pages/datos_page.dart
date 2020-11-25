@@ -1,3 +1,8 @@
+// import 'package:app_deteccion_personas/src/models/ap_model.dart';
+// import 'package:app_deteccion_personas/src/providers/ap_provider.dart';
+import 'package:app_deteccion_personas/src/models/wlc_model.dart';
+import 'package:app_deteccion_personas/src/providers/ap_provider.dart';
+import 'package:app_deteccion_personas/src/providers/wlc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 
@@ -7,98 +12,88 @@ class DatosPage extends StatefulWidget {
 }
 
 class _DatosPageState extends State<DatosPage> {
+  final wlcProvider = new WlcProvider();
+  final apProvider = new ApProvider();
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      body: ExpandableTheme(
-        data: const ExpandableThemeData(
-                iconColor: Colors.blue,
-                useInkWell: true,
-            ),
-        child: ListView(
-          physics: const BouncingScrollPhysics(),
-          children: <Widget>[
-            Card3(),
-            Card3(),
-            Card3(),
-            Card3(),
-            Card3(),
-            Card3(),
-            Card3(),
-          ],
-        ),
-      ),
+      body: Container(child: _crearListado()),
     );
   }
-}
 
-class Card3 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    buildItem(String label) {
-      return Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Text(label),
-      );
-    }
+  Widget _crearListado() {
+    return FutureBuilder(
+      future: wlcProvider.cargarWlcs(),
+      builder: (BuildContext context, AsyncSnapshot<List<WlcModel>> snapshot) {
+        if (snapshot.hasData) {
+          final wlcs = snapshot.data;
+          return ListView.builder(
+            itemCount: wlcs.length,
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, i) => _crearCard(wlcs[i]),
+          );
+        } else {
+          return Center(
+              child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      Color.fromRGBO(241, 94, 74, 1.0))));
+        }
+      },
+    );
+  }
 
-    buildList() {
-      return Column(
-        children: <Widget>[
-          for (var i in [1, 2, 3, 4]) buildItem("AP $i"),
-        ],
-      );
-    }
-
+  Widget _crearCard(WlcModel wlcModel) {
     return ExpandableNotifier(
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: ScrollOnExpand(
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            child: Column(
-              children: <Widget>[
-                ExpandablePanel(
-                  theme: const ExpandableThemeData(
-                    headerAlignment: ExpandablePanelHeaderAlignment.center,
-                    // tapBodyToExpand: true,
-                    // tapBodyToCollapse: true,
-                    // hasIcon: false, // TOMAR EN CUENTA SI SE DESEA CAMBIAR EL ESTILO DEL ICONO QUE ABRE EL EXPANDED
-                    iconColor: Colors.black,
-                  ),
-                  header: Container(
-                    color: Colors.grey,
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: ListTile(
-                              title: Text('WLC - name1'),
-                              subtitle: Text("Clientes: 7, Intrusos: 3"),
-                              // leading: Icon(Icons.device_hub),
-                              trailing: Icon(Icons.crop_square,size: 40.0),
-                            ),
-                          ),
-                          // ExpandableIcon(   // TOMAR EN CUENTA SI SE DESEA CAMBIAR EL ESTILO DEL ICONO QUE ABRE EL EXPANDED
-                          //   theme: const ExpandableThemeData(
-                          //     expandIcon: Icons.keyboard_arrow_down,
-                          //     collapseIcon: Icons.keyboard_arrow_up,
-                          //     iconColor: Colors.white,
-                          //     iconSize: 30.0,
-                          //   ),
-                          // ),
-                        ],
+        child: Padding(
+      padding: const EdgeInsets.all(10),
+      child: ScrollOnExpand(
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          child: ExpandablePanel(
+            theme: const ExpandableThemeData(
+              headerAlignment: ExpandablePanelHeaderAlignment.center,
+              iconColor: Colors.black,
+            ),
+            header: Container(
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(255, 227, 129, 1.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        title: Text('${wlcModel.productName}'),
+                        subtitle: Text("Clientes: 7, Intrusos: 3"),
+                        trailing: Icon(Icons.crop_square, size: 40.0),
                       ),
                     ),
-                  ),
-                  expanded: buildList(),
+                  ],
                 ),
-              ],
+              ),
             ),
+            expanded: buildList(),
           ),
         ),
-      )
+      ),
+    ));
+  }
+
+  buildItem(String label) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Text(label),
+    );
+  }
+
+  buildList() {
+    return Column(
+      children: <Widget>[
+        for (var i in [1, 2, 3, 4]) buildItem("AP $i"),
+      ],
     );
   }
 }

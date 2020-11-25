@@ -9,25 +9,31 @@ ApModel apModelFromJson(String str) => ApModel.fromJson(json.decode(str));
 String apModelToJson(ApModel data) => json.encode(data.toJson());
 
 class ApModel {
-    ApModel({
-        this.macId,
-        this.model,
-        this.name,
-    });
 
-    String macId;
-    String model;
-    String name;
+  ApModel({
+    this.id,
+    this.mac,
+    this.model,
+    this.name,
+  });
+  
+  String id;
+  String mac;
+  String model;
+  String name;
 
-    factory ApModel.fromJson(Map<String, dynamic> json) => ApModel(
-        macId: json["mac_id"],
-        model: json["model"],
-        name: json["name"],
-    );
+  factory ApModel.fromJson(Map<String, dynamic> json) => ApModel(
+    id    : json["id"],
+    mac   : json["mac"],
+    model : json["model"],
+    name  : json["name"],
+  );
 
-    Map<String, dynamic> toJson() => {
-        "mac_id": macId,
-        "model": model,
-        "name": name,
-    };
+  Map<String, dynamic> toJson() => {
+    "id"    : id,
+    "mac"   : mac,
+    "model" : model,
+    "name"  : name,
+  };
+
 }

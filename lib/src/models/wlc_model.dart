@@ -9,25 +9,35 @@ WlcModel wlcModelFromJson(String str) => WlcModel.fromJson(json.decode(str));
 String wlcModelToJson(WlcModel data) => json.encode(data.toJson());
 
 class WlcModel {
-    WlcModel({
-        this.macId,
-        this.manufacturerName,
-        this.productName,
-    });
 
-    String macId;
-    String manufacturerName;
-    String productName;
+  WlcModel({
+    this.id,
+    this.mac,
+    this.manufacturerName,
+    this.productName,
+    this.aps
+  });
 
-    factory WlcModel.fromJson(Map<String, dynamic> json) => WlcModel(
-        macId: json["mac_id"],
-        manufacturerName: json["manufacturer_name"],
-        productName: json["product_name"],
-    );
+  String id;
+  String mac;
+  String manufacturerName;
+  String productName;
+  List   aps;
 
-    Map<String, dynamic> toJson() => {
-        "mac_id": macId,
-        "manufacturer_name": manufacturerName,
-        "product_name": productName,
-    };
+  factory WlcModel.fromJson(Map<String, dynamic> json) => WlcModel(
+    id               : json["id"],
+    mac              : json["mac"],
+    manufacturerName : json["manufacturer_name"],
+    productName      : json["product_name"],
+    aps              : json["aps"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id"                : id,
+    "mac"               : mac,
+    "manufacturer_name" : manufacturerName,
+    "product_name"      : productName,
+    "aps"               : aps,
+  };
+
 }
