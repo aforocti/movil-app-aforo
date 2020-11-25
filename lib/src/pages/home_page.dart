@@ -1,5 +1,8 @@
 import 'dart:ui';
 
+import 'package:app_deteccion_personas/src/blocs/provider.dart';
+import 'package:app_deteccion_personas/src/models/wlc_model.dart';
+import 'package:app_deteccion_personas/src/providers/wlc_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'graficas_page.dart';
