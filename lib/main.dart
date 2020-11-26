@@ -1,15 +1,37 @@
 import 'package:app_deteccion_personas/src/blocs/provider.dart';
 import 'package:app_deteccion_personas/src/pages/home_page.dart';
+import 'package:app_deteccion_personas/src/pages/register_page.dart';
 import 'package:app_deteccion_personas/src/pages/settings_page.dart';
 import 'package:app_deteccion_personas/src/pages/splash_page.dart';
 import 'package:app_deteccion_personas/src/pages/splash_page_animated.dart';
+import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
+import 'package:app_deteccion_personas/src/providers/push_notifications_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'src/pages/login_page.dart';
- 
-void main() => runApp(MyApp());
- 
-class MyApp extends StatelessWidget {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = new PreferenciasUsuario();
+  await prefs.initPrefs();
+
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+
+    final pushProvider = new PushNotificationsProvider();
+    pushProvider.initNotifications();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Provider(
@@ -18,31 +40,25 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: 'splashAnimated',
         routes: {
-          'home' : ( BuildContext context ) => HomePage(),
-          'login' : ( BuildContext context ) => LoginPage(),
-          'splash' : ( BuildContext context ) => SplashPage(),
-          'splashAnimated' : ( BuildContext context ) => SplashPageAnimated(),
-          'setting' : ( BuildContext context ) => SettingPage()
+          'home': (BuildContext context) => HomePage(),
+          'login': (BuildContext context) => LoginPage(),
+          'register': (BuildContext context) => RegisterPage(),
+          'splash': (BuildContext context) => SplashPage(),
+          'splashAnimated': (BuildContext context) => SplashPageAnimated(),
+          'setting': (BuildContext context) => SettingPage()
         },
         theme: ThemeData(
-          primaryColor: Color.fromRGBO(168, 97, 93, 1.0),
-          appBarTheme: AppBarTheme(
-            color : Color.fromRGBO(239, 218, 213, 1.0),
-            actionsIconTheme: IconThemeData(
-              color: Color.fromRGBO(168, 97, 93, 1.0),
-              size: 26
-            ),
-            iconTheme: IconThemeData(
-              color:  Color.fromRGBO(168, 97, 93, 1.0)
-            )
-          )
-        ),
+            primaryColor: Color.fromRGBO(168, 97, 93, 1.0),
+            appBarTheme: AppBarTheme(
+                color: Color.fromRGBO(239, 218, 213, 1.0),
+                actionsIconTheme: IconThemeData(
+                    color: Color.fromRGBO(168, 97, 93, 1.0), size: 26),
+                iconTheme:
+                    IconThemeData(color: Color.fromRGBO(168, 97, 93, 1.0)))),
       ),
     );
   }
 }
-
-
 
 // Color.fromRGBO(247, 243, 241, 1.0)
 // Color.fromRGBO(239, 218, 213, 1.0)

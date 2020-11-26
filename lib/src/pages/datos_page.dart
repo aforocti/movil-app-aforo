@@ -67,8 +67,9 @@ class _DatosPageState extends State<DatosPage> {
                     Expanded(
                       child: ListTile(
                         title: Text('${wlcModel.productName}'),
-                        subtitle: Text("Clientes: 7, Intrusos: 3"),
-                        trailing: Icon(Icons.crop_square, size: 40.0),
+                        subtitle: Text('${wlcModel.mac}'),
+                        trailing: Text('en red: 5'),
+                        // trailing: Icon(Icons.crop_square, size: 40.0),
                       ),
                     ),
                   ],

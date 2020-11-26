@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "373673360940",
+    "firebase_url": "https://apitinkvice.firebaseio.com",
+    "project_id": "apitinkvice",
+    "storage_bucket": "apitinkvice.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:373673360940:android:0c72f21d6feb312fcadb89",
+        "android_client_info": {
+          "package_name": "com.integradora.app_deteccion_personas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "373673360940-v35ushh16hvqto0haq3hc51ocrnc5304.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.integradora.app_deteccion_personas",
+            "certificate_hash": "4131291bf9a2a8049b1f055871520c74d0082714"
+          }
+        },
+        {
+          "client_id": "373673360940-04iu2mq6khlj9o5fgd8nro73etqjf4st.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJfm_BaqrjT8GETYJlOAvSyXPI1UXdcqA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "373673360940-04iu2mq6khlj9o5fgd8nro73etqjf4st.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

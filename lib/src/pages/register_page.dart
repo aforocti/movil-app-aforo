@@ -1,14 +1,13 @@
 import 'package:app_deteccion_personas/src/blocs/provider.dart';
 import 'package:app_deteccion_personas/src/providers/usuario_provider.dart';
-import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   bool _obscureText = true;
   IconData _iconPassword = Icons.remove_red_eye_outlined;
 
@@ -31,19 +30,18 @@ class _LoginPageState extends State<LoginPage> {
       decoration: BoxDecoration(
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: Color.fromRGBO(231, 210, 205, 1.0),
+                color: Color.fromRGBO(239, 218, 213, 1.0),
                 blurRadius: 2.0,
-                // offset: Offset(0.0, 0.0),
                 spreadRadius: 3.0)
           ],
           borderRadius: BorderRadius.circular(size.width * 0.6),
-          color: Color.fromRGBO(231, 210, 205, 1.0)),
+          color: Color.fromRGBO(239, 218, 213, 1.0)),
     );
 
     final fondo = Container(
       height: double.infinity,
       width: double.infinity,
-      decoration: BoxDecoration(color: Color.fromRGBO(239, 218, 213, 1.0)),
+      decoration: BoxDecoration(color: Color.fromRGBO(231, 210, 205, 1.0)),
     );
 
     return Stack(
@@ -70,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(height: 10.0, width: double.infinity),
-                Text('Iniciar Sesión',
+                Text('Registro',
                     style: TextStyle(
                         color: Color.fromRGBO(168, 97, 93, 1.0),
                         fontSize: 25.0)) // 25
@@ -111,12 +109,10 @@ class _LoginPageState extends State<LoginPage> {
                 _userInput(bloc),
                 SizedBox(height: 30.0),
                 _passwordInput(bloc),
-                SizedBox(height: 10.0),
-                _textRecovery(),
-                SizedBox(height: 40.0),
+                SizedBox(height: 50.0),
                 _makeButton(bloc),
-                SizedBox(height: 30.0),
-                _makeReisterButton()
+                SizedBox(height: 50.0),
+                _makeRegisterButton()
               ],
             ),
           ),
@@ -132,12 +128,10 @@ class _LoginPageState extends State<LoginPage> {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return TextField(
           onChanged: bloc.changeUser,
-
-          ///
           autofocus: false,
           decoration: InputDecoration(
-            hintText: 'Usuario',
             labelText: 'Usuario',
+            hintText: 'Ingresar correo',
             errorText: snapshot.error,
             // counterText: snapshot.data,
             icon: Icon(Icons.account_circle),
@@ -154,12 +148,10 @@ class _LoginPageState extends State<LoginPage> {
         return TextField(
           obscureText: _obscureText,
           onChanged: bloc.changePassword,
-
-          ///
           decoration: InputDecoration(
             icon: Icon(Icons.lock),
-            hintText: 'Contraseña',
             labelText: 'Contraseña',
+            hintText: 'Ingresar contraseña',
             errorText: snapshot.error,
             // counterText: snapshot.data,
             suffixIcon: IconButton(
@@ -179,50 +171,36 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _textRecovery() {
-    return Row(
-      children: [
-        Expanded(child: Container()),
-        InkWell(
-          child: Text("¿Olvidaste Tu Contraseña?",
-              style: TextStyle(color: Color.fromRGBO(168, 97, 93, 1.0))),
-          onTap: () => print("¿Olvidaste tu contraseña?"),
-        ),
-      ],
-    );
-  }
-
   Widget _makeButton(LoginBloc bloc) {
     return RaisedButton(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
-        child: Text('Ingresar')),
+          padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
+          child: Text('Crear')),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
       elevation: 0.0,
       color: Color.fromRGBO(138, 67, 63, 1.0),
       textColor: Colors.white,
-      onPressed: () => _login(context, bloc),
+      onPressed: () => _register(context, bloc),
     );
   }
 
-  _login(BuildContext context, LoginBloc bloc) async {
+  _register(BuildContext context, LoginBloc bloc) {
 
+    usuarioProvider.nuevoUsuario(bloc.user, bloc.password);
+    
+    // print('=====================');
+    // print('User: ${bloc.user}');
+    // print('Password: ${bloc.password}');
+    // print('=====================');
 
-    Map info = await usuarioProvider.login(bloc.user, bloc.password);
-
-    if( info['ok'] ) {
-      Navigator.pushReplacementNamed(context, 'home');
-    } else {
-      utils.mostrarAlerta(context, title: 'Error', content:  info['mensaje'] );
-    }
-
+    Navigator.pushReplacementNamed(context, 'login');
   }
 
-  Widget _makeReisterButton() {
+  Widget _makeRegisterButton() {
     return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
       FlatButton(
-          child: Text('Crear cuenta'),
-          onPressed: () => Navigator.pushReplacementNamed(context, 'register')),
+          child: Text('¿Ya tienes una cuenta?'),
+          onPressed: () => Navigator.pushReplacementNamed(context, 'login')),
     ]);
   }
 }
