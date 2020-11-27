@@ -1,4 +1,4 @@
-package com.integradora.app_deteccion_personas; 
+package com.pazminopenaloza.apptinkvice; 
 
 import io.flutter.app.FlutterApplication;
 import io.flutter.plugin.common.PluginRegistry;

@@ -3,7 +3,6 @@ import 'package:app_deteccion_personas/src/pages/home_page.dart';
 import 'package:app_deteccion_personas/src/pages/register_page.dart';
 import 'package:app_deteccion_personas/src/pages/settings_page.dart';
 import 'package:app_deteccion_personas/src/pages/splash_page.dart';
-import 'package:app_deteccion_personas/src/pages/splash_page_animated.dart';
 import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:app_deteccion_personas/src/providers/push_notifications_provider.dart';
 import 'package:flutter/material.dart';
@@ -38,13 +37,12 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         title: 'Tinkvice',
         debugShowCheckedModeBanner: false,
-        initialRoute: 'splashAnimated',
+        initialRoute: 'login',
         routes: {
           'home': (BuildContext context) => HomePage(),
           'login': (BuildContext context) => LoginPage(),
           'register': (BuildContext context) => RegisterPage(),
           'splash': (BuildContext context) => SplashPage(),
-          'splashAnimated': (BuildContext context) => SplashPageAnimated(),
           'setting': (BuildContext context) => SettingPage()
         },
         theme: ThemeData(
