@@ -16,7 +16,7 @@ class _MenuProvider {
       final resp = await rootBundle.loadString('data/alertas.json');
         
           Map dataMap = json.decode(resp);
-          print(dataMap['alertas']);
+          // print(dataMap['alertas']);
           alerta= dataMap['alertas'];
       
       return alerta;

@@ -211,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
     Map info = await usuarioProvider.login(bloc.user, bloc.password);
 
     if( info['ok'] ) {
-      Navigator.pushReplacementNamed(context, 'home');
+      Navigator.pushReplacementNamed(context, 'home', arguments: '1');
     } else {
       utils.mostrarAlerta(context, title: 'Error', content:  info['mensaje'] );
     }

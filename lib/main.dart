@@ -6,7 +6,6 @@ import 'package:app_deteccion_personas/src/pages/splash_page.dart';
 import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:app_deteccion_personas/src/providers/push_notifications_provider.dart';
 import 'package:flutter/material.dart';
-
 import 'src/pages/login_page.dart';
 
 void main() async {
@@ -23,12 +22,24 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
+
   @override
   void initState() {
     super.initState();
 
     final pushProvider = new PushNotificationsProvider();
     pushProvider.initNotifications();
+    
+    pushProvider.mensajesStream.listen(( data ) {
+
+      print('argumento desde main: $data');
+      navigatorKey.currentState.pushNamed('home', arguments: data );
+
+    });
+
   }
 
   @override
@@ -37,13 +48,14 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         title: 'Tinkvice',
         debugShowCheckedModeBanner: false,
+        navigatorKey: navigatorKey,
         initialRoute: 'login',
         routes: {
-          'home': (BuildContext context) => HomePage(),
-          'login': (BuildContext context) => LoginPage(),
-          'register': (BuildContext context) => RegisterPage(),
-          'splash': (BuildContext context) => SplashPage(),
-          'setting': (BuildContext context) => SettingPage()
+          'home'     : (BuildContext context) => HomePage(),
+          'login'    : (BuildContext context) => LoginPage(),
+          'register' : (BuildContext context) => RegisterPage(),
+          'splash'   : (BuildContext context) => SplashPage(),
+          'setting'  : (BuildContext context) => SettingPage(),
         },
         theme: ThemeData(
             primaryColor: Color.fromRGBO(168, 97, 93, 1.0),
