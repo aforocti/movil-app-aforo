@@ -16,22 +16,43 @@ class PreferenciasUsuario {
     this._prefs = await SharedPreferences.getInstance();
   }
 
-  // GET y SET del nombre
-  // get token {
-  //   return _prefs.getString('token') ?? '';
+  // // GET y SET del Genero
+  // get genero {
+  //   return _prefs.getInt('genero') ?? 1;
   // }
 
-  set token( String value ) {
-    _prefs.setString('token', value);
-  }
-  
+  // set genero( int value ) {
+  //   _prefs.setInt('genero', value);
+  // }
 
-  get ultimaPagina {
-    return _prefs.getString('ultimaPagina') ?? 'login';
+  // GET y SET del _colorSecundario
+  get colorSecundario {
+    return _prefs.getBool('colorSecundario') ?? false;
   }
 
-  set ultimaPagina( String value ) {
-    _prefs.setString('ultimaPagina', value);
+  set colorSecundario( bool value ) {
+    _prefs.setBool('colorSecundario', value);
   }
+
+
+  // // GET y SET del nombreUsuario
+  // get nombreUsuario {
+  //   return _prefs.getString('nombreUsuario') ?? '';
+  // }
+
+  // set nombreUsuario( String value ) {
+  //   _prefs.setString('nombreUsuario', value);
+  // }
+
+  //   // GET y SET de la última página
+  // get ultimaPagina {
+  //   return _prefs.getString('ultimaPagina') ?? 'home';
+  // }
+
+  // set ultimaPagina( String value ) {
+  //   _prefs.setString('ultimaPagina', value);
+  // }
 
 }
+
+

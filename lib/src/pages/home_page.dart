@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
+import '../preferencias_usuario/preferencias_usuario.dart';
+import '../utils/utils.dart' as u;
 import 'graficas_page.dart';
 import 'historial_page.dart';
 import 'principal_page.dart';
@@ -10,7 +12,9 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
+  
+  PreferenciasUsuario prefs = new PreferenciasUsuario();
   int _currentIndex = 1;
 
   Widget build(BuildContext context) {
@@ -19,21 +23,28 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: (prefs.colorSecundario) ? u.getColor('color6') : u.getColor('color2'),
         title: Text('Tinkvice',
-            style: TextStyle(color: Color.fromRGBO(10, 52, 68, 1.0))),
+            style: TextStyle(color: (prefs.colorSecundario) ? u.getColor('color1') : u.getColor('color6'))),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.settings_outlined),
-              onPressed: () => Navigator.pushNamed(context, 'setting')),
-          SizedBox(width: 10.0)
+              color: (prefs.colorSecundario) ? u.getColor('color1') : u.getColor('color6'),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, 'setting');
+                setState(() {
+                  
+                });
+              }
+          ),
+          SizedBox(width: 10.0),
         ],
         leading: Container(
           padding: EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
           child: Image(
               fit: BoxFit.fill, image: AssetImage('assets/ic_appbar.png')),
         ),
-        elevation: 10.0,
-        shadowColor: Color.fromRGBO(168, 97, 93, 0.5),
+        elevation: 5.0,
         titleSpacing: 6.0,
       ),
       body: _llamarPagina(_currentIndex),
@@ -43,12 +54,13 @@ class _HomePageState extends State<HomePage> {
 
   Widget _crearBottomNavigationBar() {
     return BottomNavigationBar(
-        backgroundColor: Color.fromRGBO(239, 218, 213, 1.0),
+        backgroundColor: (prefs.colorSecundario) ? u.getColor('color6') : u.getColor('color2'),
         showUnselectedLabels: false,
         showSelectedLabels: false,
         unselectedItemColor: Color.fromRGBO(168, 97, 93, 0.4),
         iconSize: 30.0,
         unselectedIconTheme: IconThemeData(size: 25.0),
+        selectedItemColor:  (prefs.colorSecundario) ? u.getColor('color1') : u.getColor('color5'),
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() => _currentIndex = index);

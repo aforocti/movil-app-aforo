@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../preferencias_usuario/preferencias_usuario.dart';
+import '../utils/utils.dart' as u;
+
 class GraficasPage extends StatelessWidget {
-  const GraficasPage({Key key}) : super(key: key);
+  // const GraficasPage({Key key}) : super(key: key);
+
+  final PreferenciasUsuario prefs = new PreferenciasUsuario();
 
   @override
   Widget build(BuildContext context) {
@@ -9,8 +14,16 @@ class GraficasPage extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight - 15),
         child: Container(
-          color: Color.fromRGBO(239, 218, 213, 1.0),
-          child: Tab(child: Text('GRÁFICAS',style: TextStyle(color: Color.fromRGBO(10, 52, 68, 1.0),fontSize: 17))),
+          color: (prefs.colorSecundario) ? u.getColor('color6t5') : u.getColor('color2'),
+          child: Tab(
+            child: Text(
+              'GRÁFICAS',
+              style: TextStyle(
+                color: Color.fromRGBO(10, 52, 68, 1.0), fontSize: 18,
+                fontWeight: FontWeight.w600
+              )
+            )
+          ),
         ),
       ),
       body: Center(
