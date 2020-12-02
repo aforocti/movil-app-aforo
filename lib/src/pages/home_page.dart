@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import '../preferencias_usuario/preferencias_usuario.dart';
-import '../utils/utils.dart' as u;
+import '../utils/utils.dart' as utils;
 import 'graficas_page.dart';
 import 'historial_page.dart';
 import 'principal_page.dart';
@@ -23,18 +23,15 @@ class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: (prefs.colorSecundario) ? u.getColor('color6') : u.getColor('color2'),
-        title: Text('Tinkvice',
-            style: TextStyle(color: (prefs.colorSecundario) ? u.getColor('color1') : u.getColor('color6'))),
+        backgroundColor: utils.setColor('color6', 'color2'),
+        title: Text('Tinkvice',style: TextStyle(color: utils.setColor('color1', 'color6'))),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.settings_outlined),
-              color: (prefs.colorSecundario) ? u.getColor('color1') : u.getColor('color6'),
+              color: utils.setColor('color1', 'color6'),
               onPressed: () {
                 Navigator.pushReplacementNamed(context, 'setting');
-                setState(() {
-                  
-                });
+                setState(() {});
               }
           ),
           SizedBox(width: 10.0),
@@ -54,13 +51,13 @@ class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
 
   Widget _crearBottomNavigationBar() {
     return BottomNavigationBar(
-        backgroundColor: (prefs.colorSecundario) ? u.getColor('color6') : u.getColor('color2'),
+        backgroundColor: utils.setColor('color6', 'color2'),
         showUnselectedLabels: false,
         showSelectedLabels: false,
         unselectedItemColor: Color.fromRGBO(168, 97, 93, 0.4),
         iconSize: 30.0,
         unselectedIconTheme: IconThemeData(size: 25.0),
-        selectedItemColor:  (prefs.colorSecundario) ? u.getColor('color1') : u.getColor('color5'),
+        selectedItemColor: utils.setColor('color1', 'color5'),
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() => _currentIndex = index);

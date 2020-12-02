@@ -2,7 +2,7 @@ import 'package:app_deteccion_personas/src/providers/alertas_provider.dart';
 import 'package:flutter/material.dart';
 
 import '../preferencias_usuario/preferencias_usuario.dart';
-import '../utils/utils.dart' as u;
+import '../utils/utils.dart' as utils;
 
 class HistorialPage extends StatelessWidget {
   // const HistorialPage({Key key}) : super(key: key);
@@ -15,7 +15,7 @@ class HistorialPage extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight - 15),
         child: Container(
-          color: (prefs.colorSecundario) ? u.getColor('color6t5') : u.getColor('color2'),
+          color:utils.setColor('color6t5', 'color2'),
           child: Tab(
             child: Text(
               'HISTORIAL',
@@ -28,7 +28,6 @@ class HistorialPage extends StatelessWidget {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical:10.0),
         child: _lista()
       )
     );
@@ -52,7 +51,7 @@ class HistorialPage extends StatelessWidget {
       final widgetTemp = Card(
         color: Color.fromRGBO(247, 243, 241, 1.0),
         elevation: 5.0,
-        margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+        margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
         child: Container(
           child: ListTile(
             title: Text(opt['area'], style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18)),
@@ -64,7 +63,7 @@ class HistorialPage extends StatelessWidget {
                 )
               ),
               child: Icon(Icons.warning, color: Colors.red, size:30.0)), 
-            subtitle: Text("${opt['hora']} - ${opt['fecha']}", style: TextStyle(color: Colors.black), textAlign: TextAlign.right,),
+            subtitle: Text("${opt['hora']} del ${opt['fecha']}", style: TextStyle(color: Colors.black), textAlign: TextAlign.right,),
             dense: true,
           ),
         ),

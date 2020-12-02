@@ -1,8 +1,11 @@
-import 'dart:async';
+// import 'dart:async';
 
+import 'package:app_deteccion_personas/src/pages/home_page.dart';
+import 'package:app_deteccion_personas/src/pages/login_page.dart';
+import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
+import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
-
-
+import 'package:splashscreen/splashscreen.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -10,45 +13,32 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  @override
-  void initState() {
-    super.initState();
-    Timer(Duration(seconds: 2), ()=> Navigator.pushReplacementNamed( context, 'login' ));
-  }
- 
+  final _prefs = PreferenciasUsuario();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget> [
-          Container(
-            decoration: BoxDecoration(color: Color.fromRGBO(239, 218, 213, 1.0)),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget> [
-                Image(
-                  height: 144.0 + 20.0,
-                  width: 144.0 + 20.0,
-                  fit: BoxFit.fill,
-                  image: AssetImage('assets/ic_splash.png'),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  "TinkVice", 
-                  style: TextStyle(
-                    fontSize: 50.0, 
-                    color: Color.fromRGBO(10, 52, 68, 1.0)
-                  )
-                )
-            ],
-          )
-
-        ],
+    return new SplashScreen(
+      seconds: 3,
+      navigateAfterSeconds: selectPage(),
+      title: new Text(
+        'Welcome to Tinkvice',
+        style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
       ),
+      image: Image(
+        height: 144.0 + 20.0,
+        width: 144.0 + 20.0,
+        fit: BoxFit.fill,
+        image: AssetImage('assets/ic_splash.png'),
+      ),
+      backgroundColor: utils.getColor('color2'),
+      loaderColor: Colors.red,
     );
+  }
+
+  Widget selectPage() {
+    if (_prefs.tokenUser == '')
+      return LoginPage();
+    else
+      return HomePage();
   }
 }

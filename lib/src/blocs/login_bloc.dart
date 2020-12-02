@@ -12,13 +12,19 @@ class LoginBloc with Validators {
   Stream<String> get passwordStream =>
       _passwordController.stream.transform(validarPassword);
 
+  // RXDART combinelatest
+  Stream<bool> get formValidStream =>
+      Rx.combineLatest2(userStream, passwordStream, (e, p) => true);
+
   // add values to Stream
   Function(String) get changeUser => _userController.sink.add;
   Function(String) get changePassword => _passwordController.sink.add;
 
   // get the last value in streams
-  String get user     => _userController.value;
+  String get user => _userController.value;
   String get password => _passwordController.value;
+  
+  set password(String reset) => _passwordController.value = reset;
 
   dispose() {
     _userController.close();

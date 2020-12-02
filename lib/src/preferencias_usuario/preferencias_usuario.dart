@@ -34,6 +34,25 @@ class PreferenciasUsuario {
     _prefs.setBool('colorSecundario', value);
   }
 
+  // GET y SET del _tokenUser
+  get tokenUser {
+    return _prefs.getString('tokenUser') ?? '';
+  }
+
+  set tokenUser( String value ) {
+    _prefs.setString('tokenUser', value);
+  }
+
+  // GET y SET del _fcmToken
+   get fcmToken {
+    return _prefs.getString('FCMToken') ?? '';
+  }
+
+  set fcmToken( String value ) {
+    _prefs.setString('FCMToken', value);
+  }
+
+
 
   // // GET y SET del nombreUsuario
   // get nombreUsuario {

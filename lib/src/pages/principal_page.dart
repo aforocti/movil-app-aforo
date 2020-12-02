@@ -3,7 +3,7 @@ import 'package:app_deteccion_personas/src/pages/planos_page.dart';
 import 'package:flutter/material.dart';
 
 import '../preferencias_usuario/preferencias_usuario.dart';
-import '../utils/utils.dart' as u;
+import '../utils/utils.dart' as utils;
 
 class PrincipalPage extends StatelessWidget {
   // const PrincipalPage({Key key}) : super(key: key); 
@@ -19,7 +19,7 @@ class PrincipalPage extends StatelessWidget {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight - 15),
           child: Container(
-              color: (prefs.colorSecundario) ? u.getColor('color6t5') : u.getColor('color2'),
+              color: utils.setColor('color6t5', 'color2'),
               child: TabBar(
                 indicatorColor: Color.fromRGBO(10, 52, 68, 1.0),
                 tabs: [

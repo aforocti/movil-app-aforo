@@ -1,6 +1,7 @@
 import 'package:app_deteccion_personas/src/blocs/provider.dart';
 import 'package:app_deteccion_personas/src/providers/usuario_provider.dart';
 import 'package:flutter/material.dart';
+import '../utils/utils.dart' as utils;
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -30,18 +31,18 @@ class _RegisterPageState extends State<RegisterPage> {
       decoration: BoxDecoration(
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: Color.fromRGBO(239, 218, 213, 1.0),
+                color: utils.getColor('color4t4t1'),
                 blurRadius: 2.0,
                 spreadRadius: 3.0)
           ],
           borderRadius: BorderRadius.circular(size.width * 0.6),
-          color: Color.fromRGBO(239, 218, 213, 1.0)),
+          color: utils.getColor('color4t4t1')),
     );
 
     final fondo = Container(
       height: double.infinity,
       width: double.infinity,
-      decoration: BoxDecoration(color: Color.fromRGBO(231, 210, 205, 1.0)),
+      decoration: BoxDecoration(color: utils.getColor('color4t4')),
     );
 
     return Stack(
@@ -71,6 +72,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 Text('Registro',
                     style: TextStyle(
                         color: Color.fromRGBO(168, 97, 93, 1.0),
+                        fontWeight: FontWeight.bold,
                         fontSize: 25.0)) // 25
               ],
             ),
@@ -172,28 +174,33 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _makeButton(LoginBloc bloc) {
-    return RaisedButton(
-      child: Container(
+    return StreamBuilder(
+      stream: bloc.formValidStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return RaisedButton(
           padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
-          child: Text('Crear')),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-      elevation: 0.0,
-      color: Color.fromRGBO(138, 67, 63, 1.0),
-      textColor: Colors.white,
-      onPressed: () => _register(context, bloc),
+          child: Container(
+              child: Text('Crear Registro')),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+          elevation: 0.0,
+          color: Color.fromRGBO(138, 67, 63, 1.0),
+          textColor: Colors.white,
+          onPressed: snapshot.hasData ? () => _register(context, bloc) : null,
+        );
+      },
     );
   }
 
-  _register(BuildContext context, LoginBloc bloc) {
+  _register(BuildContext context, LoginBloc bloc) async {
 
-    usuarioProvider.nuevoUsuario(bloc.user, bloc.password);
-    
-    // print('=====================');
-    // print('User: ${bloc.user}');
-    // print('Password: ${bloc.password}');
-    // print('=====================');
-
-    Navigator.pushReplacementNamed(context, 'login');
+    // usuarioProvider.nuevoUsuario(bloc.user, bloc.password);
+    Map info = await usuarioProvider.nuevoUsuario(bloc.user, bloc.password);
+    if (info['ok']) {
+      Navigator.pushReplacementNamed(context, 'login');
+    } else {
+      utils.mostrarAlerta(context, title: 'Error', content: info['mensaje']);
+    }
   }
 
   Widget _makeRegisterButton() {

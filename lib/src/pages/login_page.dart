@@ -31,19 +31,19 @@ class _LoginPageState extends State<LoginPage> {
       decoration: BoxDecoration(
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: Color.fromRGBO(231, 210, 205, 1.0),
+                color: utils.getColor('color2t1'),
                 blurRadius: 2.0,
                 // offset: Offset(0.0, 0.0),
                 spreadRadius: 3.0)
           ],
           borderRadius: BorderRadius.circular(size.width * 0.6),
-          color: Color.fromRGBO(231, 210, 205, 1.0)),
+          color: utils.getColor('color2t1')),
     );
 
     final fondo = Container(
       height: double.infinity,
       width: double.infinity,
-      decoration: BoxDecoration(color: Color.fromRGBO(239, 218, 213, 1.0)),
+      decoration: BoxDecoration(color: utils.getColor('color2')),
     );
 
     return Stack(
@@ -73,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                 Text('Iniciar Sesión',
                     style: TextStyle(
                         color: Color.fromRGBO(168, 97, 93, 1.0),
+                        fontWeight: FontWeight.bold,
                         fontSize: 25.0)) // 25
               ],
             ),
@@ -132,14 +133,11 @@ class _LoginPageState extends State<LoginPage> {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return TextField(
           onChanged: bloc.changeUser,
-
-          ///
           autofocus: false,
           decoration: InputDecoration(
-            hintText: 'Usuario',
             labelText: 'Usuario',
+            hintText: 'Correo',
             errorText: snapshot.error,
-            // counterText: snapshot.data,
             icon: Icon(Icons.account_circle),
           ),
         );
@@ -154,22 +152,18 @@ class _LoginPageState extends State<LoginPage> {
         return TextField(
           obscureText: _obscureText,
           onChanged: bloc.changePassword,
-
-          ///
           decoration: InputDecoration(
             icon: Icon(Icons.lock),
             hintText: 'Contraseña',
             labelText: 'Contraseña',
             errorText: snapshot.error,
-            // counterText: snapshot.data,
             suffixIcon: IconButton(
               icon: new Icon(_iconPassword),
               onPressed: () => setState(() {
-                if (_obscureText) {
+                if (_obscureText)
                   _iconPassword = Icons.remove_red_eye;
-                } else {
+                else
                   _iconPassword = Icons.remove_red_eye_outlined;
-                }
                 _obscureText = !_obscureText;
               }),
             ),
@@ -193,29 +187,30 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _makeButton(LoginBloc bloc) {
-    return RaisedButton(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
-        child: Text('Ingresar')),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-      elevation: 0.0,
-      color: Color.fromRGBO(138, 67, 63, 1.0),
-      textColor: Colors.white,
-      onPressed: () => _login(context, bloc),
+    return StreamBuilder(
+      stream: bloc.formValidStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return RaisedButton(
+          padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
+          child: Container(child: Text('Ingresar')),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+          elevation: 0.0,
+          color: Color.fromRGBO(138, 67, 63, 1.0),
+          textColor: Colors.white,
+          onPressed: snapshot.hasData ? () => _login(context, bloc) : null,
+        );
+      },
     );
   }
 
   _login(BuildContext context, LoginBloc bloc) async {
-
-
     Map info = await usuarioProvider.login(bloc.user, bloc.password);
-
-    if( info['ok'] ) {
+    if (info['ok']) {
       Navigator.pushReplacementNamed(context, 'home', arguments: '1');
     } else {
-      utils.mostrarAlerta(context, title: 'Error', content:  info['mensaje'] );
+      utils.mostrarAlerta(context, title: 'Error', content: info['mensaje']);
     }
-
   }
 
   Widget _makeReisterButton() {

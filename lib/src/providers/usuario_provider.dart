@@ -1,14 +1,13 @@
 import 'dart:convert';
-
-// import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
+import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:http/http.dart' as http;
 
 class UsuarioProvider {
 
+  // clave de API web (_firebaseToken)
   final String _firebaseToken = 'AIzaSyBQMjXNsPYm8Sx1tOyQ2qYh1Gz1UrZClhk';
 
-  // final _prefs = new PreferenciasUsuario();
-
+  final _prefs = new PreferenciasUsuario();
 
   Future<Map<String, dynamic>> login( String email, String password) async {
 
@@ -28,12 +27,10 @@ class UsuarioProvider {
     print(decodedResp);
 
     if ( decodedResp.containsKey('idToken') ) {
-
-      // _prefs.token = decodedResp['idToken'];  
+      _prefs.tokenUser = decodedResp['idToken'];  
       return { 'ok' : true, 'token' : decodedResp['idToken'] };
-    
     } else {
-      return { 'ok' :false, 'mensaje' : decodedResp['error']['message']  };
+      return { 'ok' : false, 'mensaje' : decodedResp['error']['message']  };
     }
 
   }
@@ -56,10 +53,10 @@ class UsuarioProvider {
     print(decodedResp);
 
     if ( decodedResp.containsKey('idToken') ) {
-      // _prefs.token = decodedResp['idToken'];
+      _prefs.tokenUser = decodedResp['idToken'];
       return { 'ok' : true, 'token' : decodedResp['idToken'] };
     } else {
-      return { 'ok' :false, 'mensaje' : decodedResp['error']['message']  };
+      return { 'ok' : false, 'mensaje' : decodedResp['error']['message']  };
     }
   }
 }

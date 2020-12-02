@@ -1,4 +1,5 @@
 import 'package:app_deteccion_personas/src/blocs/provider.dart';
+import 'package:app_deteccion_personas/src/pages/create_network_page.dart';
 import 'package:app_deteccion_personas/src/pages/home_page.dart';
 import 'package:app_deteccion_personas/src/pages/register_page.dart';
 import 'package:app_deteccion_personas/src/pages/settings_page.dart';
@@ -13,9 +14,8 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = new PreferenciasUsuario();
-
   await prefs.initPrefs();
-
+  
   runApp(MyApp());
 }
 
@@ -37,30 +37,30 @@ class _MyAppState extends State<MyApp> {
 
     final pushProvider = new PushNotificationsProvider();
     pushProvider.initNotifications();
-    
     pushProvider.mensajesStream.listen(( data ) {
-
       print('argumento desde main: $data');
       navigatorKey.currentState.pushNamed('home', arguments: data );
-
     });
 
   }
 
   @override
   Widget build(BuildContext context) {
+    final prefs = new PreferenciasUsuario();
+    print(prefs.tokenUser);
     return Provider(
       child: MaterialApp(
         title: 'Tinkvice',
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
-        initialRoute: 'login',
+        initialRoute: 'create',
         routes: {
           'home'     : (BuildContext context) => HomePage(),
           'login'    : (BuildContext context) => LoginPage(),
           'register' : (BuildContext context) => RegisterPage(),
           'splash'   : (BuildContext context) => SplashPage(),
           'setting'  : (BuildContext context) => SettingPage(),
+          'create'   : (BuildContext context) => CreateNetworkPage(),
         },
         theme: ThemeData(
           primaryColor: Color.fromRGBO(168, 97, 93, 1.0),
