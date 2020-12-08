@@ -1,8 +1,7 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import '../preferencias_usuario/preferencias_usuario.dart';
-import '../utils/utils.dart' as utils;
+import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
+import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
 
 class SettingPage extends StatefulWidget {
   @override
@@ -10,11 +9,10 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  final infoToken =
-      'Usa este token en tu script en network_id antes de ejecutarlo para que puedas enviar la información de tu empresa a la base de datos de Firestore';
   bool _colorSecundario;
-
   final _prefs = PreferenciasUsuario();
+  final _infoToken =
+      'Úsalo en tu script para enviar la información de la red a la base de datos';
 
   @override
   void initState() {
@@ -24,59 +22,77 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-            leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                color: utils.setColor('color1', 'color6'),
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, 'home');
-                  setState(() {});
-                }),
-            title: Text('Ajustes',
-                style: TextStyle(color: utils.setColor('color1', 'color6'))),
-            centerTitle: true,
-            backgroundColor: utils.setColor('color6', 'color2')),
-        body: ListView(
-          children: [
-            subtitulo('Configuraciones'),
-            Divider(),
-            makeSwitchListTile(),
-            Divider(),
-            subtitulo('Token'),
-            texto(infoToken),
-            fcmToken(),
-            Divider(),
-            flatButton(context)
-          ],
+    return SafeArea(child: Scaffold(
+      backgroundColor: utils.getColor('color1'),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, 'home');
+            setState(() {});
+          },
+          icon: Icon(Icons.arrow_back_ios),
+          color: utils.setColor('color1', 'color6')
         ),
+        title: Text('Ajustes',
+            style: TextStyle(color: utils.setColor('color1', 'color6'))),
+        centerTitle: true,
+        backgroundColor: utils.setColor('color6', 'color2')
+      ),
+      body: ListView(
+        children: [
+          _subtitulo('Información'),
+          _listtile(title: 'Usuario', trailing: _prefs.nombreUsuario),
+          _listtile(title: 'Nombre de red', trailing: _prefs.nombreNetwork),
+          _listtile(title: 'Token', trailing: _prefs.tokenNetwork, subtitle: _infoToken),
+          _subtitulo('Ajustes adicionales'),
+          _swtichListTile(),
+          _flatButton(context),
+        ],
+      ),
+    ));
+  }
+
+  Widget _listtile({String title, String trailing, String subtitle = ''}) {
+    return Container(
+      decoration:
+          BoxDecoration(border: Border.all(width: 0.1, color: Colors.grey)),
+      child: ListTile(
+        title: Text(title),
+        subtitle: (subtitle != '') ? Text(subtitle) : null,
+        trailing: Text(trailing, style: TextStyle(fontWeight: FontWeight.w300)),
+        tileColor: Colors.white
       ),
     );
   }
 
-  Widget subtitulo(String subtitulo) {
+  Widget _subtitulo(String subtitulo) {
     return Container(
-      padding: EdgeInsets.only(top: 15, left: 10),
+      padding: EdgeInsets.only(top: 15, left: 15, bottom: 10),
       child: Text(subtitulo,
-          style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold)),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
     );
   }
 
-  makeSwitchListTile() {
-    return SwitchListTile(
+  Widget _swtichListTile() {
+    return Container(
+      decoration: BoxDecoration( color: Colors.white,
+        border: Border.all(width: 0.1, color: Colors.grey)
+      ),
+      child: SwitchListTile(
         activeColor: utils.getColor('color6'),
-        value: _colorSecundario,
         title: Text('Color secundario'),
+        value: _colorSecundario,
         onChanged: (value) {
           setState(() {
             _colorSecundario = value;
             _prefs.colorSecundario = value;
           });
-        });
+        }
+      ),
+    );
   }
 
-  Widget flatButton(BuildContext context) {
+  Widget _flatButton(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
       child: FlatButton(
@@ -89,44 +105,24 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   _cerrarSesion(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Cerrar Sesión'),
-            content: Text('Deseas cerrar la sesión'),
-            actions: <Widget>[
-              FlatButton(
-                  onPressed: () {
-                    _prefs.tokenUser = '';
-                    Navigator.pushReplacementNamed(context, 'splash');
-                  },
-                  child: Text('Ok',
-                      style: TextStyle(color: Color.fromRGBO(10, 52, 68, 1.0))))
-            ],
-          );
-        });
-  }
-
-  Widget fcmToken() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-      child: Container(
-          height: 40.0,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              border: Border.all(width: 2.0, color: Colors.black12),
-              color: Colors.black12),
-          child: Center(
-            child: Text('uGs729maxjnVVrpz63Vn', style: TextStyle(fontSize: 20)),
-          )),
-    );
-  }
-
-  Widget texto(String text) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-      child: Text(text, style: TextStyle(color: Colors.grey)),
-    );
+    showDialog( context: context, builder: (context) {
+      return AlertDialog(
+        title: Text('Cerrar Sesión'),
+        content: Text('¿Deseas cerrar la sesión?'),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              // _prefs.tokenUser = '';
+              _prefs.tokenNetwork = '';
+              _prefs.nombreNetwork = '';
+              _prefs.nombreUsuario = '';
+              Navigator.pushReplacementNamed(context, 'splash');
+            },
+            child: Text('Ok',
+                style: TextStyle(color: Color.fromRGBO(10, 52, 68, 1.0)))
+          )
+        ],
+      );
+    });
   }
 }

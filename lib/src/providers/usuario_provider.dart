@@ -27,7 +27,7 @@ class UsuarioProvider {
     print(decodedResp);
 
     if ( decodedResp.containsKey('idToken') ) {
-      _prefs.tokenUser = decodedResp['idToken'];  
+      // _prefs.tokenUser = decodedResp['idToken'];  
       return { 'ok' : true, 'token' : decodedResp['idToken'] };
     } else {
       return { 'ok' : false, 'mensaje' : decodedResp['error']['message']  };
@@ -53,7 +53,7 @@ class UsuarioProvider {
     print(decodedResp);
 
     if ( decodedResp.containsKey('idToken') ) {
-      _prefs.tokenUser = decodedResp['idToken'];
+      // _prefs.tokenUser = decodedResp['idToken'];
       return { 'ok' : true, 'token' : decodedResp['idToken'] };
     } else {
       return { 'ok' : false, 'mensaje' : decodedResp['error']['message']  };

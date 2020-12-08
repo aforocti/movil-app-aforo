@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
   
-  PreferenciasUsuario prefs = new PreferenciasUsuario();
+  final prefs = new PreferenciasUsuario();
   int _currentIndex = 1;
 
   Widget build(BuildContext context) {

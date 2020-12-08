@@ -6,7 +6,7 @@ import 'package:app_deteccion_personas/src/models/ap_model.dart';
 import 'package:app_deteccion_personas/src/models/wlc_model.dart';
 import 'package:app_deteccion_personas/src/providers/ap_provider.dart';
 import 'package:app_deteccion_personas/src/providers/wlc_provider.dart';
-import 'package:app_deteccion_personas/src/utils/utils.dart';
+import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 
@@ -67,7 +67,7 @@ class _DatosPageState extends State<DatosPage> {
             header: Container(
               decoration: BoxDecoration(
                 // color: Color.fromRGBO(255, 227, 129, 1.0),
-                color: getColor('color3t1')
+                color: utils.getColor('color3t1')
               ),
               child: Padding(
                 padding: const EdgeInsets.all(5.0),

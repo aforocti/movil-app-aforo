@@ -1,4 +1,5 @@
 import 'package:app_deteccion_personas/src/blocs/provider.dart';
+import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:app_deteccion_personas/src/providers/usuario_provider.dart';
 import 'package:flutter/material.dart';
 import '../utils/utils.dart' as utils;
@@ -11,7 +12,6 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   bool _obscureText = true;
   IconData _iconPassword = Icons.remove_red_eye_outlined;
-
   final usuarioProvider = new UsuarioProvider();
 
   @override
@@ -29,14 +29,14 @@ class _RegisterPageState extends State<RegisterPage> {
       width: size.width * 0.57,
       height: size.width * 0.57,
       decoration: BoxDecoration(
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: utils.getColor('color4t4t1'),
-                blurRadius: 2.0,
-                spreadRadius: 3.0)
-          ],
-          borderRadius: BorderRadius.circular(size.width * 0.6),
-          color: utils.getColor('color4t4t1')),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+              color: utils.getColor('color4t4t1'),
+              blurRadius: 2.0,
+              spreadRadius: 3.0)
+        ],
+        borderRadius: BorderRadius.circular(size.width * 0.6),
+        color: utils.getColor('color4t4t1')),
     );
 
     final fondo = Container(
@@ -69,11 +69,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 SizedBox(height: 10.0, width: double.infinity),
-                Text('Registro',
-                    style: TextStyle(
-                        color: Color.fromRGBO(168, 97, 93, 1.0),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25.0)) // 25
+                Text('Registro', style: TextStyle(
+                  color: Color.fromRGBO(168, 97, 93, 1.0),
+                  fontWeight: FontWeight.bold, fontSize: 25.0
+                )) // 25
               ],
             ),
           ),
@@ -89,8 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SafeArea(
-              child:
+          SafeArea(child:
                   Container(height: (40.0 + (3 * 25.0) + size.height * 0.2))),
           Container(
             width: size.width * 0.85,
@@ -135,7 +133,6 @@ class _RegisterPageState extends State<RegisterPage> {
             labelText: 'Usuario',
             hintText: 'Ingresar correo',
             errorText: snapshot.error,
-            // counterText: snapshot.data,
             icon: Icon(Icons.account_circle),
           ),
         );
@@ -155,15 +152,13 @@ class _RegisterPageState extends State<RegisterPage> {
             labelText: 'Contraseña',
             hintText: 'Ingresar contraseña',
             errorText: snapshot.error,
-            // counterText: snapshot.data,
             suffixIcon: IconButton(
               icon: new Icon(_iconPassword),
               onPressed: () => setState(() {
-                if (_obscureText) {
+                if (_obscureText)
                   _iconPassword = Icons.remove_red_eye;
-                } else {
+                else
                   _iconPassword = Icons.remove_red_eye_outlined;
-                }
                 _obscureText = !_obscureText;
               }),
             ),
@@ -193,14 +188,11 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   _register(BuildContext context, LoginBloc bloc) async {
-
-    // usuarioProvider.nuevoUsuario(bloc.user, bloc.password);
     Map info = await usuarioProvider.nuevoUsuario(bloc.user, bloc.password);
-    if (info['ok']) {
+    if (info['ok'])
       Navigator.pushReplacementNamed(context, 'login');
-    } else {
+    else
       utils.mostrarAlerta(context, title: 'Error', content: info['mensaje']);
-    }
   }
 
   Widget _makeRegisterButton() {

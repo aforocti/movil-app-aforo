@@ -1,4 +1,8 @@
 import 'package:app_deteccion_personas/src/blocs/provider.dart';
+import 'package:app_deteccion_personas/src/models/user_model.dart';
+import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
+import 'package:app_deteccion_personas/src/providers/network_provider.dart';
+import 'package:app_deteccion_personas/src/providers/user_provider.dart';
 import 'package:app_deteccion_personas/src/providers/usuario_provider.dart';
 import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
@@ -9,9 +13,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _prefs = PreferenciasUsuario();
+  final userProvider = new UserProvider();
+  final networkProvider = new NetworkProvider();
   bool _obscureText = true;
   IconData _iconPassword = Icons.remove_red_eye_outlined;
-
   final usuarioProvider = new UsuarioProvider();
 
   @override
@@ -207,7 +213,19 @@ class _LoginPageState extends State<LoginPage> {
   _login(BuildContext context, LoginBloc bloc) async {
     Map info = await usuarioProvider.login(bloc.user, bloc.password);
     if (info['ok']) {
-      Navigator.pushReplacementNamed(context, 'home', arguments: '1');
+      UserModel userToLogin = await userProvider.getUserByName(bloc.user);
+      _prefs.nombreUsuario = bloc.user;
+      if (userToLogin == null) {
+        Navigator.pushReplacementNamed(context, 'network');
+      } else {
+        _prefs.tokenNetwork = userToLogin.networkId;
+        print(_prefs.tokenNetwork);
+        String networkName = await networkProvider.getNetworkName(userToLogin.networkId);
+        print(networkName);
+        // NetworkModel network = await networkProvider.getNet(userToLogin.networkId);
+        _prefs.nombreNetwork = networkName;
+        Navigator.pushReplacementNamed(context, 'home');
+      }
     } else {
       utils.mostrarAlerta(context, title: 'Error', content: info['mensaje']);
     }

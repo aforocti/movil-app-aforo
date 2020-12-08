@@ -13,8 +13,7 @@ mostrarAlerta(BuildContext context, {String title, String content}) {
         title: Text(title),
         content: Text(cambiarTexto(content)),
         actions: <Widget>[
-          FlatButton(
-              onPressed: () => Navigator.of(context).pop(),
+          FlatButton( onPressed: () => Navigator.of(context).pop(),
               child: Text('Ok',
                   style: TextStyle(color: Color.fromRGBO(10, 52, 68, 1.0))))
         ],
@@ -27,12 +26,12 @@ mostrarAlerta(BuildContext context, {String title, String content}) {
 String cambiarTexto(String texto) {
 
   Map<String, String> mapa = {
-    'MISSING_EMAIL'    : 'FALTA EL CORREO ELECTRÓNICO',
-    'INVALID_EMAIL'    : 'CORREO ELECTRÓNICO INCORRECTO',
-    'INVALID_PASSWORD' : 'CONTRASEÑA INCORRECTA',
-    'EMAIL_NOT_FOUND'  : 'CORREO NO ENCONTRADO',
-    'MISSING_PASSWORD' : 'FALTA LA CONTRASEÑA',
-    'EMAIL_EXISTS'     : 'EL CORREO YA EXISTE',
+    'MISSING_EMAIL'    : 'Falta el email',
+    'INVALID_EMAIL'    : 'Email incorrecto',
+    'INVALID_PASSWORD' : 'contraseña incorrecta',
+    'EMAIL_NOT_FOUND'  : 'Email no encontrado',
+    'MISSING_PASSWORD' : 'Falta la contraseña',
+    'EMAIL_EXISTS'     : 'El email ya existe',
   };
   if (mapa.containsKey(texto)) return mapa[texto];
   return texto;

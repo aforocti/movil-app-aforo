@@ -1,6 +1,3 @@
-// To parse this JSON data, do
-//
-//     final wlcModel = wlcModelFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -9,35 +6,38 @@ WlcModel wlcModelFromJson(String str) => WlcModel.fromJson(json.decode(str));
 String wlcModelToJson(WlcModel data) => json.encode(data.toJson());
 
 class WlcModel {
-
-  WlcModel({
-    this.id,
-    this.mac,
-    this.manufacturerName,
-    this.productName,
-    this.aps
-  });
-
-  String id;
+  String networkId;
   String mac;
   String manufacturerName;
   String productName;
-  List   aps;
+
+  WlcModel({this.networkId, this.mac, this.manufacturerName, this.productName});
 
   factory WlcModel.fromJson(Map<String, dynamic> json) => WlcModel(
-    id               : json["id"],
-    mac              : json["mac"],
-    manufacturerName : json["manufacturer_name"],
-    productName      : json["product_name"],
-    aps              : json["aps"],
-  );
+      networkId: json["network_id"],
+      mac: json["mac"],
+      manufacturerName: json["manufacturer_name"],
+      productName: json["product_name"]);
 
   Map<String, dynamic> toJson() => {
-    "id"                : id,
-    "mac"               : mac,
-    "manufacturer_name" : manufacturerName,
-    "product_name"      : productName,
-    "aps"               : aps,
-  };
+        "network_id": networkId,
+        "mac": mac,
+        "manufacturer_name": manufacturerName,
+        "product_name": productName
+      };
+}
 
+class Wlcs {
+  List<WlcModel> items = new List();
+
+  Wlcs();
+
+  Wlcs.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
+
+    for (var item in jsonList) {
+      final wlc = new WlcModel.fromJson(item);
+      items.add(wlc);
+    }
+  }
 }

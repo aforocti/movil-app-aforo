@@ -49,12 +49,11 @@ class HistorialPage extends StatelessWidget {
     final List<Widget> alerta =[];
     data.forEach ((opt) {
       final widgetTemp = Card(
-        color: Color.fromRGBO(247, 243, 241, 1.0),
-        elevation: 5.0,
+        color: utils.getColor('color3t1'),
         margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
         child: Container(
           child: ListTile(
-            title: Text(opt['area'], style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18)),
+            title: Text(opt['area'], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             leading: Container(
               padding: EdgeInsets.only(right: 12.0),
               decoration: BoxDecoration(
@@ -63,7 +62,7 @@ class HistorialPage extends StatelessWidget {
                 )
               ),
               child: Icon(Icons.warning, color: Colors.red, size:30.0)), 
-            subtitle: Text("${opt['hora']} del ${opt['fecha']}", style: TextStyle(color: Colors.black), textAlign: TextAlign.right,),
+            subtitle: Text("${opt['hora']} del ${opt['fecha']}", style: TextStyle(color: Colors.black26)),
             dense: true,
           ),
         ),
