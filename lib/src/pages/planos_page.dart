@@ -10,6 +10,8 @@ class PlanosPage extends StatefulWidget {
 class _PlanosPageState extends State<PlanosPage> {
   final int planos = 6;
 
+  // final _controller = PositionedTapController();
+
   String planta = 'PLANTA BAJA'; 
   
   @override

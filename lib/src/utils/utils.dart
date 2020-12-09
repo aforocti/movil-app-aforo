@@ -51,7 +51,7 @@ Color getColor(String color) {
     'color4t4t1' : Color.fromRGBO(233, 169, 160, 1.0), // tinte 1 de color4t4
     'color5'     : Color.fromRGBO(168, 97, 93, 1.0),
     'color6'     : Color.fromRGBO(10, 52, 68, 1.0),
-    'color6t5'   : Color.fromRGBO(83, 99, 105, 1.0),  // tono 5 de color6
+    'color6t5'   : Color.fromRGBO(133, 154, 162, 1.0),  // tinte 5to de color6
   };
   if (mapa.containsKey(color)) return mapa[color];
   return mapa['color1'];

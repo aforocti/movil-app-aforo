@@ -70,6 +70,15 @@ class PreferenciasUsuario {
     _prefs.setString('nombreUsuario', value);
   }
 
+  // GET y SET del currentIndex
+  get currentIndex {
+    return _prefs.getInt('currentIndex') ?? 1;
+  }
+
+  set currentIndex( int value ) {
+    _prefs.setInt('currentIndex', value);
+  }
+
   //   // GET y SET de la última página
   // get ultimaPagina {
   //   return _prefs.getString('ultimaPagina') ?? 'home';

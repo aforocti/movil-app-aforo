@@ -1,13 +1,12 @@
-// import 'package:app_deteccion_personas/src/models/ap_model.dart';
-// import 'package:app_deteccion_personas/src/providers/ap_provider.dart';
+
 import 'dart:ui';
 
-import 'package:app_deteccion_personas/src/models/ap_model.dart';
-import 'package:app_deteccion_personas/src/models/wlc_model.dart';
-import 'package:app_deteccion_personas/src/providers/ap_provider.dart';
-import 'package:app_deteccion_personas/src/providers/wlc_provider.dart';
-import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
 import 'package:flutter/material.dart';
+import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
+import 'package:app_deteccion_personas/src/providers/wlc_provider.dart';
+import 'package:app_deteccion_personas/src/providers/ap_provider.dart';
+import 'package:app_deteccion_personas/src/models/wlc_model.dart';
+import 'package:app_deteccion_personas/src/models/ap_model.dart';
 import 'package:expandable/expandable.dart';
 
 class DatosPage extends StatefulWidget {
@@ -16,25 +15,25 @@ class DatosPage extends StatefulWidget {
 }
 
 class _DatosPageState extends State<DatosPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   final wlcProvider = new WlcProvider();
   final apProvider = new ApProvider();
-  final List<ApModel> apList = [
-    new ApModel(id: 'dsafsdf',mac: '80:e8:6f:d0:0d:40',model: "AIR-AP1852E-A-K9",name: "Domo_Teleco2"),
-    new ApModel(id: 'dsafsdf',mac: '80:e8:6f:d0:0e:80',model: "AIR-AP1852E-A-K9",name: "Sala"),
-    new ApModel(id: 'dsafsdf',mac: '80:e8:6f:d0:0e:a0',model: "AIR-AP1852E-A-K9",name: "Domo_Teleco1"),
-  ];
+  int limiteInt = 0;
+  int pisoInt   = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(child: _crearListado()),
-    );
+    return Scaffold(body: Container(child: _crearListado()));
   }
 
   Widget _crearListado() {
     return FutureBuilder(
-      future: wlcProvider.cargarWlcs(),
-      builder: (BuildContext context, AsyncSnapshot<List<WlcModel>> snapshot) {
+      future: apProvider.cargarWlcsAps(),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasData) {
           final wlcs = snapshot.data;
           return ListView.builder(
@@ -65,67 +64,133 @@ class _DatosPageState extends State<DatosPage> {
               iconColor: Colors.black,
             ),
             header: Container(
-              decoration: BoxDecoration(
-                // color: Color.fromRGBO(255, 227, 129, 1.0),
-                color: utils.getColor('color3t1')
-              ),
+              decoration: BoxDecoration(color: utils.getColor('color3t1')),
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Row(
                   children: [
                     Expanded(
                       child: ListTile(
-                        // tileColor: getColor('color3t1'),
                         title: Text('${wlcModel.productName}'),
                         subtitle: Text('${wlcModel.mac}'),
                         trailing: Text('en red: 5'),
-                        // trailing: Icon(Icons.crop_square, size: 40.0),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            expanded: buildList(),
+            expanded: buildList(wlcModel.aps),
           ),
         ),
       ),
     ));
   }
 
-  buildItem(ApModel ap) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: ListTile(
-        leading: Text("AP",style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
-        title: Text(ap.name),
-        subtitle: Text('Model: ${ap.model}'),
-      ),
-    );
+  buildList(List<ApModel> aps) {
+    return Column(children: makeAps(aps));
   }
 
-  buildList() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Column(
-        children: <Widget>[
-            buildItem(apList[0]),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Divider(
-                color: Colors.black26,
+  List<Widget> makeAps(List<ApModel> aps) {
+    List<Widget> list = [];
+    for (var item in aps) {
+      list.add(Container(
+        decoration: BoxDecoration(
+            border: Border.all(width: 1.0, color: Colors.black12)),
+        child: ListTile(
+          leading: Text("AP",
+              style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold)),
+          title: Text(item.name),
+          subtitle: Text(item.model),
+          trailing: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text('Limite: ${item.limit}'),
+                    Text('Piso: ${item.piso}'),
+                  ],
+                ),
+                onTap: () {
+                  _actualizarAp(context, item.limit, item.piso, item.mac, limiteInt, pisoInt);
+                  setState(() {}); 
+                } 
               ),
-            ),
-            buildItem(apList[1]),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Divider(
-                color: Colors.black26,
+            ],
+          ),
+        ),
+      ));
+    }
+    return list;
+  }
+
+  void _agregar() { setState(() => limiteInt++); }
+
+  void _sustraer() { setState(() => limiteInt--); }
+
+  _actualizarAp(BuildContext context, String limit, String piso, String mac, int limite, int floor) {
+    limiteInt = int.parse(limit);
+    pisoInt   = int.parse(piso);
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Actualizar'),
+            content: Column( children: [
+              Row( children: [
+                Text('piso'),
+                Expanded(child: Container()),
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    setState(() {});
+                  }
+                ),
+                Text('$limiteInt', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+                IconButton(
+                  icon: Icon(Icons.arrow_forward_ios),
+                  onPressed: () {
+                    setState(() {});
+                  }
+                )
+                ]
               ),
+              Row( children: [
+                Text('Límite'),
+                Expanded(child: Container()),
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: _sustraer
+                ),
+                Text('$limiteInt', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+                IconButton(
+                  icon: Icon(Icons.arrow_forward_ios),
+                  onPressed: _agregar
+                )
+                ]
+              ),
+              
+            ],
+            mainAxisSize: MainAxisSize.min,
             ),
-            buildItem(apList[2]),
-        ],
-      ),
-    );
+            actions: [
+              FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('Cancelar',
+                      style: TextStyle(color: Color.fromRGBO(10, 52, 68, 1.0)))),
+              FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('Ok',
+                      style: TextStyle(color: Color.fromRGBO(10, 52, 68, 1.0))))
+            ],
+          );
+        });
   }
 }

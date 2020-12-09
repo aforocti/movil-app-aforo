@@ -1,6 +1,5 @@
-import 'dart:ui';
-import 'package:flutter/material.dart';
 
+import 'package:flutter/material.dart';
 import '../preferencias_usuario/preferencias_usuario.dart';
 import '../utils/utils.dart' as utils;
 import 'graficas_page.dart';
@@ -12,28 +11,27 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
-  
-  final prefs = new PreferenciasUsuario();
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
+  final _prefs = new PreferenciasUsuario();
   int _currentIndex = 1;
 
   Widget build(BuildContext context) {
-
+    _currentIndex = _prefs.currentIndex;
     String data = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: utils.setColor('color6', 'color2'),
-        title: Text('Tinkvice',style: TextStyle(color: utils.setColor('color1', 'color6'))),
-        actions: <Widget>[
+        title: Text('Tinkvice',
+            style: TextStyle(color: utils.setColor('color1', 'color6'))),
+        actions: [
           IconButton(
               icon: Icon(Icons.settings_outlined),
               color: utils.setColor('color1', 'color6'),
               onPressed: () {
                 Navigator.pushReplacementNamed(context, 'setting');
                 setState(() {});
-              }
-          ),
+              }),
           SizedBox(width: 10.0),
         ],
         leading: Container(
@@ -60,7 +58,10 @@ class _HomePageState extends State<HomePage>  with WidgetsBindingObserver {
         selectedItemColor: utils.setColor('color1', 'color5'),
         currentIndex: _currentIndex,
         onTap: (index) {
-          setState(() => _currentIndex = index);
+          setState(() {
+            _prefs.currentIndex = index;
+            _currentIndex = index;
+          });
         },
         items: [
           BottomNavigationBarItem(

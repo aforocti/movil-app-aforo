@@ -1,6 +1,7 @@
 import 'package:app_deteccion_personas/src/blocs/provider.dart';
 import 'package:app_deteccion_personas/src/models/user_model.dart';
 import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
+import 'package:app_deteccion_personas/src/providers/device_provider.dart';
 import 'package:app_deteccion_personas/src/providers/network_provider.dart';
 import 'package:app_deteccion_personas/src/providers/user_provider.dart';
 import 'package:app_deteccion_personas/src/providers/usuario_provider.dart';
@@ -16,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   final _prefs = PreferenciasUsuario();
   final userProvider = new UserProvider();
   final networkProvider = new NetworkProvider();
+  final deviceProvider = new DeviceProvider();
   bool _obscureText = true;
   IconData _iconPassword = Icons.remove_red_eye_outlined;
   final usuarioProvider = new UsuarioProvider();
@@ -219,11 +221,9 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.pushReplacementNamed(context, 'network');
       } else {
         _prefs.tokenNetwork = userToLogin.networkId;
-        print(_prefs.tokenNetwork);
-        String networkName = await networkProvider.getNetworkName(userToLogin.networkId);
-        print(networkName);
-        // NetworkModel network = await networkProvider.getNet(userToLogin.networkId);
+        String networkName = await networkProvider.obtenerNetworkByToken(userToLogin.networkId);
         _prefs.nombreNetwork = networkName;
+        deviceProvider.crearDevice(_prefs.tokenNetwork, _prefs.fcmToken);
         Navigator.pushReplacementNamed(context, 'home');
       }
     } else {

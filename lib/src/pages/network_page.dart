@@ -17,15 +17,16 @@ class _NetworkPageState extends State<NetworkPage> {
   final deviceProvider = new DeviceProvider();
   final _prefs = PreferenciasUsuario();
   String _nombreNetwork = '';
+  String _nombreToken = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: getColor('color2'),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 30.0),
         height: double.infinity,
         width: double.infinity,
-        color: getColor('color2'),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -34,7 +35,6 @@ class _NetworkPageState extends State<NetworkPage> {
                   'Si ya cuentas con un token, ingrésalo para acceder a la red'),
               SizedBox(height: 20.0),
               _inputNetworkToken(),
-              SizedBox(height: 5.0),
               Row(children: [
                 Expanded(child: Container()),
                 _tokenButton(context),
@@ -44,7 +44,6 @@ class _NetworkPageState extends State<NetworkPage> {
                   'Si aún no tienes un token de red asociado, Ingresa un nombre para tu nueva red'),
               SizedBox(height: 20.0),
               _inputNetworkName(),
-              SizedBox(height: 5.0),
               Row(children: [
                 Expanded(child: Container()),
                 _networkButton(context),
@@ -63,6 +62,9 @@ class _NetworkPageState extends State<NetworkPage> {
         color: Colors.white,
       ),
       child: TextField(
+        onChanged: (value) => setState(() {
+          _nombreToken = value;
+        }),
         style: TextStyle(fontSize: 25.0),
         autofocus: false,
         decoration: InputDecoration(
@@ -96,11 +98,8 @@ class _NetworkPageState extends State<NetworkPage> {
   }
 
   Widget _texto(String texto) {
-    return Text(
-      texto,
-      textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-    );
+    return Text(texto,
+        style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold));
   }
 
   Widget _tokenButton(BuildContext context) {
@@ -112,11 +111,13 @@ class _NetworkPageState extends State<NetworkPage> {
       color: Color.fromRGBO(138, 67, 63, 1.0),
       textColor: Colors.white,
       onPressed: () async {
-        NetworkModel network =
-            await networkProvider.getNetworkByToken('zaxb9ipvlu');
-        print("NetworkPage>networkToken> " + network.id);
-        _prefs.tokenNetwork = network.id;
-        Navigator.pushReplacementNamed(context, 'home');
+        final networkName =
+            await networkProvider.obtenerNetworkByToken(_nombreToken);
+          await userProvider.crearUser(_prefs.nombreUsuario, _nombreToken);
+          await deviceProvider.crearDevice(_nombreToken, _prefs.fcmToken);
+          _prefs.nombreNetwork = networkName;
+          _prefs.tokenNetwork = _nombreToken;
+          Navigator.pushReplacementNamed(context, 'home');
       },
     );
   }
@@ -132,11 +133,10 @@ class _NetworkPageState extends State<NetworkPage> {
       onPressed: () async {
         NetworkModel network =
             await networkProvider.crearNetwork(_nombreNetwork);
-        // String token = _prefs.fcmToken;
         _prefs.tokenNetwork = network.id;
         _prefs.nombreNetwork = network.name;
-        // await deviceProvider.crearDevice(network.id, token);
         await userProvider.crearUser(_prefs.nombreUsuario, _prefs.tokenNetwork);
+        await deviceProvider.crearDevice(network.id, _prefs.fcmToken);
         Navigator.pushReplacementNamed(context, 'home');
       },
     );

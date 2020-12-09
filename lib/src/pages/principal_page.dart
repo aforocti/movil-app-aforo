@@ -6,7 +6,6 @@ import '../preferencias_usuario/preferencias_usuario.dart';
 import '../utils/utils.dart' as utils;
 
 class PrincipalPage extends StatelessWidget {
-  // const PrincipalPage({Key key}) : super(key: key); 
 
   final PreferenciasUsuario prefs = new PreferenciasUsuario();
 

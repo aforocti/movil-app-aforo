@@ -1,4 +1,5 @@
 
+import 'package:app_deteccion_personas/src/providers/device_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
@@ -10,6 +11,7 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   bool _colorSecundario;
+  final deviceProvicer = DeviceProvider();
   final _prefs = PreferenciasUsuario();
   final _infoToken =
       'Úsalo en tu script para enviar la información de la red a la base de datos';
@@ -76,7 +78,7 @@ class _SettingPageState extends State<SettingPage> {
   Widget _swtichListTile() {
     return Container(
       decoration: BoxDecoration( color: Colors.white,
-        border: Border.all(width: 0.1, color: Colors.grey)
+          border: Border.all(width: 0.1, color: Colors.grey)
       ),
       child: SwitchListTile(
         activeColor: utils.getColor('color6'),
@@ -109,13 +111,13 @@ class _SettingPageState extends State<SettingPage> {
       return AlertDialog(
         title: Text('Cerrar Sesión'),
         content: Text('¿Deseas cerrar la sesión?'),
-        actions: <Widget>[
+        actions: [
           FlatButton(
             onPressed: () {
-              // _prefs.tokenUser = '';
               _prefs.tokenNetwork = '';
               _prefs.nombreNetwork = '';
               _prefs.nombreUsuario = '';
+              deviceProvicer.eliminarDevice(_prefs.fcmToken);
               Navigator.pushReplacementNamed(context, 'splash');
             },
             child: Text('Ok',

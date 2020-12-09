@@ -1,51 +1,37 @@
 //ap_provider
 import 'dart:convert';
 import 'package:app_deteccion_personas/src/models/ap_model.dart';
+import 'package:app_deteccion_personas/src/models/wlc_model.dart';
+import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:http/http.dart' as http;
 
 class ApProvider {
-  final String _url = 'https://apptinkvice.firebaseio.com';
+  final _prefs = PreferenciasUsuario();
 
-  Future<bool> crearAp( ApModel ap ) async {
+  final String _url =
+      'https://us-central1-backendapptinkvice.cloudfunctions.net/app';
 
-    final url = '$_url/aps.json';
-    final resp = await http.post( url, body: apModelToJson( ap ));
-    print( json.decode( resp.body ));
-    return true;
-
-  }
-
-  Future<ApModel> cargarAp(String id) async {
-    final url = '$_url/aps/$id.json';
+  Future<List<ApModel>> cargarAps(String wlcId) async {
+    final url = '$_url/api/wlc/$wlcId/aps';
     final resp = await http.get(url);
-    final Map<String, dynamic> decodedData = json.decode(resp.body);
-    if (decodedData == null) return null;
-    final temp = ApModel.fromJson(decodedData);
-    temp.id = id;
-    return temp;
+    final List<dynamic> decodedData = json.decode(resp.body);
+    final aps = new Aps.fromJsonList(decodedData);
+    return aps.items;
   }
 
-  Future<List<ApModel>> cargarAps() async {
-
-    final url ='$_url/aps.json';
-    final resp = await http.get( url );
-
-    final Map<String, dynamic> decodedData = json.decode( resp.body );
-
-    if ( decodedData == null ) return [];
-
-    final List<ApModel> aps = List(); 
-
-    decodedData.forEach(( id, ap ) {
-      final temp = ApModel.fromJson( ap );
-      temp.id = id;
-      aps.add( temp );
-    });
-
-    // print( 'CARGAR APs' );
-    // print( aps );
-
-    return aps;
-
+  Future<List<dynamic>> cargarWlcsAps() async {
+    final url = '$_url/api/network/${_prefs.tokenNetwork}/wlcs';
+    final resp = await http.get(url);
+    final List<dynamic> decodedData = json.decode(resp.body);
+    final wlcs = new Wlcs.fromJsonList(decodedData);
+    List<WlcModel> lista = wlcs.items;
+    for (WlcModel item in lista) {
+      final url = '$_url/api/wlc/${item.mac}/aps';
+      final resp = await http.get(url);
+      final List<dynamic> decodedData = json.decode(resp.body);
+      final aps = new Aps.fromJsonList(decodedData).items;
+      item.aps = aps;
+    }
+    return wlcs.items;
   }
 }

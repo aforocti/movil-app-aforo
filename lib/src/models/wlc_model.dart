@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'package:app_deteccion_personas/src/models/ap_model.dart';
 
 WlcModel wlcModelFromJson(String str) => WlcModel.fromJson(json.decode(str));
 
@@ -10,6 +11,7 @@ class WlcModel {
   String mac;
   String manufacturerName;
   String productName;
+  List<ApModel> aps;
 
   WlcModel({this.networkId, this.mac, this.manufacturerName, this.productName});
 

@@ -34,7 +34,6 @@ class _MyAppState extends State<MyApp> {
     final pushProvider = new PushNotificationsProvider();
     pushProvider.initNotifications();
     pushProvider.mensajesStream.listen(( data ) {
-      print('argumento desde main: $data');
       navigatorKey.currentState.pushNamed('home', arguments: data );
     });
   }

@@ -1,7 +1,7 @@
-
 import 'package:http/http.dart' as http;
 
 class DeviceProvider {
+  
   DeviceProvider();
 
   final String _url =
@@ -9,7 +9,14 @@ class DeviceProvider {
 
   Future<bool> crearDevice(String network, String token) async {
     final url = '$_url/api/devices';
-    final resp = await http.post(url, body: {"network_id": network, "token" : token });
+    final resp = await http
+        .post(url, body: {"network_id": network, "device_token": token});
+    return true;
+  }
+
+  Future<bool> eliminarDevice(String token) async {
+    final url = '$_url/api/devices/$token';
+    final resp = await http.delete(url);
     return true;
   }
 }

@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:app_deteccion_personas/src/models/network_model.dart';
 import 'package:http/http.dart' as http;
@@ -16,18 +15,11 @@ class NetworkProvider {
     return NetworkModel.fromJson(decodedData);
   }
 
-  Future<String> getNetworkName(String id) async {
-    final url = '$_url/api/networks/$id';
+  Future<String> obtenerNetworkByToken(String token) async {
+    final url = '$_url/api/networks/$token';
     final resp = await http.get(url);
-    final decodedData = json.decode(resp.body);
+    final Map<String, dynamic> decodedData = json.decode(resp.body);
     return decodedData['name'];
   }
 
-  Future<NetworkModel> getNetworkByToken(String token) async {
-    final url = '$_url/api/networks/token/$token';
-    final resp = await http.get(url);
-    final decodedData = json.decode(resp.body);
-    final network = NetworkModel.fromJson(decodedData[0]);
-    return network;
-  }
 }
