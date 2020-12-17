@@ -1,6 +1,7 @@
 
-import 'package:app_deteccion_personas/src/providers/device_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:app_deteccion_personas/src/providers/device_provider.dart';
 import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
 
@@ -11,6 +12,7 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   bool _colorSecundario;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final deviceProvicer = DeviceProvider();
   final _prefs = PreferenciasUsuario();
   final _infoToken =
@@ -24,7 +26,8 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
+    return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: utils.getColor('color1'),
       appBar: AppBar(
         leading: IconButton(
@@ -40,18 +43,20 @@ class _SettingPageState extends State<SettingPage> {
         centerTitle: true,
         backgroundColor: utils.setColor('color6', 'color2')
       ),
-      body: ListView(
-        children: [
-          _subtitulo('Información'),
-          _listtile(title: 'Usuario', trailing: _prefs.nombreUsuario),
-          _listtile(title: 'Nombre de red', trailing: _prefs.nombreNetwork),
-          _listtile(title: 'Token', trailing: _prefs.tokenNetwork, subtitle: _infoToken),
-          _subtitulo('Ajustes adicionales'),
-          _swtichListTile(),
-          _flatButton(context),
-        ],
+      body: Builder(
+        builder: (context) => ListView(
+          children: [
+            _subtitulo('Información'),
+            _listtile(title: 'Usuario', trailing: _prefs.nombreUsuario),
+            _listtile(title: 'Nombre de red', trailing: _prefs.nombreNetwork),
+            _listtile(title: 'Token', trailing: _prefs.tokenNetwork, subtitle: _infoToken),
+            _subtitulo('Ajustes adicionales'),
+            _swtichListTile(),
+            _flatButton(context),
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   Widget _listtile({String title, String trailing, String subtitle = ''}) {
@@ -101,30 +106,19 @@ class _SettingPageState extends State<SettingPage> {
         child: Text('Cerrar Sesión',
             style: TextStyle(color: utils.getColor('color1'))),
         color: utils.setColor('color6t5', 'color5'),
-        onPressed: () => _cerrarSesion(context),
+        onPressed: () async {
+          final connectivityResult = await (Connectivity().checkConnectivity());
+          if (connectivityResult == ConnectivityResult.none) {
+            utils.snackBarMessage(context, "Sin conexion");
+          } else {
+            _prefs.tokenNetwork = '';
+            _prefs.nombreNetwork = '';
+            _prefs.nombreUsuario = '';
+            deviceProvicer.eliminarDevice(_prefs.fcmToken);
+            Navigator.pushReplacementNamed(context, 'splash');
+          }
+        }
       ),
     );
-  }
-
-  _cerrarSesion(BuildContext context) {
-    showDialog( context: context, builder: (context) {
-      return AlertDialog(
-        title: Text('Cerrar Sesión'),
-        content: Text('¿Deseas cerrar la sesión?'),
-        actions: [
-          FlatButton(
-            onPressed: () {
-              _prefs.tokenNetwork = '';
-              _prefs.nombreNetwork = '';
-              _prefs.nombreUsuario = '';
-              deviceProvicer.eliminarDevice(_prefs.fcmToken);
-              Navigator.pushReplacementNamed(context, 'splash');
-            },
-            child: Text('Ok',
-                style: TextStyle(color: Color.fromRGBO(10, 52, 68, 1.0)))
-          )
-        ],
-      );
-    });
   }
 }

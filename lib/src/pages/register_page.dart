@@ -1,6 +1,6 @@
 import 'package:app_deteccion_personas/src/blocs/provider.dart';
-import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:app_deteccion_personas/src/providers/usuario_provider.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import '../utils/utils.dart' as utils;
 
@@ -29,14 +29,14 @@ class _RegisterPageState extends State<RegisterPage> {
       width: size.width * 0.57,
       height: size.width * 0.57,
       decoration: BoxDecoration(
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-              color: utils.getColor('color4t4t1'),
-              blurRadius: 2.0,
-              spreadRadius: 3.0)
-        ],
-        borderRadius: BorderRadius.circular(size.width * 0.6),
-        color: utils.getColor('color4t4t1')),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: utils.getColor('color4t4t1'),
+                blurRadius: 2.0,
+                spreadRadius: 3.0)
+          ],
+          borderRadius: BorderRadius.circular(size.width * 0.6),
+          color: utils.getColor('color4t4t1')),
     );
 
     final fondo = Container(
@@ -69,10 +69,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 SizedBox(height: 10.0, width: double.infinity),
-                Text('Registro', style: TextStyle(
-                  color: Color.fromRGBO(168, 97, 93, 1.0),
-                  fontWeight: FontWeight.bold, fontSize: 25.0
-                )) // 25
+                Text('Registro',
+                    style: TextStyle(
+                        color: Color.fromRGBO(168, 97, 93, 1.0),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25.0)) // 25
               ],
             ),
           ),
@@ -88,7 +89,8 @@ class _RegisterPageState extends State<RegisterPage> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SafeArea(child:
+          SafeArea(
+              child:
                   Container(height: (40.0 + (3 * 25.0) + size.height * 0.2))),
           Container(
             width: size.width * 0.85,
@@ -155,10 +157,9 @@ class _RegisterPageState extends State<RegisterPage> {
             suffixIcon: IconButton(
               icon: new Icon(_iconPassword),
               onPressed: () => setState(() {
-                if (_obscureText)
-                  _iconPassword = Icons.remove_red_eye;
-                else
-                  _iconPassword = Icons.remove_red_eye_outlined;
+                _iconPassword = (_obscureText)
+                    ? Icons.remove_red_eye
+                    : Icons.remove_red_eye_outlined;
                 _obscureText = !_obscureText;
               }),
             ),
@@ -174,8 +175,7 @@ class _RegisterPageState extends State<RegisterPage> {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return RaisedButton(
           padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
-          child: Container(
-              child: Text('Crear Registro')),
+          child: Container(child: Text('Crear Cuenta')),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
           elevation: 0.0,
@@ -188,11 +188,16 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   _register(BuildContext context, LoginBloc bloc) async {
-    Map info = await usuarioProvider.nuevoUsuario(bloc.user, bloc.password);
-    if (info['ok'])
-      Navigator.pushReplacementNamed(context, 'login');
-    else
-      utils.mostrarAlerta(context, title: 'Error', content: info['mensaje']);
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      utils.snackBarMessage(context, "Sin conexion");
+    } else {
+      Map info = await usuarioProvider.nuevoUsuario(bloc.user, bloc.password);
+      if (info['ok'])
+        Navigator.pushReplacementNamed(context, 'login');
+      else
+        utils.mostrarAlerta(context, title: 'Error', content: info['mensaje']);
+    }
   }
 
   Widget _makeRegisterButton() {

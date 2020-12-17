@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:app_deteccion_personas/src/models/wlc_model.dart';
 import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';

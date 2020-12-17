@@ -17,76 +17,32 @@ class PreferenciasUsuario {
   }
 
   // GET y SET del _colorSecundario
-  get colorSecundario {
-    return _prefs.getBool('colorSecundario') ?? false;
-  }
-
-  set colorSecundario( bool value ) {
-    _prefs.setBool('colorSecundario', value);
-  }
-
-  // // GET y SET del _tokenUser
-  // get tokenUser {
-  //   return _prefs.getString('tokenUser') ?? '';
-  // }
-
-  // set tokenUser( String value ) {
-  //   _prefs.setString('tokenUser', value);
-  // }
+  get colorSecundario => _prefs.getBool('colorSecundario') ?? false;
+  set colorSecundario( bool value ) => _prefs.setBool('colorSecundario', value);
 
   // GET y SET del _fcmToken
-   get fcmToken {
-    return _prefs.getString('FCMToken') ?? '';
-  }
-
-  set fcmToken( String value ) {
-    _prefs.setString('FCMToken', value);
-  }
+  get fcmToken =>  _prefs.getString('FCMToken') ?? '';
+  set fcmToken( String value ) => _prefs.setString('FCMToken', value);
 
   // GET y SET del _tokenNetwork
-   get tokenNetwork {
-    return _prefs.getString('tokenNetwork') ?? '';
-  }
-
-  set tokenNetwork( String value ) {
-    _prefs.setString('tokenNetwork', value);
-  }
+  get tokenNetwork => _prefs.getString('tokenNetwork') ?? '';
+  set tokenNetwork( String value ) => _prefs.setString('tokenNetwork', value);
   
   // GET y SET del _nameNetwork
-   get nombreNetwork {
-    return _prefs.getString('nombreNetwork') ?? '';
-  }
-
-  set nombreNetwork( String value ) {
-    _prefs.setString('nombreNetwork', value);
-  }
+  get nombreNetwork =>  _prefs.getString('nombreNetwork') ?? '';
+  set nombreNetwork( String value ) => _prefs.setString('nombreNetwork', value);
 
   // GET y SET del nombreUsuario
-  get nombreUsuario {
-    return _prefs.getString('nombreUsuario') ?? '';
-  }
-
-  set nombreUsuario( String value ) {
-    _prefs.setString('nombreUsuario', value);
-  }
+  get nombreUsuario => _prefs.getString('nombreUsuario') ?? '';
+  set nombreUsuario( String value ) => _prefs.setString('nombreUsuario', value);
 
   // GET y SET del currentIndex
-  get currentIndex {
-    return _prefs.getInt('currentIndex') ?? 1;
-  }
+  get currentIndex => _prefs.getInt('currentIndex') ?? 1;
+  set currentIndex( int value ) => _prefs.setInt('currentIndex', value);
 
-  set currentIndex( int value ) {
-    _prefs.setInt('currentIndex', value);
-  }
-
-  //   // GET y SET de la última página
-  // get ultimaPagina {
-  //   return _prefs.getString('ultimaPagina') ?? 'home';
-  // }
-
-  // set ultimaPagina( String value ) {
-  //   _prefs.setString('ultimaPagina', value);
-  // }
+  // GET y SET del currentIndex
+  get snackbarActive => _prefs.getBool('snackbarActive') ?? false;
+  set snackbarActive( bool value ) => _prefs.setBool('snackbarActive', value);
 
 }
 

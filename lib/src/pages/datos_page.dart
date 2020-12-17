@@ -1,13 +1,13 @@
-
-import 'dart:ui';
-
+import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
-import 'package:app_deteccion_personas/src/providers/wlc_provider.dart';
-import 'package:app_deteccion_personas/src/providers/ap_provider.dart';
-import 'package:app_deteccion_personas/src/models/wlc_model.dart';
-import 'package:app_deteccion_personas/src/models/ap_model.dart';
 import 'package:expandable/expandable.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import 'package:app_deteccion_personas/src/models/ap_model.dart';
+import 'package:app_deteccion_personas/src/models/wlc_model.dart';
+import 'package:app_deteccion_personas/src/providers/ap_provider.dart';
+import 'package:app_deteccion_personas/src/providers/wlc_provider.dart';
+import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
 
 class DatosPage extends StatefulWidget {
   @override
@@ -16,31 +16,57 @@ class DatosPage extends StatefulWidget {
 
 class _DatosPageState extends State<DatosPage> {
   @override
-  void initState() {
-    super.initState();
-  }
-
+  void initState() => super.initState();
   final wlcProvider = new WlcProvider();
   final apProvider = new ApProvider();
-  int limiteInt = 0;
-  int pisoInt   = 0;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final _prefs = PreferenciasUsuario();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Container(child: _crearListado()));
+    return Scaffold(
+        key: _scaffoldKey,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight - 15),
+          child: Container(
+            color: utils.setColor('color6t5', 'color2'),
+            child: Tab(
+                child: Text('INFORMACIÓN DE LA RED',
+                    style: TextStyle(
+                        color: Color.fromRGBO(10, 52, 68, 1.0),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600))),
+          ),
+        ),
+        body: Container(child: _crearListado(context)));
   }
 
-  Widget _crearListado() {
+  Widget _crearListado(BuildContext context) {
     return FutureBuilder(
       future: apProvider.cargarWlcsAps(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        if (snapshot.hasData) {
-          final wlcs = snapshot.data;
-          return ListView.builder(
-            itemCount: wlcs.length,
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, i) => _crearCard(wlcs[i]),
+        if (snapshot.hasError) {
+          return Column(
+            children: [
+              utils.errorInfo(snapshot.error, Colors.red),
+              utils.iconFont(Icons.wifi_off, context)
+            ],
           );
+        } else if (snapshot.hasData) {
+          if (snapshot.data.isEmpty) {
+            return Column(
+              children: [
+                utils.errorInfo('Sin Información', Colors.purple),
+                utils.iconFont(Icons.business_sharp, context)
+              ],
+            );
+          } else {
+            final wlcs = snapshot.data;
+            return ListView.builder(
+              itemCount: wlcs.length,
+              itemBuilder: (context, i) => _crearCard(wlcs[i], context),
+            );
+          }
         } else {
           return Center(
               child: CircularProgressIndicator(
@@ -51,146 +77,210 @@ class _DatosPageState extends State<DatosPage> {
     );
   }
 
-  Widget _crearCard(WlcModel wlcModel) {
+  Widget _crearCard(WlcModel wlc, BuildContext context) {
     return ExpandableNotifier(
         child: Padding(
-      padding: const EdgeInsets.only(top: 14.0, left: 10.0, right: 10.0),
+      padding: const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
       child: ScrollOnExpand(
         child: Card(
           clipBehavior: Clip.antiAlias,
           child: ExpandablePanel(
             theme: const ExpandableThemeData(
-              headerAlignment: ExpandablePanelHeaderAlignment.center,
-              iconColor: Colors.black,
+              headerAlignment: ExpandablePanelHeaderAlignment.bottom,
             ),
             header: Container(
               decoration: BoxDecoration(color: utils.getColor('color3t1')),
               child: Padding(
-                padding: const EdgeInsets.all(5.0),
+                padding: const EdgeInsets.symmetric(vertical: 5.0),
                 child: Row(
                   children: [
                     Expanded(
                       child: ListTile(
-                        title: Text('${wlcModel.productName}'),
-                        subtitle: Text('${wlcModel.mac}'),
-                        trailing: Text('en red: 5'),
+                        leading: Text("WLC",
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.bold)),
+                        title: Text('${wlc.productName}'),
+                        subtitle: Text('${wlc.mac}'),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            expanded: buildList(wlcModel.aps),
+            expanded: buildList(wlc.aps, context),
           ),
         ),
       ),
     ));
   }
 
-  buildList(List<ApModel> aps) {
-    return Column(children: makeAps(aps));
+  buildList(List<ApModel> aps, BuildContext context) {
+    return Column(children: makeAps(aps, context));
   }
 
-  List<Widget> makeAps(List<ApModel> aps) {
+  List<Widget> makeAps(List<ApModel> aps, BuildContext context) {
     List<Widget> list = [];
     for (var item in aps) {
       list.add(Container(
         decoration: BoxDecoration(
             border: Border.all(width: 1.0, color: Colors.black12)),
-        child: ListTile(
-          leading: Text("AP",
-              style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold)),
-          title: Text(item.name),
-          subtitle: Text(item.model),
-          trailing: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InkWell(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text('Limite: ${item.limit}'),
-                    Text('Piso: ${item.piso}'),
-                  ],
-                ),
-                onTap: () {
-                  _actualizarAp(context, item.limit, item.piso, item.mac, limiteInt, pisoInt);
-                  setState(() {}); 
-                } 
+        child: Column(
+          children: [
+            ListTile(
+              dense: true,
+              onTap: () async {
+                final connectivityResult =
+                    await (Connectivity().checkConnectivity());
+                if (connectivityResult == ConnectivityResult.none) {
+                  if (!_prefs.snackbarActive) {
+                    print('here');
+                    _prefs.snackbarActive = true;
+                    _scaffoldKey.currentState
+                        .showSnackBar(SnackBar(
+                            content: Row(children: [
+                          Icon(Icons.info),
+                          SizedBox(width: 10.0),
+                          Text("Sin conexión")
+                        ])))
+                        .closed
+                        .then((SnackBarClosedReason reason) {
+                      _prefs.snackbarActive = false;
+                    });
+                  }
+                } else {
+                  _actualizarAp(
+                      context, item.limit, item.piso, item.mac, item.name);
+                }
+              },
+              leading: Text("AP",
+                  style:
+                      TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+              title: Text(item.name, style: TextStyle(fontSize: 15)),
+              subtitle: Text(item.model, style: TextStyle(fontSize: 14)),
+              trailing: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Limite: ${item.limit}'),
+                  Text((item.piso == '0') ? 'Piso: PB' : 'Piso: ${item.piso}P'),
+                ],
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.only(bottom: 10.0, left: 15.0, right: 5.0),
+              child: LinearPercentIndicator(
+                leading: Text('${item.devices}/${item.limit}'),
+                percent: setPercent(int.parse(item.devices), int.parse(item.limit)),
+                progressColor: utils.setColor('color5', 'color4'),
+              ),
+            ),
+          ],
         ),
       ));
     }
     return list;
   }
 
-  void _agregar() { setState(() => limiteInt++); }
-
-  void _sustraer() { setState(() => limiteInt--); }
-
-  _actualizarAp(BuildContext context, String limit, String piso, String mac, int limite, int floor) {
-    limiteInt = int.parse(limit);
-    pisoInt   = int.parse(piso);
+  _actualizarAp(BuildContext context, String limit, String piso, String mac,
+      String model) {
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Actualizar'),
-            content: Column( children: [
-              Row( children: [
-                Text('piso'),
-                Expanded(child: Container()),
-                IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  onPressed: () {
-                    setState(() {});
-                  }
-                ),
-                Text('$limiteInt', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-                IconButton(
-                  icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: () {
-                    setState(() {});
-                  }
-                )
-                ]
+      context: context,
+      builder: (context) {
+        String limitText = limit;
+        String pisoText = piso;
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Column(
+                children: [
+                  Text("Actualizar"),
+                  Text(model, style: TextStyle(fontWeight: FontWeight.normal))
+                ],
               ),
-              Row( children: [
-                Text('Límite'),
-                Expanded(child: Container()),
-                IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  onPressed: _sustraer
-                ),
-                Text('$limiteInt', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-                IconButton(
-                  icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: _agregar
-                )
-                ]
+              content: Column(
+                children: [
+                  Row(children: [
+                    Text('Límite'),
+                    Expanded(child: Container()),
+                    IconButton(
+                        icon: Icon(Icons.arrow_back_ios),
+                        onPressed: () {
+                          if (limitText != '1')
+                            limitText = (int.parse(limitText) - 1).toString();
+                          setState(() {});
+                        }),
+                    Text(limitText,
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold)),
+                    IconButton(
+                        icon: Icon(Icons.arrow_forward_ios),
+                        onPressed: () {
+                          limitText = (int.parse(limitText) + 1).toString();
+                          setState(() {});
+                        }),
+                  ]),
+                  Row(children: [
+                    Text('Piso'),
+                    Expanded(child: Container()),
+                    IconButton(
+                        icon: Icon(Icons.arrow_back_ios),
+                        onPressed: () {
+                          if (pisoText != '0')
+                            pisoText = (int.parse(pisoText) - 1).toString();
+                          setState(() {});
+                        }),
+                    Text((pisoText == '0') ? 'PB' : '${pisoText}P',
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold)),
+                    IconButton(
+                        icon: Icon(Icons.arrow_forward_ios),
+                        onPressed: () {
+                          pisoText = (int.parse(pisoText) + 1).toString();
+                          setState(() {});
+                        }),
+                  ]),
+                ],
+                mainAxisSize: MainAxisSize.min,
               ),
-              
-            ],
-            mainAxisSize: MainAxisSize.min,
-            ),
-            actions: [
-              FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text("Cancelar"),
+                ),
+                FlatButton(
+                  onPressed: () async {
+                    final connectivityResult =
+                        await (Connectivity().checkConnectivity());
+                    if (connectivityResult == ConnectivityResult.none) {
+                      Navigator.pop(context);
+                      _scaffoldKey.currentState.showSnackBar(SnackBar(
+                          content: Row(children: [
+                        Icon(Icons.info),
+                        SizedBox(width: 10.0),
+                        Text("Sin conexión")
+                      ])));
+                    } else {
+                      apProvider.actualizarPisoLimite(mac, limitText, pisoText);
+                      Navigator.pop(context);
+                      Navigator.pushReplacementNamed(context, 'home');
+                    }
                   },
-                  child: Text('Cancelar',
-                      style: TextStyle(color: Color.fromRGBO(10, 52, 68, 1.0)))),
-              FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('Ok',
-                      style: TextStyle(color: Color.fromRGBO(10, 52, 68, 1.0))))
-            ],
-          );
-        });
+                  child: Text("Actualizar"),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  double setPercent(int devices, int limit) {
+    if (devices > limit) {
+      return 1.0;
+    } else {
+      return devices / limit;
+    }
   }
 }

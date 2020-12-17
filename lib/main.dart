@@ -15,6 +15,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = new PreferenciasUsuario();
   await prefs.initPrefs();
+  prefs.snackbarActive = false;
   
   runApp(MyApp());
 }
@@ -34,7 +35,7 @@ class _MyAppState extends State<MyApp> {
     final pushProvider = new PushNotificationsProvider();
     pushProvider.initNotifications();
     pushProvider.mensajesStream.listen(( data ) {
-      navigatorKey.currentState.pushNamed('home', arguments: data );
+      navigatorKey.currentState.pushReplacementNamed('home', arguments: data );
     });
   }
 

@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:http/http.dart' as http;
+import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 
 class UsuarioProvider {
 
@@ -27,7 +27,6 @@ class UsuarioProvider {
     print(decodedResp);
 
     if ( decodedResp.containsKey('idToken') ) {
-      // _prefs.tokenUser = decodedResp['idToken'];  
       return { 'ok' : true, 'token' : decodedResp['idToken'] };
     } else {
       return { 'ok' : false, 'mensaje' : decodedResp['error']['message']  };
@@ -53,7 +52,6 @@ class UsuarioProvider {
     print(decodedResp);
 
     if ( decodedResp.containsKey('idToken') ) {
-      // _prefs.tokenUser = decodedResp['idToken'];
       return { 'ok' : true, 'token' : decodedResp['idToken'] };
     } else {
       return { 'ok' : false, 'mensaje' : decodedResp['error']['message']  };

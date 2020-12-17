@@ -1,10 +1,10 @@
 
+import 'package:app_deteccion_personas/src/pages/datos_page.dart';
+import 'package:app_deteccion_personas/src/pages/historial_page.dart';
+import 'package:app_deteccion_personas/src/pages/principal_page.dart';
 import 'package:flutter/material.dart';
 import '../preferencias_usuario/preferencias_usuario.dart';
 import '../utils/utils.dart' as utils;
-import 'graficas_page.dart';
-import 'historial_page.dart';
-import 'principal_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           // device_hub_outlined, domain, grain, group, group_work. leak_add, location_searching, coronavirus_outlined, people_outline
           // perm_scan_wifi, pearson_search, pin_drop, rss, scatter_plot, track_changes, wifi_outlined, wifi_tethering
           BottomNavigationBarItem(
-              icon: Icon(Icons.bar_chart_outlined), label: 'Gráficas'),
+              icon: Icon(Icons.business_sharp), label: 'Datos'),
         ]);
   }
 
@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       case 1:
         return PrincipalPage();
       case 2:
-        return GraficasPage();
+        return DatosPage();
       default:
         return PrincipalPage();
     }

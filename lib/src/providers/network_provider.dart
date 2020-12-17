@@ -11,6 +11,7 @@ class NetworkProvider {
   Future<NetworkModel> crearNetwork(String name) async {
     final url = '$_url/api/networks';
     final resp = await http.post(url, body: {"name": name});
+    print(resp.statusCode);
     final decodedData = json.decode(resp.body);
     return NetworkModel.fromJson(decodedData);
   }
@@ -18,8 +19,12 @@ class NetworkProvider {
   Future<String> obtenerNetworkByToken(String token) async {
     final url = '$_url/api/networks/$token';
     final resp = await http.get(url);
-    final Map<String, dynamic> decodedData = json.decode(resp.body);
-    return decodedData['name'];
+    print(resp.statusCode);
+    if (resp.statusCode == 200) {
+      final Map<String, dynamic> decodedData = json.decode(resp.body);
+      return decodedData['name'];
+    } else {
+      return null;
+    }
   }
-
 }

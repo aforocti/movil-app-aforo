@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:app_deteccion_personas/src/blocs/provider.dart';
 import 'package:app_deteccion_personas/src/models/user_model.dart';
 import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
@@ -6,6 +8,7 @@ import 'package:app_deteccion_personas/src/providers/network_provider.dart';
 import 'package:app_deteccion_personas/src/providers/user_provider.dart';
 import 'package:app_deteccion_personas/src/providers/usuario_provider.dart';
 import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -18,15 +21,17 @@ class _LoginPageState extends State<LoginPage> {
   final userProvider = new UserProvider();
   final networkProvider = new NetworkProvider();
   final deviceProvider = new DeviceProvider();
+  final usuarioProvider = new UsuarioProvider();
   bool _obscureText = true;
   IconData _iconPassword = Icons.remove_red_eye_outlined;
-  final usuarioProvider = new UsuarioProvider();
+  bool _isButtonEnable = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [_crearFondo(context), _loginForm(context)],
+        body: Builder(
+      builder: (context) =>
+          Stack(children: [_crearFondo(context), _loginForm(context)]),
     ));
   }
 
@@ -41,7 +46,6 @@ class _LoginPageState extends State<LoginPage> {
             BoxShadow(
                 color: utils.getColor('color2t1'),
                 blurRadius: 2.0,
-                // offset: Offset(0.0, 0.0),
                 spreadRadius: 3.0)
           ],
           borderRadius: BorderRadius.circular(size.width * 0.6),
@@ -94,7 +98,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget _loginForm(BuildContext context) {
     final bloc = Provider.of(context);
     final size = MediaQuery.of(context).size;
-
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -125,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 40.0),
                 _makeButton(bloc),
                 SizedBox(height: 30.0),
-                _makeReisterButton()
+                _registerOption()
               ],
             ),
           ),
@@ -138,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _userInput(LoginBloc bloc) {
     return StreamBuilder(
       stream: bloc.userStream,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
+      builder: (context, snapshot) {
         return TextField(
           onChanged: bloc.changeUser,
           autofocus: false,
@@ -156,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _passwordInput(LoginBloc bloc) {
     return StreamBuilder(
       stream: bloc.passwordStream,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
+      builder: (context, snapshot) {
         return TextField(
           obscureText: _obscureText,
           onChanged: bloc.changePassword,
@@ -168,10 +171,9 @@ class _LoginPageState extends State<LoginPage> {
             suffixIcon: IconButton(
               icon: new Icon(_iconPassword),
               onPressed: () => setState(() {
-                if (_obscureText)
-                  _iconPassword = Icons.remove_red_eye;
-                else
-                  _iconPassword = Icons.remove_red_eye_outlined;
+                _iconPassword = (_obscureText)
+                    ? Icons.remove_red_eye
+                    : Icons.remove_red_eye_outlined;
                 _obscureText = !_obscureText;
               }),
             ),
@@ -197,7 +199,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _makeButton(LoginBloc bloc) {
     return StreamBuilder(
       stream: bloc.formValidStream,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
+      builder: (context, snapshot) {
         return RaisedButton(
           padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
           child: Container(child: Text('Ingresar')),
@@ -206,35 +208,66 @@ class _LoginPageState extends State<LoginPage> {
           elevation: 0.0,
           color: Color.fromRGBO(138, 67, 63, 1.0),
           textColor: Colors.white,
-          onPressed: snapshot.hasData ? () => _login(context, bloc) : null,
+          onPressed: (snapshot.hasData && _isButtonEnable)
+              ? () => _login(context, bloc)
+              : null,
         );
       },
     );
   }
 
-  _login(BuildContext context, LoginBloc bloc) async {
-    Map info = await usuarioProvider.login(bloc.user, bloc.password);
-    if (info['ok']) {
-      UserModel userToLogin = await userProvider.getUserByName(bloc.user);
-      _prefs.nombreUsuario = bloc.user;
-      if (userToLogin == null) {
-        Navigator.pushReplacementNamed(context, 'network');
-      } else {
-        _prefs.tokenNetwork = userToLogin.networkId;
-        String networkName = await networkProvider.obtenerNetworkByToken(userToLogin.networkId);
-        _prefs.nombreNetwork = networkName;
-        deviceProvider.crearDevice(_prefs.tokenNetwork, _prefs.fcmToken);
-        Navigator.pushReplacementNamed(context, 'home');
-      }
+  _login(context, LoginBloc bloc) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      utils.snackBarMessage(context, "Sin conexion");
     } else {
-      utils.mostrarAlerta(context, title: 'Error', content: info['mensaje']);
+      setState(() => _isButtonEnable = false);
+      try {
+        final info = await usuarioProvider.login(bloc.user, bloc.password);
+        if (info['ok']) {
+          Future.delayed(Duration(seconds: 3), () {}).then((value) {
+            setState(() => _isButtonEnable = true);
+          });
+          final userToLogin = await userProvider.getUserByName(bloc.user);
+          _prefs.nombreUsuario = bloc.user;
+          if (userToLogin == null) {
+            Navigator.pushReplacementNamed(context, 'network');
+          } else {
+            final networkName = await networkProvider
+                .obtenerNetworkByToken(userToLogin.networkId);
+            _prefs.tokenNetwork = userToLogin.networkId;
+            _prefs.nombreNetwork = networkName;
+            final deviceCreated = await deviceProvider.crearDevice(
+                _prefs.tokenNetwork, _prefs.fcmToken);
+            print(deviceCreated);
+            Navigator.pushReplacementNamed(context, 'home');
+          }
+        } else {
+          Future.delayed(Duration(seconds: 1), () {}).then((value) {
+            setState(() => _isButtonEnable = true);
+          });
+          utils.mostrarAlerta(context,
+              title: 'Error', content: info['mensaje']);
+        }
+      } catch (e) {
+        print(e);
+        Future.delayed(Duration(seconds: 1), () {}).then((value) {
+          setState(() => _isButtonEnable = true);
+        });
+        _prefs.nombreUsuario = '';
+        _prefs.tokenNetwork = '';
+        _prefs.nombreNetwork = '';
+        utils.mostrarAlerta(context,
+            title: 'Error', content: 'Error inesperado');
+      }
     }
   }
 
-  Widget _makeReisterButton() {
+  Widget _registerOption() {
     return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
       FlatButton(
-          child: Text('Crear cuenta'),
+          child: Text('crear una cuenta nueva',
+              style: TextStyle(color: utils.getColor('color4'))),
           onPressed: () => Navigator.pushReplacementNamed(context, 'register')),
     ]);
   }
