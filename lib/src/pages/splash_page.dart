@@ -2,6 +2,7 @@
 import 'package:app_deteccion_personas/src/pages/home_page.dart';
 import 'package:app_deteccion_personas/src/pages/login_page.dart';
 import 'package:app_deteccion_personas/src/pages/network_page.dart';
+import 'package:app_deteccion_personas/src/pages/status_page.dart';
 import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:app_deteccion_personas/src/providers/network_provider.dart';
 import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
@@ -22,29 +23,23 @@ class _SplashPageState extends State<SplashPage> {
     return new SplashScreen(
       seconds: 2,
       navigateAfterSeconds: selectPage(),
-      title: new Text(
-        'Welcome to Tinkvice',
-        style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-      ),
-      image: Image(
-        image: AssetImage('assets/ic_splash.png'),
-      ),
+      title: new Text('Welcome to Tinkvice',
+          style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
+      image: Image(image: AssetImage('assets/ic_splash.png')),
       backgroundColor: utils.getColor('color2'),
       loaderColor: Colors.red,
     );
   }
 
   Widget selectPage() {
-    if (_prefs.nombreUsuario == '') {
+    // return StatusPage();
+    if (_prefs.nombreUsuario == '')
       return LoginPage();
-    }
     else {
-      if (_prefs.tokenNetwork == '') {
+      if (_prefs.tokenNetwork == '')
         return NetworkPage();
-      }
-      else {
+      else
         return HomePage();
-      }
     }
   }
 }

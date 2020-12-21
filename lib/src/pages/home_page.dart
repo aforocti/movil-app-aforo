@@ -2,7 +2,9 @@
 import 'package:app_deteccion_personas/src/pages/datos_page.dart';
 import 'package:app_deteccion_personas/src/pages/historial_page.dart';
 import 'package:app_deteccion_personas/src/pages/principal_page.dart';
+import 'package:app_deteccion_personas/src/services/socket_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../preferencias_usuario/preferencias_usuario.dart';
 import '../utils/utils.dart' as utils;
 
@@ -19,31 +21,36 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     _currentIndex = _prefs.currentIndex;
     String data = ModalRoute.of(context).settings.arguments;
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: utils.setColor('color6', 'color2'),
-        title: Text('Tinkvice',
-            style: TextStyle(color: utils.setColor('color1', 'color6'))),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.settings_outlined),
-              color: utils.setColor('color1', 'color6'),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, 'setting');
-                setState(() {});
-              }),
-          SizedBox(width: 10.0),
-        ],
-        leading: Container(
-          padding: EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
-          child: Image(
-              fit: BoxFit.fill, image: AssetImage('assets/ic_appbar.png')),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SocketService())
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: utils.setColor('color6', 'color2'),
+          title: Text('Tinkvice',
+              style: TextStyle(color: utils.setColor('color1', 'color6'))),
+          actions: [
+            IconButton(
+                icon: Icon(Icons.settings_outlined),
+                color: utils.setColor('color1', 'color6'),
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, 'setting');
+                  setState(() {});
+                }),
+            SizedBox(width: 10.0),
+          ],
+          leading: Container(
+            padding: EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
+            child: Image(
+                fit: BoxFit.fill, image: AssetImage('assets/ic_appbar.png')),
+          ),
+          elevation: 5.0,
+          titleSpacing: 6.0,
         ),
-        elevation: 5.0,
-        titleSpacing: 6.0,
+        body: _llamarPagina(_currentIndex),
+        bottomNavigationBar: _crearBottomNavigationBar(),
       ),
-      body: _llamarPagina(_currentIndex),
-      bottomNavigationBar: _crearBottomNavigationBar(),
     );
   }
 

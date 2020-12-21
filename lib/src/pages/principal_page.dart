@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:app_deteccion_personas/src/services/socket_service.dart';
 import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
 
 class PrincipalPage extends StatefulWidget {
@@ -9,10 +11,10 @@ class PrincipalPage extends StatefulWidget {
 
 class _PrincipalPageState extends State<PrincipalPage> {
 
-  String planta = 'PLANTA BAJA'; 
-
+  String planta = 'PLANTA BAJA';
   @override
   Widget build(BuildContext context) {
+  final socketService = Provider.of<SocketService>(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight - 15),
@@ -28,13 +30,19 @@ class _PrincipalPageState extends State<PrincipalPage> {
       ),
       floatingActionButton: editedFab(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Container(
-        child: Image(
-          height: double.infinity,
-          width: double.infinity,
-          fit: BoxFit.fill,
-          image: AssetImage('assets/planta_baja_.jpeg'),
-        ),
+      body:
+       Column(
+        children: [
+          Text('estado: ${ socketService.serverStatus }'),
+          Expanded(
+            child: Image(
+              width: double.infinity,
+              fit: BoxFit.fill,
+              image: AssetImage('assets/planta_baja_.jpeg'),
+            ),
+          ),
+          SizedBox(height: 40.0)
+        ],
       ),
     );
   }
