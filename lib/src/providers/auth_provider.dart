@@ -1,13 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 
-class UsuarioProvider {
+class AuthProvider {
 
   // clave de API web (_firebaseToken)
-  final String _firebaseToken = 'AIzaSyBQMjXNsPYm8Sx1tOyQ2qYh1Gz1UrZClhk';
-
-  final _prefs = new PreferenciasUsuario();
+  final String _firebaseToken = 'AIzaSyDeK1GQ7RJZG_L49G1Bkcvx-wRVrSRQdFE';
 
   Future<Map<String, dynamic>> login( String email, String password) async {
 

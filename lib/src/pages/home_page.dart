@@ -19,7 +19,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   Widget build(BuildContext context) {
     _currentIndex = _prefs.currentIndex;
-    String data = ModalRoute.of(context).settings.arguments;
 
     return MultiProvider(
       providers: [
@@ -56,32 +55,29 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   Widget _crearBottomNavigationBar() {
     return BottomNavigationBar(
-        backgroundColor: utils.setColor('color6', 'color2'),
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
-        unselectedItemColor: Color.fromRGBO(168, 97, 93, 0.4),
-        iconSize: 30.0,
-        unselectedIconTheme: IconThemeData(size: 25.0),
-        selectedItemColor: utils.setColor('color1', 'color5'),
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _prefs.currentIndex = index;
-            _currentIndex = index;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'Historial',
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.location_searching), label: 'Principal'),
-          // device_hub_outlined, domain, grain, group, group_work. leak_add, location_searching, coronavirus_outlined, people_outline
-          // perm_scan_wifi, pearson_search, pin_drop, rss, scatter_plot, track_changes, wifi_outlined, wifi_tethering
-          BottomNavigationBarItem(
-              icon: Icon(Icons.business_sharp), label: 'Datos'),
-        ]);
+      backgroundColor: utils.setColor('color6', 'color2'),
+      showUnselectedLabels: false,
+      showSelectedLabels: false,
+      unselectedItemColor: Color.fromRGBO(168, 97, 93, 0.4),
+      iconSize: 30.0,
+      unselectedIconTheme: IconThemeData(size: 25.0),
+      selectedItemColor: utils.setColor('color1', 'color5'),
+      currentIndex: _currentIndex,
+      onTap: (index) {
+        setState(() {
+          _prefs.currentIndex = index;
+          _currentIndex = index;
+        });
+      },
+      items: [
+        BottomNavigationBarItem(
+            icon: Icon(Icons.history), label: 'Historial',
+        ),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.location_searching), label: 'Principal'),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.business_sharp), label: 'Datos'),
+    ]);
   }
 
   Widget _llamarPagina(int paginaActual) {

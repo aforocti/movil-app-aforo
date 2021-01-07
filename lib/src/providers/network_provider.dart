@@ -22,7 +22,7 @@ class NetworkProvider {
     print(resp.statusCode);
     if (resp.statusCode == 200) {
       final Map<String, dynamic> decodedData = json.decode(resp.body);
-      return decodedData['name'];
+      return decodedData['data']['name'];
     } else {
       return null;
     }

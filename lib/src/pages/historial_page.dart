@@ -1,4 +1,4 @@
-
+import 'package:app_deteccion_personas/src/widgets/varios_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:app_deteccion_personas/src/models/alert_model.dart';
 import 'package:app_deteccion_personas/src/providers/alert_provider.dart';
@@ -6,24 +6,25 @@ import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
 
 class HistorialPage extends StatelessWidget {
   final alertProvider = new AlertProvider();
+  final _texto =
+      'Para ver tus alertas, primero debes ejecutar Tinkvice SSH completamente, luego de esto, una vez que te llegue una notificación de alerta, podrás ver su registro aquí';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight - 15),
-        child: Container(
-          color: utils.setColor('color6t5', 'color2'),
-          child: Tab(
-              child: Text('HISTORIAL DE ALERTAS',
-                  style: TextStyle(
-                      color: Color.fromRGBO(10, 52, 68, 1.0),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600))),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight - 15),
+          child: Container(
+            color: utils.setColor('color6t5', 'color2'),
+            child: Tab(
+                child: Text('HISTORIAL DE ALERTAS',
+                    style: TextStyle(
+                        color: Color.fromRGBO(10, 52, 68, 1.0),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600))),
+          ),
         ),
-      ),
-      body: Container(child: _lista())
-    );
+        body: Container(child: _lista()));
   }
 
   Widget _lista() {
@@ -34,18 +35,17 @@ class HistorialPage extends StatelessWidget {
           return Column(
             children: [
               utils.errorInfo(snapshot.error, Colors.red),
-              utils.iconFont(Icons.wifi_off, context)
+              utils.iconFont(Icons.wifi_off, context, '')
             ],
           );
-        }
-        else if (snapshot.hasData) {
-          if (snapshot.data.isEmpty) { 
+        } else if (snapshot.hasData) {
+          if (snapshot.data.isEmpty) {
             return Column(
-            children: [
-              utils.errorInfo('Sin alertas', Colors.purple),
-              utils.iconFont(Icons.history, context)
-            ],
-          );
+              children: [
+                utils.errorInfo('Sin alertas', Colors.purple),
+                utils.iconFont(Icons.history, context, _texto)
+              ],
+            );
           } else {
             final alerts = snapshot.data;
             return ListView.builder(
@@ -55,10 +55,7 @@ class HistorialPage extends StatelessWidget {
             );
           }
         } else {
-          return Center(
-              child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      Color.fromRGBO(241, 94, 74, 1.0))));
+          return circularProgressIndicatorWidget();
         }
       },
     );

@@ -1,15 +1,13 @@
 import 'package:app_deteccion_personas/src/blocs/provider.dart';
 import 'package:app_deteccion_personas/src/pages/network_page.dart';
 import 'package:app_deteccion_personas/src/pages/home_page.dart';
+import 'package:app_deteccion_personas/src/pages/photo_page.dart';
 import 'package:app_deteccion_personas/src/pages/register_page.dart';
 import 'package:app_deteccion_personas/src/pages/settings_page.dart';
 import 'package:app_deteccion_personas/src/pages/splash_page.dart';
-import 'package:app_deteccion_personas/src/pages/status_page.dart';
 import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:app_deteccion_personas/src/providers/push_notifications_provider.dart';
-import 'package:app_deteccion_personas/src/services/socket_service.dart';
 import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
 import 'src/pages/login_page.dart';
 import 'src/preferencias_usuario/preferencias_usuario.dart';
 
@@ -57,7 +55,7 @@ class _MyAppState extends State<MyApp> {
             'splash'   : (BuildContext context) => SplashPage(),
             'setting'  : (BuildContext context) => SettingPage(),
             'network'  : (BuildContext context) => NetworkPage(),
-            'status'   : (BuildContext context) => StatusPage(),
+            'photo'    : (BuildContext context) => PhotoPage(),
           },
           theme: ThemeData(primaryColor: Color.fromRGBO(168, 97, 93, 1.0)),
         ),

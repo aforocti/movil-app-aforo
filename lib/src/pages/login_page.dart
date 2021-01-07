@@ -1,12 +1,11 @@
 import 'dart:ui';
 
 import 'package:app_deteccion_personas/src/blocs/provider.dart';
-import 'package:app_deteccion_personas/src/models/user_model.dart';
 import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:app_deteccion_personas/src/providers/device_provider.dart';
 import 'package:app_deteccion_personas/src/providers/network_provider.dart';
 import 'package:app_deteccion_personas/src/providers/user_provider.dart';
-import 'package:app_deteccion_personas/src/providers/usuario_provider.dart';
+import 'package:app_deteccion_personas/src/providers/auth_provider.dart';
 import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   final userProvider = new UserProvider();
   final networkProvider = new NetworkProvider();
   final deviceProvider = new DeviceProvider();
-  final usuarioProvider = new UsuarioProvider();
+  final usuarioProvider = new AuthProvider();
   bool _obscureText = true;
   IconData _iconPassword = Icons.remove_red_eye_outlined;
   bool _isButtonEnable = true;
@@ -29,8 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Builder(
-      builder: (context) =>
+        body: Builder(builder: (context) =>
           Stack(children: [_crearFondo(context), _loginForm(context)]),
     ));
   }
@@ -82,11 +80,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(height: 10.0, width: double.infinity),
-                Text('Iniciar Sesión',
-                    style: TextStyle(
-                        color: Color.fromRGBO(168, 97, 93, 1.0),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25.0)) // 25
+                Text('Iniciar Sesión', style: TextStyle(
+                    color: Color.fromRGBO(168, 97, 93, 1.0),
+                        fontWeight: FontWeight.bold, fontSize: 25.0)) // 25
               ],
             ),
           ),
@@ -101,9 +97,8 @@ class _LoginPageState extends State<LoginPage> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SafeArea(
-              child:
-                  Container(height: (40.0 + (3 * 25.0) + size.height * 0.2))),
+          SafeArea(child:
+              Container(height: (40.0 + (3 * 25.0) + size.height * 0.2))),
           Container(
             width: size.width * 0.85,
             padding: EdgeInsets.symmetric(horizontal: 20.0),

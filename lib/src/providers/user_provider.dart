@@ -10,8 +10,7 @@ class UserProvider {
 
   Future<bool> crearUser(String user, String token) async {
     final url = '$_url/api/users';
-    final resp =
-        await http.post(url, body: {"user": user, "network_id": token});
+    await http.post(url, body: {"user": user, "network_id": token});
     return true;
   }
 

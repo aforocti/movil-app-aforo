@@ -1,13 +1,11 @@
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:app_deteccion_personas/src/models/network_model.dart';
 import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:app_deteccion_personas/src/providers/device_provider.dart';
 import 'package:app_deteccion_personas/src/providers/network_provider.dart';
 import 'package:app_deteccion_personas/src/providers/user_provider.dart';
 import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
-import 'package:connectivity/connectivity.dart';
-import 'package:flutter/material.dart';
 
 class NetworkPage extends StatefulWidget {
   @override
@@ -16,29 +14,49 @@ class NetworkPage extends StatefulWidget {
 
 class _NetworkPageState extends State<NetworkPage> {
   final networkProvider = new NetworkProvider();
-  final userProvider = new UserProvider();
   final deviceProvider = new DeviceProvider();
+  final userProvider = new UserProvider();
   final _prefs = PreferenciasUsuario();
+  bool _isButtonEnable = true;
   String _nombreNetwork = '';
   String _nombreToken = '';
-  bool _isButtonEnable = true;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: utils.getColor('color2'),
-        body: Builder(builder: (context) => Center(child: _form(context))));
+    return SafeArea(
+      child: Scaffold(
+          backgroundColor: utils.getColor('color2'),
+          body: Builder(
+              builder: (context) => Center(
+                      child: Stack(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(top: 30.0),
+                        width: double.infinity,
+                        child: Text('Crear o Asociar Red',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: utils.getColor('color5'),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0)),
+                      ),
+                      Center(child: _box(context))
+                    ],
+                  )))),
+    );
   }
 
-  Widget _form(BuildContext context) {
+  Widget _box(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Container(
-        width: size.width * 0.85,
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+        margin: EdgeInsets.symmetric(
+            vertical: size.height * 0.20, horizontal: 20.0),
+        width: size.width * 0.90,
+        padding: EdgeInsets.all(20.0),
         decoration: BoxDecoration(
             color: Color.fromRGBO(247, 243, 241, 1.0),
-            borderRadius: BorderRadius.circular(7.0),
+            borderRadius: BorderRadius.circular(10.0),
             boxShadow: <BoxShadow>[
               BoxShadow(
                   color: Colors.black26,
@@ -47,26 +65,23 @@ class _NetworkPageState extends State<NetworkPage> {
                   spreadRadius: 3.0)
             ]),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            _returnButton(),
-            SizedBox(height: 20.0),
+            _userLogged(),
+            SizedBox(height: 15.0),
             _texto(
-                'Si ya cuentas con un token, ingrésalo para acceder a la red'),
-            SizedBox(height: 10.0),
-            _inputNetworkToken(),
-            Row(children: [
-              Expanded(child: Container()),
-              _tokenButton(context),
-            ]),
-            SizedBox(height: 20.0),
-            _texto(
-                'Si aún no tienes un token de red asociado, Ingresa un nombre para tu nueva red'),
-            SizedBox(height: 10.0),
+                'Para crear tu nueva red y generar el token ingresa un nombre descriptivo de tu red'),
+            SizedBox(height: 5.0),
             _inputNetworkName(),
-            Row(children: [
-              Expanded(child: Container()),
-              _networkButton(context),
-            ]),
+            _networkButton(context),
+            SizedBox(height: 15.0),
+            _texto(
+                'Si deseas asociarte a una red creada, pide que te compartan el token para copiarlo aquí'),
+            SizedBox(height: 5.0),
+            _inputNetworkToken(),
+            _tokenButton(context),
+            SizedBox(height: 20.0),
+            _returnButton(),
           ],
         ),
       ),
@@ -76,16 +91,21 @@ class _NetworkPageState extends State<NetworkPage> {
   Widget _inputNetworkToken() {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(1.0),
-        color: Colors.white,
+        borderRadius: BorderRadius.circular(5.0),
       ),
       child: TextField(
+        maxLength: 30,
+        decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            hintText: 'ejm: 2hbymqxyz57',
+            hintStyle: TextStyle(color: Colors.black38)),
+        cursorColor: utils.getColor('color6'),
         textAlign: TextAlign.center,
         onChanged: (value) => setState(() {
           _nombreToken = value;
         }),
-        style: TextStyle(fontSize: 20.0),
-        autofocus: false,
+        style: TextStyle(fontSize: 18.0),
       ),
     );
   }
@@ -93,22 +113,28 @@ class _NetworkPageState extends State<NetworkPage> {
   Widget _inputNetworkName() {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(1.0),
-        color: Colors.white,
+        borderRadius: BorderRadius.circular(5.0),
       ),
       child: TextField(
+        maxLength: 30,
+        decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            hintText: 'ejm: Red edificio 1',
+            hintStyle: TextStyle(color: Colors.black38)),
+        cursorColor: utils.getColor('color6'),
         textAlign: TextAlign.center,
         onChanged: (value) => setState(() {
           _nombreNetwork = value;
         }),
-        style: TextStyle(fontSize: 20.0),
-        autofocus: false,
+        style: TextStyle(fontSize: 18.0),
       ),
     );
   }
 
   Widget _texto(String texto) {
-    return Text(texto, style: TextStyle(fontWeight: FontWeight.bold));
+    return Text(texto,
+        style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black54));
   }
 
   Widget _tokenButton(BuildContext context) {
@@ -133,12 +159,12 @@ class _NetworkPageState extends State<NetworkPage> {
         final networkName =
             await networkProvider.obtenerNetworkByToken(_nombreToken);
         if (networkName == null) {
-          Future.delayed(Duration(seconds: 1), () {}).then((value) =>
-              setState(() => _isButtonEnable = true));
+          Future.delayed(Duration(seconds: 1), () {})
+              .then((value) => setState(() => _isButtonEnable = true));
           utils.snackBarMessage(context, "El token ingresado no existe");
         } else {
-          Future.delayed(Duration(seconds: 3), () {}).then((value) =>
-              setState(() => _isButtonEnable = true));
+          Future.delayed(Duration(seconds: 3), () {})
+              .then((value) => setState(() => _isButtonEnable = true));
           await userProvider.crearUser(_prefs.nombreUsuario, _nombreToken);
           await deviceProvider.crearDevice(_nombreToken, _prefs.fcmToken);
           _prefs.nombreNetwork = networkName;
@@ -146,8 +172,8 @@ class _NetworkPageState extends State<NetworkPage> {
           Navigator.pushReplacementNamed(context, 'home');
         }
       } catch (e) {
-        Future.delayed(Duration(seconds: 1), () {}).then((value) =>
-            setState(() => _isButtonEnable = true));
+        Future.delayed(Duration(seconds: 1), () {})
+            .then((value) => setState(() => _isButtonEnable = true));
         _prefs.nombreNetwork = '';
         _prefs.tokenNetwork = '';
         utils.mostrarAlerta(context,
@@ -175,19 +201,18 @@ class _NetworkPageState extends State<NetworkPage> {
     } else {
       setState(() => _isButtonEnable = false);
       try {
-        Future.delayed(Duration(seconds: 2), () {}).then((value) =>
-              setState(() => _isButtonEnable = true));
+        Future.delayed(Duration(seconds: 2), () {})
+            .then((value) => setState(() => _isButtonEnable = true));
         NetworkModel network =
             await networkProvider.crearNetwork(_nombreNetwork);
         _prefs.tokenNetwork = network.id;
         _prefs.nombreNetwork = network.name;
-        await userProvider.crearUser(
-            _prefs.nombreUsuario, _prefs.tokenNetwork);
+        await userProvider.crearUser(_prefs.nombreUsuario, _prefs.tokenNetwork);
         await deviceProvider.crearDevice(network.id, _prefs.fcmToken);
         Navigator.pushReplacementNamed(context, 'home');
       } catch (e) {
-        Future.delayed(Duration(seconds: 1), () {}).then((value) =>
-            setState(() => _isButtonEnable = true));
+        Future.delayed(Duration(seconds: 1), () {})
+            .then((value) => setState(() => _isButtonEnable = true));
         _prefs.nombreNetwork = '';
         _prefs.tokenNetwork = '';
         utils.mostrarAlerta(context,
@@ -203,13 +228,18 @@ class _NetworkPageState extends State<NetworkPage> {
       children: [
         Icon(Icons.arrow_left, size: 20.0),
         InkWell(
-          child: Text('Cerrar Sesión', style: TextStyle(fontSize: 18.0)),
-          onTap: (_isButtonEnable) ? () {
-            _prefs.nombreUsuario = '';
-            Navigator.pushReplacementNamed(context, 'login');
-          } : null
-        ),
+            child: Text('Cerrar Sesión', style: TextStyle(fontSize: 18.0)),
+            onTap: (_isButtonEnable)
+                ? () {
+                    _prefs.nombreUsuario = '';
+                    Navigator.pushReplacementNamed(context, 'login');
+                  }
+                : null),
       ],
     );
+  }
+
+  _userLogged() {
+    return Text(_prefs.nombreUsuario);
   }
 }

@@ -1,5 +1,5 @@
 import 'package:app_deteccion_personas/src/blocs/provider.dart';
-import 'package:app_deteccion_personas/src/providers/usuario_provider.dart';
+import 'package:app_deteccion_personas/src/providers/auth_provider.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import '../utils/utils.dart' as utils;
@@ -12,7 +12,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   bool _obscureText = true;
   IconData _iconPassword = Icons.remove_red_eye_outlined;
-  final usuarioProvider = new UsuarioProvider();
+  final usuarioProvider = new AuthProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(height: 10.0, width: double.infinity),
                 Text('Registro',
                     style: TextStyle(
-                        color: Color.fromRGBO(168, 97, 93, 1.0),
+                        color: utils.getColor('color5'),
                         fontWeight: FontWeight.bold,
                         fontSize: 25.0)) // 25
               ],

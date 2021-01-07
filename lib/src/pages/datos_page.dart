@@ -1,12 +1,14 @@
-import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
-import 'package:connectivity/connectivity.dart';
+
 import 'package:flutter/material.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:expandable/expandable.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:app_deteccion_personas/src/models/ap_model.dart';
 import 'package:app_deteccion_personas/src/models/wlc_model.dart';
 import 'package:app_deteccion_personas/src/providers/ap_provider.dart';
 import 'package:app_deteccion_personas/src/providers/wlc_provider.dart';
+import 'package:app_deteccion_personas/src/widgets/varios_widget.dart';
+import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
 
 class DatosPage extends StatefulWidget {
@@ -21,6 +23,8 @@ class _DatosPageState extends State<DatosPage> {
   final apProvider = new ApProvider();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _prefs = PreferenciasUsuario();
+  final _texto =
+      'Para cargar la información de la red, necesitas dirigirte a Información y copiar el token de red, escríbelo en el ejecutable Tinkvice SSH';
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +53,7 @@ class _DatosPageState extends State<DatosPage> {
           return Column(
             children: [
               utils.errorInfo(snapshot.error, Colors.red),
-              utils.iconFont(Icons.wifi_off, context)
+              utils.iconFont(Icons.wifi_off, context, '')
             ],
           );
         } else if (snapshot.hasData) {
@@ -57,7 +61,7 @@ class _DatosPageState extends State<DatosPage> {
             return Column(
               children: [
                 utils.errorInfo('Sin Información', Colors.purple),
-                utils.iconFont(Icons.business_sharp, context)
+                utils.iconFont(Icons.business_sharp, context, _texto)
               ],
             );
           } else {
@@ -68,10 +72,7 @@ class _DatosPageState extends State<DatosPage> {
             );
           }
         } else {
-          return Center(
-              child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      Color.fromRGBO(241, 94, 74, 1.0))));
+          return circularProgressIndicatorWidget();
         }
       },
     );
@@ -167,19 +168,37 @@ class _DatosPageState extends State<DatosPage> {
               ),
             ),
             Padding(
-              padding:
-                  const EdgeInsets.only(bottom: 10.0, left: 15.0, right: 5.0),
+              padding: const EdgeInsets.only(left: 15.0, right: 5.0),
               child: LinearPercentIndicator(
                 leading: Text('${item.devices}/${item.limit}'),
-                percent: setPercent(int.parse(item.devices), int.parse(item.limit)),
+                percent:
+                    setPercent(int.parse(item.devices), int.parse(item.limit)),
                 progressColor: utils.setColor('color5', 'color4'),
               ),
             ),
+            _mapFlatButton(context, item)
           ],
         ),
       ));
     }
     return list;
+  }
+
+  Widget _mapFlatButton(BuildContext context, ApModel ap) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        FlatButton(
+          color: utils.getColor('color5'),
+          height: double.minPositive,
+          child: Text((ap.dx == '0') ? 'Ubicar' : 'Reubicar', style: TextStyle(color: Colors.white)),
+          onPressed: () {
+            Navigator.pushNamed(context, 'photo', arguments: ap);
+          },
+        ),
+        SizedBox(width: 20.0)
+      ],
+    );
   }
 
   _actualizarAp(BuildContext context, String limit, String piso, String mac,

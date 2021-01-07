@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 
@@ -72,10 +74,21 @@ Widget errorInfo(String mensaje, Color color) {
   );
 }
 
-Widget iconFont(IconData icono, BuildContext context) {
+Widget iconFont(IconData icono, BuildContext context, String texto) {
   final size = MediaQuery.of(context).size;
   return Expanded(
-    child: Icon(icono, color: Colors.grey, size: size.width * 0.2),
+    child: Container(
+      padding: EdgeInsets.all(30.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+        Icon(icono, color: Colors.grey, size: size.width * 0.2),
+        SizedBox(height: 10.0),
+        Text(texto, textAlign: TextAlign.center, 
+            style: TextStyle(fontSize: 16.0, color: Colors.grey))
+        ],
+      ),
+    ),
   );
 }
 
