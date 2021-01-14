@@ -76,18 +76,18 @@ Widget errorInfo(String mensaje, Color color) {
 
 Widget iconFont(IconData icono, BuildContext context, String texto) {
   final size = MediaQuery.of(context).size;
-  return Expanded(
-    child: Container(
-      padding: EdgeInsets.all(30.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-        Icon(icono, color: Colors.grey, size: size.width * 0.2),
-        SizedBox(height: 10.0),
-        Text(texto, textAlign: TextAlign.center, 
-            style: TextStyle(fontSize: 16.0, color: Colors.grey))
-        ],
-      ),
+  return Container(
+    height: double.infinity,
+    width: double.infinity,
+    padding: EdgeInsets.all(30.0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+      Icon(icono, color: Colors.grey, size: size.width * 0.2),
+      SizedBox(height: 10.0),
+      Text(texto, textAlign: TextAlign.center, 
+          style: TextStyle(fontSize: 16.0, color: Colors.grey))
+      ],
     ),
   );
 }

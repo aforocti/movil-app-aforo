@@ -21,7 +21,7 @@ class _SettingPageState extends State<SettingPage> {
   final deviceProvicer = DeviceProvider();
   final _prefs = PreferenciasUsuario();
   final _infoToken =
-      'Úsalo en tu script para enviar la información de la red a la base de datos';
+      'Úsalo en Tinkvice SSH para enviar la información de la red a la base de datos';
 
   @override
   void initState() {
@@ -59,7 +59,7 @@ class _SettingPageState extends State<SettingPage> {
             _subtitulo('Ajustes'),
             _swtichListTile(),
             _cargarImagen(),
-            _flatButton(context),
+            _exitSession(context),
           ],
         ),
       ),
@@ -108,7 +108,7 @@ class _SettingPageState extends State<SettingPage> {
     );
   }
 
-  Widget _flatButton(BuildContext context) {
+  Widget _exitSession(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
       child: FlatButton(
@@ -132,83 +132,11 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   Widget _cargarImagen() {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(width: 0.1, color: Colors.black87)),
-      padding: EdgeInsets.only(bottom: 10.0),
-      child: Column(
-        children: [
-          ListTile(
-            title: Text('Cargar Mapa'),
-            leading: Icon(Icons.image),
-            tileColor: Colors.white,
-            onTap: _seleccionarFoto,
-          ),
-          mostrarFoto(),
-        ],
-      ),
+    return ListTile(
+      title: Text('Cargar Mapa'),
+      leading: Icon(Icons.image),
+      tileColor: Colors.white,
+      onTap: () => Navigator.pushNamed(context, 'upload_map'),
     );
-  }
-
-  void _seleccionarFoto() async {
-    final picker = ImagePicker();
-    try {
-      PickedFile pickedFile =
-          await picker.getImage(source: ImageSource.gallery);
-      setState(() {
-        if (pickedFile == null) {
-          print('No image selected.');
-        } else {
-          _image = File(pickedFile.path);
-        }
-      });
-    } catch (e) {
-      print('Acceso denegado');
-    }
-  }
-
-  Widget mostrarFoto() {
-    if (_image?.path != null) {
-      return Column(
-        children: [
-          Image(
-            image: AssetImage(_image?.path ?? 'assets/no-image.png'),
-            height: 200,
-            fit: BoxFit.cover,
-          ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            FlatButton(
-                splashColor: Colors.white,
-                onPressed: () {
-                  if (_piso != 0) _piso = (_piso - 1);
-                  setState(() {});
-                },
-                child: Icon(Icons.arrow_back)),
-            Container(
-              child: Text((_piso.toString() == '0') ? 'PB' : '$_piso P'),
-            ),
-            FlatButton(
-                splashColor: Colors.white,
-                onPressed: () {
-                  _piso = (_piso + 1);
-                  setState(() {});
-                },
-                child: Icon(Icons.arrow_forward)),
-          ]),
-          FlatButton(
-            color: utils.setColor('color6t5', 'color5'),
-            child: Text('Cargar',
-                style: TextStyle(color: utils.getColor('color1'))),
-            onPressed: () async {
-              final imageProvider = new ImagenProvider();
-              final url = await imageProvider.subirImagen(_image, _piso.toString());
-              print(url);
-            },
-          )
-        ],
-      );
-    }
-    return Container();
   }
 }

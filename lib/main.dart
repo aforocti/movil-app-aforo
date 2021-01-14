@@ -1,4 +1,5 @@
 import 'package:app_deteccion_personas/src/blocs/provider.dart';
+import 'package:app_deteccion_personas/src/pages/upload_map_page.dart';
 import 'package:app_deteccion_personas/src/pages/network_page.dart';
 import 'package:app_deteccion_personas/src/pages/home_page.dart';
 import 'package:app_deteccion_personas/src/pages/photo_page.dart';
@@ -49,13 +50,14 @@ class _MyAppState extends State<MyApp> {
           navigatorKey: navigatorKey,
           initialRoute: 'splash',
           routes: {
-            'home'     : (BuildContext context) => HomePage(),
-            'login'    : (BuildContext context) => LoginPage(),
-            'register' : (BuildContext context) => RegisterPage(),
-            'splash'   : (BuildContext context) => SplashPage(),
-            'setting'  : (BuildContext context) => SettingPage(),
-            'network'  : (BuildContext context) => NetworkPage(),
-            'photo'    : (BuildContext context) => PhotoPage(),
+            'home'      : (BuildContext context) => HomePage(),
+            'login'     : (BuildContext context) => LoginPage(),
+            'register'  : (BuildContext context) => RegisterPage(),
+            'splash'    : (BuildContext context) => SplashPage(),
+            'setting'   : (BuildContext context) => SettingPage(),
+            'network'   : (BuildContext context) => NetworkPage(),
+            'photo'     : (BuildContext context) => PhotoPage(),
+            'upload_map': (BuildContext context) => UploadMapPage(),
           },
           theme: ThemeData(primaryColor: Color.fromRGBO(168, 97, 93, 1.0)),
         ),

@@ -42,13 +42,16 @@ class _PrincipalPageState extends State<PrincipalPage> {
         if (snapshot.hasError) {
           return Column(children: [
             utils.errorInfo(snapshot.error, Colors.red),
+            
             utils.iconFont(Icons.wifi_off, context, '')
           ]);
         } else if (snapshot.hasData) {
           if (snapshot.data.isEmpty) {
             return Column(children: [
               utils.errorInfo('Sin Información', Colors.purple),
-              utils.iconFont(Icons.location_searching, context, _texto)
+              Expanded(
+                child:utils.iconFont(Icons.location_searching, context, _texto)
+              )
             ]);
           } else
             return CardSwiperWidget(
