@@ -12,7 +12,7 @@ class PrincipalPage extends StatefulWidget {
 class _PrincipalPageState extends State<PrincipalPage> {
   final _imageProvider = new ImagenProvider();
   final _texto =
-      'Para cargar mapas nuevos, dirígete a ajustes y selecciona Cargar Mapa, selecciona el piso al que pertenece la imágen';
+      'Para cargar planos dirígete a Información y Ajustes y selecciona la opción Cargar Plano';
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,6 @@ class _PrincipalPageState extends State<PrincipalPage> {
         if (snapshot.hasError) {
           return Column(children: [
             utils.errorInfo(snapshot.error, Colors.red),
-            
             utils.iconFont(Icons.wifi_off, context, '')
           ]);
         } else if (snapshot.hasData) {

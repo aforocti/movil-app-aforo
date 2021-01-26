@@ -1,10 +1,8 @@
-import 'dart:ui';
-
-import 'package:app_deteccion_personas/src/providers/image_provider.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
+import 'package:app_deteccion_personas/src/providers/image_provider.dart';
 
 class UploadMapPage extends StatefulWidget {
   @override
@@ -15,12 +13,13 @@ class _UploadMapPageState extends State<UploadMapPage> {
   File _image;
   int _piso = 0;
   bool _enableFAB = false;
+  String url = 'assets/no-image.jpg';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        label: Text('Cargar Mapa'),
+        label: Text('Cargar Plano'),
         backgroundColor:
             (!_enableFAB) ? Colors.grey : utils.setColor('color6', 'color5'),
         icon: Icon(Icons.upload_file),
@@ -28,9 +27,9 @@ class _UploadMapPageState extends State<UploadMapPage> {
             ? null
             : () async {
                 final imageProvider = new ImagenProvider();
-                final url =
-                    await imageProvider.subirImagen(_image, _piso.toString());
-                print(url);
+                String pisoExist =
+                    await imageProvider.cargarImageByPiso(_piso.toString());
+                  await imageProvider.subirImagen(_image, _piso.toString(), pisoExist);
                 Navigator.pushReplacementNamed(context, 'home');
               },
       ),
@@ -42,7 +41,7 @@ class _UploadMapPageState extends State<UploadMapPage> {
           )
         ],
         backgroundColor: utils.setColor('color6', 'color5'),
-        title: Text('Cargar Mapa'),
+        title: Text('Cargar Plano'),
       ),
       body: Stack(
         children: [
@@ -101,6 +100,7 @@ class _UploadMapPageState extends State<UploadMapPage> {
           _image = File(pickedFile.path);
           _enableFAB = true;
         }
+        url = _image.path;
       });
     } catch (e) {
       print('Acceso denegado');
@@ -108,17 +108,12 @@ class _UploadMapPageState extends State<UploadMapPage> {
   }
 
   Widget mostrarFoto(BuildContext context) {
-    if (_image?.path != null) {
-      return Container(
+    return Container(
         width: double.infinity,
         height: double.infinity,
-        child: Image(
-          image: AssetImage(_image?.path ?? 'assets/no-image.png'),
-          fit: BoxFit.cover,
-        ),
-      );
-    }
-    return utils.iconFont(Icons.image, context,
-        'Selecciona el ícono de la esquina superior derecha para cargar una imágen de un mapa que tengas en tu galería de imágenes. No olvides elegir el piso al que pertenece tu nuevo mapa');
+        child: (_image?.path != null)
+            ? Image(image: AssetImage(url), fit: BoxFit.cover)
+            : utils.iconFont(Icons.image, context,
+                'Selecciona el ícono en la esquina superior derecha para cargar un plano desde la galería. No olvides seleccionar el piso'));
   }
 }

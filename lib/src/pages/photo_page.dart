@@ -78,21 +78,21 @@ class _PhotoPageState extends State<PhotoPage> {
               utils.iconFont(Icons.wifi_off, context, '')
             ],
           );
-        } else if (snapshot.hasData) {
-          if (snapshot.data == null) {
+        } else if (snapshot.data == '') {
             return Column(
               children: [
                 utils.errorInfo('Sin Información', Colors.purple),
-                utils.iconFont(Icons.business_sharp, context, '')
+                Expanded(
+                  child: utils.iconFont(Icons.error, context, 'Error, al cargar la imagen. Vuelve a intenterlo')
+                )
               ],
             );
-          } else {
+          } else if (snapshot.data != null ) {
             return FadeInImage(
               placeholder: AssetImage('assets/no-image.jpg'),
               fit: BoxFit.fill,
-              image: NetworkImage(snapshot.data.url),
+              image: NetworkImage(snapshot.data),
             );
-          }
         } else {
           return circularProgressIndicatorWidget();
         }

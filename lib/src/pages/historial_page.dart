@@ -7,7 +7,7 @@ import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
 class HistorialPage extends StatelessWidget {
   final alertProvider = new AlertProvider();
   final _texto =
-      'Para ver tus alertas, primero debes ejecutar Tinkvice SSH completamente, luego de esto, una vez que te llegue una notificación de alerta, podrás ver su registro aquí';
+      'Una vez que se ejecute Tinkvice SSH, las alertas que lleguen se registrarán aqui';
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,9 @@ class HistorialPage extends StatelessWidget {
             return Column(
               children: [
                 utils.errorInfo('Sin alertas', Colors.purple),
-                utils.iconFont(Icons.history, context, _texto)
+                Expanded(
+                  child: utils.iconFont(Icons.history, context, _texto)
+                ) 
               ],
             );
           } else {

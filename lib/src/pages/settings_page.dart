@@ -1,12 +1,9 @@
-import 'dart:io';
 
-import 'package:app_deteccion_personas/src/providers/image_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:app_deteccion_personas/src/providers/device_provider.dart';
 import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
-import 'package:image_picker/image_picker.dart';
 
 class SettingPage extends StatefulWidget {
   @override
@@ -15,8 +12,6 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   bool _colorSecundario;
-  File _image;
-  int _piso = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final deviceProvicer = DeviceProvider();
   final _prefs = PreferenciasUsuario();
@@ -133,7 +128,7 @@ class _SettingPageState extends State<SettingPage> {
 
   Widget _cargarImagen() {
     return ListTile(
-      title: Text('Cargar Mapa'),
+      title: Text('Cargar Plano'),
       leading: Icon(Icons.image),
       tileColor: Colors.white,
       onTap: () => Navigator.pushNamed(context, 'upload_map'),

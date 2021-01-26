@@ -24,12 +24,12 @@ mostrarAlerta(BuildContext context, {String title, String content}) {
 
 String cambiarTexto(String texto) {
   Map<String, String> mapa = {
-    'MISSING_EMAIL': 'Falta el email',
-    'INVALID_EMAIL': 'Email incorrecto',
-    'INVALID_PASSWORD': 'contraseña incorrecta',
-    'EMAIL_NOT_FOUND': 'Email no encontrado',
-    'MISSING_PASSWORD': 'Falta la contraseña',
-    'EMAIL_EXISTS': 'El email ya existe',
+    'MISSING_EMAIL': 'Error de inicio de sesión. Nombre de usuario o contraseña no válidos',
+    'MISSING_PASSWORD': 'Error de inicio de sesión. Nombre de usuario o contraseña no válidos',
+    'INVALID_EMAIL': 'Error de inicio de sesión. Nombre de usuario o contraseña no válidos',
+    'INVALID_PASSWORD': 'Error de inicio de sesión. Nombre de usuario o contraseña no válidos',
+    'EMAIL_NOT_FOUND': 'Error de inicio de sesión. Nombre de usuario o contraseña no válidos',
+    'EMAIL_EXISTS': 'La cuenta de correo ya esta asociada, verifica que esta sea tu cuenta e inicia sesión',
     'TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.': 'El acceso a esta cuenta se ha inhabilitado temporalmente debido a muchos intentos fallidos de inicio de sesión. Puede restaurarlo inmediatamente restableciendo su contraseña o puede intentarlo de nuevo más tarde.'
     };
   if (mapa.containsKey(texto)) return mapa[texto];

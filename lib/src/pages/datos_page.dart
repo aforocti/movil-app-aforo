@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:expandable/expandable.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:app_deteccion_personas/src/models/image_model.dart';
+import 'package:app_deteccion_personas/src/providers/image_provider.dart';
 import 'package:app_deteccion_personas/src/models/ap_model.dart';
 import 'package:app_deteccion_personas/src/models/wlc_model.dart';
 import 'package:app_deteccion_personas/src/providers/ap_provider.dart';
@@ -21,10 +22,11 @@ class _DatosPageState extends State<DatosPage> {
   void initState() => super.initState();
   final wlcProvider = new WlcProvider();
   final apProvider = new ApProvider();
+  final imageProvider = new ImagenProvider();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _prefs = PreferenciasUsuario();
   final _texto =
-      'Para cargar la información de la red, necesitas dirigirte a Información y copiar el token de red, escríbelo en el ejecutable Tinkvice SSH';
+      'Para ver la información de la red, dirigirte a Información y Ajustes y el token de red que aparece cópialo en Tinkvice SSH';
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,9 @@ class _DatosPageState extends State<DatosPage> {
             return Column(
               children: [
                 utils.errorInfo('Sin Información', Colors.purple),
-                utils.iconFont(Icons.business_sharp, context, _texto)
+                Expanded(
+                    child:
+                        utils.iconFont(Icons.business_sharp, context, _texto))
               ],
             );
           } else {
@@ -185,15 +189,43 @@ class _DatosPageState extends State<DatosPage> {
   }
 
   Widget _mapFlatButton(BuildContext context, ApModel ap) {
+    bool hayPlanos = false;
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         FlatButton(
           color: utils.getColor('color5'),
           height: double.minPositive,
-          child: Text((ap.dx == '0') ? 'Ubicar' : 'Reubicar', style: TextStyle(color: Colors.white)),
-          onPressed: () {
-            Navigator.pushNamed(context, 'photo', arguments: ap);
+          child: Text('Ubicar', style: TextStyle(color: Colors.white)),
+          onPressed: () async {
+            List<ImageModel> planos = await imageProvider.cargarImages();
+            for (ImageModel item in planos) {
+              if (ap.piso.toString() == item.piso.toString()) {
+                hayPlanos = true;
+                Navigator.pushNamed(context, 'photo', arguments: ap);
+              }
+            }
+            if(hayPlanos == false) {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return StatefulBuilder(
+                    builder: (context, setState) {
+                      return AlertDialog(
+                        title: Text('Error'),
+                        content: Text('No se ha cargado un plano para este piso'),
+                        actions: [
+                          FlatButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("Aceptar"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              );
+            }
           },
         ),
         SizedBox(width: 20.0)

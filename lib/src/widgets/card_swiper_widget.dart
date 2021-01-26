@@ -45,23 +45,22 @@ class _CardSwiperWidgetState extends State<CardSwiperWidget> {
               left: x,
               top: y,
               active: snapshot.data[i].active,
-              cover: widget.bodyWidth / 2,
+              cover: widget.bodyWidth / 2.3,
             ));
           }
           return Swiper(
+            itemCount: widget.mapas.length,
             itemWidth: double.infinity,
-            itemBuilder: (context, index) {
+            itemBuilder: (context, i) {
               return Stack(
                   fit: StackFit.expand,
-                  children: _makeChidren(lista, widget.mapas[index].piso));
+                  children: _makeChidren(lista, i));
             },
-            itemCount: widget.mapas.length,
             pagination: new SwiperPagination(),
             control: new SwiperControl(
-              iconNext: Icons.arrow_right,
-              iconPrevious: Icons.arrow_left,
-              size: 40.0
-            ),
+                iconNext: Icons.arrow_right,
+                iconPrevious: Icons.arrow_left,
+                size: 40.0),
           );
         }
         return circularProgressIndicatorWidget();
