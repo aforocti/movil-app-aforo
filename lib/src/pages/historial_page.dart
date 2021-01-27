@@ -19,9 +19,7 @@ class HistorialPage extends StatelessWidget {
             child: Tab(
                 child: Text('HISTORIAL DE ALERTAS',
                     style: TextStyle(
-                        color: Color.fromRGBO(10, 52, 68, 1.0),
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600))),
+                      color: utils.getColor('color6'), fontSize: 18))),
           ),
         ),
         body: Container(child: _lista()));

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:connectivity/connectivity.dart';
@@ -12,18 +14,18 @@ import 'package:app_deteccion_personas/src/widgets/varios_widget.dart';
 import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
 
-class DatosPage extends StatefulWidget {
+class InfoPage extends StatefulWidget {
   @override
-  _DatosPageState createState() => _DatosPageState();
+  _InfoPageState createState() => _InfoPageState();
 }
 
-class _DatosPageState extends State<DatosPage> {
+class _InfoPageState extends State<InfoPage> {
   @override
   void initState() => super.initState();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final wlcProvider = new WlcProvider();
   final apProvider = new ApProvider();
   final imageProvider = new ImagenProvider();
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _prefs = PreferenciasUsuario();
   final _texto =
       'Para ver la información de la red, dirigirte a Información y Ajustes y el token de red que aparece cópialo en Tinkvice SSH';
@@ -37,11 +39,9 @@ class _DatosPageState extends State<DatosPage> {
           child: Container(
             color: utils.setColor('color6t5', 'color2'),
             child: Tab(
-                child: Text('INFORMACIÓN DE LA RED',
+                child: Text('INFORMACIÓN DE RED',
                     style: TextStyle(
-                        color: Color.fromRGBO(10, 52, 68, 1.0),
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600))),
+                        color: utils.getColor('color6'), fontSize: 18))),
           ),
         ),
         body: Container(child: _crearListado(context)));
@@ -128,7 +128,7 @@ class _DatosPageState extends State<DatosPage> {
     for (var item in aps) {
       list.add(Container(
         decoration: BoxDecoration(
-            border: Border.all(width: 1.0, color: Colors.black12)),
+            border: Border.all(width: 0.1, color: Colors.black45)),
         child: Column(
           children: [
             ListTile(
@@ -138,7 +138,6 @@ class _DatosPageState extends State<DatosPage> {
                     await (Connectivity().checkConnectivity());
                 if (connectivityResult == ConnectivityResult.none) {
                   if (!_prefs.snackbarActive) {
-                    print('here');
                     _prefs.snackbarActive = true;
                     _scaffoldKey.currentState
                         .showSnackBar(SnackBar(
@@ -159,28 +158,28 @@ class _DatosPageState extends State<DatosPage> {
               },
               leading: Text("AP",
                   style:
-                      TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-              title: Text(item.name, style: TextStyle(fontSize: 15)),
-              subtitle: Text(item.model, style: TextStyle(fontSize: 14)),
+                      TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
+              title: Text(item.name, style: TextStyle(fontSize: 16)),
+              subtitle: Text(item.model),
               trailing: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Limite: ${item.limit}'),
-                  Text((item.piso == '0') ? 'Piso: PB' : 'Piso: ${item.piso}P'),
+                  Text('Lím: ${item.limit}'),
+                  Text((item.piso == "0") ? 'Piso: PB' : 'Piso: ${item.piso}P'),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15.0, right: 5.0),
+              padding: const EdgeInsets.only(left: 15.0, right: 10.0),
               child: LinearPercentIndicator(
+                trailing: _mapFlatButton(context, item),
                 leading: Text('${item.devices}/${item.limit}'),
                 percent:
                     setPercent(int.parse(item.devices), int.parse(item.limit)),
-                progressColor: utils.setColor('color5', 'color4'),
+                progressColor: utils.setColor('color6', 'color4'),
               ),
             ),
-            _mapFlatButton(context, item)
           ],
         ),
       ));
@@ -190,46 +189,42 @@ class _DatosPageState extends State<DatosPage> {
 
   Widget _mapFlatButton(BuildContext context, ApModel ap) {
     bool hayPlanos = false;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        FlatButton(
-          color: utils.getColor('color5'),
-          height: double.minPositive,
-          child: Text('Ubicar', style: TextStyle(color: Colors.white)),
-          onPressed: () async {
-            List<ImageModel> planos = await imageProvider.cargarImages();
-            for (ImageModel item in planos) {
-              if (ap.piso.toString() == item.piso.toString()) {
-                hayPlanos = true;
-                Navigator.pushNamed(context, 'photo', arguments: ap);
-              }
-            }
-            if(hayPlanos == false) {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return StatefulBuilder(
-                    builder: (context, setState) {
-                      return AlertDialog(
-                        title: Text('Error'),
-                        content: Text('No se ha cargado un plano para este piso'),
-                        actions: [
-                          FlatButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text("Aceptar"),
-                          ),
-                        ],
-                      );
-                    },
+    return FlatButton(
+      color: utils.getColor('color5'),
+      height: double.minPositive,
+      minWidth: double.minPositive,
+      child: Text('Ubicar', style: TextStyle(color: Colors.white)),
+      onPressed: () async {
+        List<ImageModel> planos = await imageProvider.cargarImages();
+        for (ImageModel item in planos) {
+          if (ap.piso.toString() == item.piso.toString()) {
+            hayPlanos = true;
+            Navigator.pushNamed(context, 'photo', arguments: ap);
+          }
+        }
+        if (hayPlanos == false) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return StatefulBuilder(
+                builder: (context, setState) {
+                  return AlertDialog(
+                    title: Text('Error'),
+                    content: Text('No se ha cargado un plano para este piso'),
+                    actions: [
+                      FlatButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text("Aceptar",
+                            style: TextStyle(color: utils.getColor('color5'))),
+                      ),
+                    ],
                   );
                 },
               );
-            }
-          },
-        ),
-        SizedBox(width: 20.0)
-      ],
+            },
+          );
+        }
+      },
     );
   }
 
@@ -297,7 +292,8 @@ class _DatosPageState extends State<DatosPage> {
               actions: <Widget>[
                 FlatButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text("Cancelar"),
+                  child: Text("Cancelar",
+                            style: TextStyle(color: utils.getColor('color5')))
                 ),
                 FlatButton(
                   onPressed: () async {
@@ -317,7 +313,8 @@ class _DatosPageState extends State<DatosPage> {
                       Navigator.pushReplacementNamed(context, 'home');
                     }
                   },
-                  child: Text("Actualizar"),
+                  child: Text("Aceptar",
+                            style: TextStyle(color: utils.getColor('color5')))
                 ),
               ],
             );
@@ -328,10 +325,7 @@ class _DatosPageState extends State<DatosPage> {
   }
 
   double setPercent(int devices, int limit) {
-    if (devices > limit) {
-      return 1.0;
-    } else {
-      return devices / limit;
-    }
+    if (devices > limit) return 1.0;
+    else return devices / limit;
   }
 }

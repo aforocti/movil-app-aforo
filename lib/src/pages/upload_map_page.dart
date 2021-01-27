@@ -13,11 +13,12 @@ class _UploadMapPageState extends State<UploadMapPage> {
   File _image;
   int _piso = 0;
   bool _enableFAB = false;
-  String url = 'assets/no-image.jpg';
+  PickedFile foto;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: utils.getColor('color1'),
       floatingActionButton: FloatingActionButton.extended(
         label: Text('Cargar Plano'),
         backgroundColor:
@@ -29,7 +30,8 @@ class _UploadMapPageState extends State<UploadMapPage> {
                 final imageProvider = new ImagenProvider();
                 String pisoExist =
                     await imageProvider.cargarImageByPiso(_piso.toString());
-                  await imageProvider.subirImagen(_image, _piso.toString(), pisoExist);
+                await imageProvider.subirImagen(
+                    _image, _piso.toString(), pisoExist);
                 Navigator.pushReplacementNamed(context, 'home');
               },
       ),
@@ -91,29 +93,33 @@ class _UploadMapPageState extends State<UploadMapPage> {
   void _seleccionarFoto() async {
     final picker = ImagePicker();
     try {
-      PickedFile pickedFile =
-          await picker.getImage(source: ImageSource.gallery);
-      setState(() {
-        if (pickedFile == null) {
-          print('No image selected.');
-        } else {
-          _image = File(pickedFile.path);
-          _enableFAB = true;
-        }
-        url = _image.path;
-      });
+      foto = await picker.getImage(source: ImageSource.gallery);
+      if (foto == null) {
+        print('No image selected.');
+      } else {
+        _image = File(foto.path);
+        _enableFAB = true;
+      }
     } catch (e) {
       print('Acceso denegado');
     }
+    setState(() {});
   }
 
   Widget mostrarFoto(BuildContext context) {
-    return Container(
-        width: double.infinity,
+    if (foto != null) {
+      return Container(
+        padding: EdgeInsets.all(20.0),
         height: double.infinity,
-        child: (_image?.path != null)
-            ? Image(image: AssetImage(url), fit: BoxFit.cover)
-            : utils.iconFont(Icons.image, context,
-                'Selecciona el ícono en la esquina superior derecha para cargar un plano desde la galería. No olvides seleccionar el piso'));
+        width: double.infinity,
+        child: Image.file(
+          _image,
+          fit: BoxFit.cover,
+        ),
+      );
+    }
+    return Expanded(
+        child: utils.iconFont(Icons.image, context,
+            'Para abrir la galería selecciona el ícono que aparece en la esquina superior derecha'));
   }
 }

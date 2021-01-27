@@ -4,12 +4,12 @@ import 'package:app_deteccion_personas/src/providers/image_provider.dart';
 import 'package:app_deteccion_personas/src/widgets/card_swiper_widget.dart';
 import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
 
-class PrincipalPage extends StatefulWidget {
+class PlanosPage extends StatefulWidget {
   @override
-  _PrincipalPageState createState() => _PrincipalPageState();
+  _PlanosPageState createState() => _PlanosPageState();
 }
 
-class _PrincipalPageState extends State<PrincipalPage> {
+class _PlanosPageState extends State<PlanosPage> {
   final _imageProvider = new ImagenProvider();
   final _texto =
       'Para cargar planos dirígete a Información y Ajustes y selecciona la opción Cargar Plano';
@@ -24,9 +24,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
           child: Tab(
               child: Text('PLANOS',
                   style: TextStyle(
-                      color: Color.fromRGBO(10, 52, 68, 1.0),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600))),
+                      color: utils.getColor('color6'), fontSize: 18))),
         ),
       ),
       body: LayoutBuilder(builder: (context, constraints) {
@@ -49,8 +47,8 @@ class _PrincipalPageState extends State<PrincipalPage> {
             return Column(children: [
               utils.errorInfo('Sin Información', Colors.purple),
               Expanded(
-                child:utils.iconFont(Icons.location_searching, context, _texto)
-              )
+                  child:
+                      utils.iconFont(Icons.location_searching, context, _texto))
             ]);
           } else
             return CardSwiperWidget(

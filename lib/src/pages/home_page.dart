@@ -1,9 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:app_deteccion_personas/src/pages/datos_page.dart';
 import 'package:app_deteccion_personas/src/pages/historial_page.dart';
-import 'package:app_deteccion_personas/src/pages/principal_page.dart';
-import 'package:flutter/material.dart';
-import '../preferencias_usuario/preferencias_usuario.dart';
-import '../utils/utils.dart' as utils;
+import 'package:app_deteccion_personas/src/pages/planos_page.dart';
+import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
+import 'package:app_deteccion_personas/src/utils/utils.dart' as utils;
 
 class HomePage extends StatefulWidget {
   @override
@@ -78,11 +78,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       case 0:
         return HistorialPage();
       case 1:
-        return PrincipalPage();
+        return PlanosPage();
       case 2:
-        return DatosPage();
+        return InfoPage();
       default:
-        return PrincipalPage();
+        return PlanosPage();
     }
   }
 }

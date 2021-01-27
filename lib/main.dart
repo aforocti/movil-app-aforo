@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:app_deteccion_personas/src/blocs/provider.dart';
 import 'package:app_deteccion_personas/src/pages/upload_map_page.dart';
 import 'package:app_deteccion_personas/src/pages/network_page.dart';
@@ -8,9 +10,7 @@ import 'package:app_deteccion_personas/src/pages/settings_page.dart';
 import 'package:app_deteccion_personas/src/pages/splash_page.dart';
 import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:app_deteccion_personas/src/providers/push_notifications_provider.dart';
-import 'package:flutter/material.dart';
-import 'src/pages/login_page.dart';
-import 'src/preferencias_usuario/preferencias_usuario.dart';
+import 'package:app_deteccion_personas/src/pages/login_page.dart';
 
 void main() async {
 
@@ -43,6 +43,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return Provider(
         child: MaterialApp(
           title: 'Tinkvice',

@@ -9,8 +9,7 @@ import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usu
 
 class CardSwiperWidget extends StatefulWidget {
   final List<ImageModel> mapas;
-  final double bodyHeight;
-  final double bodyWidth;
+  final double bodyHeight, bodyWidth;
 
   CardSwiperWidget(
       {@required this.mapas,
@@ -45,7 +44,7 @@ class _CardSwiperWidgetState extends State<CardSwiperWidget> {
               left: x,
               top: y,
               active: snapshot.data[i].active,
-              cover: widget.bodyWidth / 2.3,
+              cover: widget.bodyWidth / 1.7,
             ));
           }
           return Swiper(
@@ -82,7 +81,7 @@ class _CardSwiperWidgetState extends State<CardSwiperWidget> {
         child: Text(
             (widget.mapas[index].piso == 0)
                 ? 'PLANTA BAJA'
-                : '${widget.mapas[index].piso} PISO',
+                : 'PISO ${widget.mapas[index].piso}',
             style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold)),
         color: Colors.white24,
       ),
