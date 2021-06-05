@@ -12,8 +12,9 @@ class AlertModel {
   String deviceNumber;
   String date;
   String hour;
+  String type;
 
-  AlertModel({this.networkId, this.area, this.deviceNumber, this.hour, this.date, this.id});
+  AlertModel({this.networkId, this.area, this.deviceNumber, this.hour, this.date, this.id, this.type});
 
   factory AlertModel.fromJson(Map<String, dynamic> json) => AlertModel(
     id           : json["id"],
@@ -21,7 +22,8 @@ class AlertModel {
     area         : json["area"],
     deviceNumber : json["device_number"],
     hour         : json["hour"],
-    date         : json["date"]
+    date         : json["date"],
+    type         : json["type"]
   );
 
   Map<String, dynamic> toJson() => {
@@ -30,7 +32,8 @@ class AlertModel {
     "area"          : area,
     "device_number" : deviceNumber,
     "hour"          : hour,
-    "date"          : date
+    "date"          : date,
+    "type"          : type
   };
 }
 

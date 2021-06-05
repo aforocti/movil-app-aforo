@@ -63,7 +63,7 @@ class HistorialPage extends StatelessWidget {
 
   Widget _listaHistorial(AlertModel alert) {
     return Card(
-      color: utils.getColor('color3t1'),
+      color: (alert.type == "0") ? Color.fromRGBO(124,235,125,1): utils.getColor('color3t1'),
       margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 4.0),
@@ -72,14 +72,14 @@ class HistorialPage extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 10.0),
             child: Text(alert.area, style: TextStyle(fontSize: 18.0)),
           ),
-          subtitle: Text('${alert.hour} ${alert.date}'),
+          subtitle: Text('${alert.date}'),
           leading: Container(
               padding: EdgeInsets.only(right: 12.0),
               decoration: BoxDecoration(
                   border: Border(
                       right: BorderSide(width: 1.0, color: Colors.black26))),
-              child: Icon(Icons.warning,
-                  color: utils.getColor('color4'), size: 30.0)),
+              child: Icon((alert.type == "0") ? Icons.done_outline_sharp : Icons.warning,  
+                  color: (alert.type == "0") ? Color.fromRGBO(44,155,45,1) : utils.getColor('color4'), size: 30.0)),
           trailing: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [

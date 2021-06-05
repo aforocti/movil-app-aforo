@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:connectivity/connectivity.dart';
 import 'package:app_deteccion_personas/src/models/alert_model.dart';
 import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
 
 class AlertProvider {
-
   final _prefs = PreferenciasUsuario();
 
   AlertProvider();
@@ -21,8 +21,10 @@ class AlertProvider {
     } else {
       final resp = await http.get(url);
       final List<dynamic> decodedData = json.decode(resp.body);
-      final alerts = new Alerts.fromJsonList(decodedData);
-      return alerts.items;
+      final alerts = new Alerts.fromJsonList(decodedData).items;
+      DateFormat format = DateFormat("yyyy-MM-dd H:m:s");
+      alerts.sort((a, b) => (format.parse(b.date)).compareTo(format.parse(a.date)));
+      return alerts;
     }
   }
 }
