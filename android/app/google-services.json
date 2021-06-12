@@ -1,42 +1,33 @@
 {
   "project_info": {
-    "project_number": "501940414632",
-    "firebase_url": "https://backendapptinkvice.firebaseio.com",
-    "project_id": "backendapptinkvice",
-    "storage_bucket": "backendapptinkvice.appspot.com"
+    "project_number": "349517885882",
+    "project_id": "dbaforo",
+    "storage_bucket": "dbaforo.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:501940414632:android:97d1335f9d532a21bf7a9d",
+        "mobilesdk_app_id": "1:349517885882:android:7271d528965403f5ef6d83",
         "android_client_info": {
-          "package_name": "com.pazminopenaloza.apptinkvice"
+          "package_name": "ec.edu.espol.appAforo"
         }
       },
       "oauth_client": [
         {
-          "client_id": "501940414632-rugfqrt9lcfl3lgnd0bctpnh1vbfbov0.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.pazminopenaloza.apptinkvice",
-            "certificate_hash": "4131291bf9a2a8049b1f055871520c74d0082714"
-          }
-        },
-        {
-          "client_id": "501940414632-gvuof8gme51ra62uho4l168tjlorefot.apps.googleusercontent.com",
+          "client_id": "349517885882-b41t2bp2t03j5768sr6ak18oo7hjna65.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDeK1GQ7RJZG_L49G1Bkcvx-wRVrSRQdFE"
+          "current_key": "AIzaSyAoSc6W8dwJ9h5QTvqD-HfM2MDg8TvpBq8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "501940414632-gvuof8gme51ra62uho4l168tjlorefot.apps.googleusercontent.com",
+              "client_id": "349517885882-b41t2bp2t03j5768sr6ak18oo7hjna65.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

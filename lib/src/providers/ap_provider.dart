@@ -9,7 +9,7 @@ class ApProvider {
   final _prefs = PreferenciasUsuario();
 
   final String _url =
-      'https://us-central1-backendapptinkvice.cloudfunctions.net/app';
+      'https://appaforo.loca.lt';
 
   Future<List<ApModel>> cargarAps(String wlcId) async {
     final url = '$_url/api/wlc/$wlcId/aps';

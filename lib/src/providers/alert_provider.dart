@@ -10,7 +10,7 @@ class AlertProvider {
 
   AlertProvider();
 
-  final _url = 'https://us-central1-backendapptinkvice.cloudfunctions.net/app';
+  final _url = 'https://appaforo.loca.lt';
 
   Future<dynamic> cargarAlerts() async {
     final url = '$_url/api/network/${_prefs.tokenNetwork}/alerts';

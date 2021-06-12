@@ -6,11 +6,18 @@ class UserProvider {
   UserProvider();
 
   final String _url =
-      'https://us-central1-backendapptinkvice.cloudfunctions.net/app';
+      'https://appaforo.loca.lt';
 
   Future<bool> crearUser(String user, String token) async {
+    final body = json.encode({"user": user, "network_id": token});
+    Map<String,String> headers = {
+      'Content-type':'application/json',
+      'Accept':'application/json'
+    };
     final url = '$_url/api/users';
-    await http.post(url, body: {"user": user, "network_id": token});
+    await http.post(url,
+        headers:headers,
+        body: body);
     return true;
   }
 

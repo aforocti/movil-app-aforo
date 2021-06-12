@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 class ImagenProvider {
   final _prefs = PreferenciasUsuario();
   final String _url =
-      'https://us-central1-backendapptinkvice.cloudfunctions.net/app';
+      'https://appaforo.loca.lt';
 
   Future<String> subirImagen(File imagen, String piso, String pisoExist) async {
     final urlclodinary = Uri.parse(
@@ -29,9 +29,16 @@ class ImagenProvider {
     }
 
     final respData = json.decode(resp.body);
+    final body = json.encode({"url": respData['secure_url'], "piso": piso});
+    Map<String,String> headers = {
+      'Content-type':'application/json',
+      'Accept':'application/json'
+    };
     if (pisoExist == '') {
       final url = '$_url/api/network/${_prefs.tokenNetwork}/images';
-      await http.post(url, body: {"url": respData['secure_url'], "piso": piso});
+      await http.post(url,
+          headers: headers,
+          body: body);
       return respData['secure_url'];
     } else {
       await actualizarURL(piso.toString(), respData['secure_url']);

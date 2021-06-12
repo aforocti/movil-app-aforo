@@ -10,7 +10,7 @@ class WlcProvider {
   WlcProvider();
 
   final String _url =
-      'https://us-central1-backendapptinkvice.cloudfunctions.net/app';
+      'https://appaforo.loca.lt';
 
   Future<List<WlcModel>> cargarWlcs() async {
     final url = '$_url/api/network/${_prefs.tokenNetwork}/wlcs';

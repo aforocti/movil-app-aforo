@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 class DeviceProvider {
@@ -5,12 +7,21 @@ class DeviceProvider {
   DeviceProvider();
 
   final String _url =
-      'https://us-central1-backendapptinkvice.cloudfunctions.net/app';
+      'https://appaforo.loca.lt';
 
   Future<bool> crearDevice(String network, String token) async {
+    print("network:"+network);
+    print("token:"+token);
     final url = '$_url/api/devices';
+    final body = json.encode({"network_id": network, "device_token": token});
+    Map<String,String> headers = {
+      'Content-type':'application/json',
+      'Accept':'application/json'
+    };
     await http
-        .post(url, body: {"network_id": network, "device_token": token});
+        .post(url,
+        headers: headers,
+        body: body);
     return true;
   }
 

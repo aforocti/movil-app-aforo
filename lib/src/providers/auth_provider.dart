@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 class AuthProvider {
 
   // clave de API web (_firebaseToken)
-  final String _firebaseToken = 'AIzaSyDeK1GQ7RJZG_L49G1Bkcvx-wRVrSRQdFE';
+  final String _firebaseToken = 'AIzaSyB6zcZjbacTzXQuO6ekORN0Z6A3QfHt26c';
 
   Future<Map<String, dynamic>> login( String email, String password) async {
 
@@ -38,6 +38,8 @@ class AuthProvider {
       'password': password,
       'returnSecureToken' : true
     };
+
+    print(authData);
 
     final resp = await http.post(
       'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=$_firebaseToken',
