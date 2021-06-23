@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:app_deteccion_personas/src/blocs/provider.dart';
-import 'package:app_deteccion_personas/src/pages/upload_map_page.dart';
-import 'package:app_deteccion_personas/src/pages/network_page.dart';
-import 'package:app_deteccion_personas/src/pages/home_page.dart';
-import 'package:app_deteccion_personas/src/pages/photo_page.dart';
-import 'package:app_deteccion_personas/src/pages/register_page.dart';
-import 'package:app_deteccion_personas/src/pages/settings_page.dart';
-import 'package:app_deteccion_personas/src/pages/splash_page.dart';
-import 'package:app_deteccion_personas/src/preferencias_usuario/preferencias_usuario.dart';
-import 'package:app_deteccion_personas/src/providers/push_notifications_provider.dart';
-import 'package:app_deteccion_personas/src/pages/login_page.dart';
+import 'package:app_deteccion_personas/blocs/provider.dart';
+import 'package:app_deteccion_personas/pages/upload_map_page.dart';
+import 'package:app_deteccion_personas/pages/network_page.dart';
+import 'package:app_deteccion_personas/pages/home_page.dart';
+import 'package:app_deteccion_personas/pages/photo_page.dart';
+import 'package:app_deteccion_personas/pages/register_page.dart';
+import 'package:app_deteccion_personas/pages/settings_page.dart';
+import 'package:app_deteccion_personas/pages/splash_page.dart';
+import 'package:app_deteccion_personas/preferencias_usuario/preferencias_usuario.dart';
+import 'package:app_deteccion_personas/providers/push_notifications_provider.dart';
+import 'package:app_deteccion_personas/pages/login_page.dart';
+
 
 void main() async {
 
@@ -21,7 +22,7 @@ void main() async {
   
   runApp(MyApp());
 }
-
+//Clase my app
 class MyApp extends StatefulWidget with WidgetsBindingObserver{
   @override
   _MyAppState createState() => _MyAppState();
