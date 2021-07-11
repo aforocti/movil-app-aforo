@@ -55,7 +55,7 @@ class _InfoPageState extends State<InfoPage> {
         if (snapshot.hasError) {
           return Column(
             children: [
-              utils.errorInfo(snapshot.error, Colors.red),
+              utils.errorInfo("Error en la conexión", Colors.red),
               utils.iconFont(Icons.wifi_off, context, '')
             ],
           );
@@ -127,6 +127,15 @@ class _InfoPageState extends State<InfoPage> {
   List<Widget> makeAps(List<ApModel> aps, BuildContext context) {
     List<Widget> list = [];
     for (var item in aps) {
+      var col = Colors.grey;
+      var lim = double.parse(item.limit);
+      if(double.parse(item.devices) < lim*0.7){
+        col = Colors.green;
+      }else if(double.parse(item.devices) < lim*0.7 && double.parse(item.devices) < double.parse(item.limit)){
+        col = Colors.orange;
+      }else{
+        col = Colors.red;
+      }
       list.add(Container(
         decoration: BoxDecoration(
             border: Border.all(width: 0.1, color: Colors.black45)),
@@ -155,6 +164,7 @@ class _InfoPageState extends State<InfoPage> {
                 } else {
                   _actualizarAp(
                       context, item.limit, item.piso, item.mac, item.name);
+
                 }
               },
               leading: Text("AP",
@@ -162,14 +172,20 @@ class _InfoPageState extends State<InfoPage> {
                       TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
               title: Text(item.name, style: TextStyle(fontSize: 16)),
               subtitle: Text(item.model),
-              trailing: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Lím: ${item.limit}'),
-                  Text((item.piso == "0") ? 'Piso: PB' : 'Piso: ${item.piso}P'),
-                ],
-              ),
+              trailing: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Icon(Icons.supervised_user_circle,color: col),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                      Text('Lím: ${item.limit}'),
+                      Text((item.piso == "0") ? 'Piso: PB' : 'Piso: ${item.piso}P'),
+                  ],
+                ),
+              ]),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 15.0, right: 10.0),
@@ -185,6 +201,7 @@ class _InfoPageState extends State<InfoPage> {
         ),
       ));
     }
+    print(list);
     return list;
   }
 
@@ -309,6 +326,10 @@ class _InfoPageState extends State<InfoPage> {
                         Text("Sin conexión")
                       ])));
                     } else {
+                      DateTime now = DateTime.now();
+                      print('=======Update Ap Hour =======');
+                      print(now.hour.toString() + ":" + now.minute.toString() + ":"
+                          + now.second.toString());
                       apProvider.actualizarPisoLimite(mac, limitText, pisoText);
                       Navigator.pop(context);
                       Navigator.pushReplacementNamed(context, 'home');

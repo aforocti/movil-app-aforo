@@ -32,7 +32,7 @@ class HistorialPage extends StatelessWidget {
         if (snapshot.hasError) {
           return Column(
             children: [
-              utils.errorInfo(snapshot.error, Colors.red),
+              utils.errorInfo("Error en la Conexión", Colors.red),
               utils.iconFont(Icons.wifi_off, context, '')
             ],
           );

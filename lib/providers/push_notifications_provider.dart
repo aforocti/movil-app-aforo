@@ -43,8 +43,12 @@ class PushNotificationsProvider {
   }
 
   Future<dynamic> onMessage(Map<String, dynamic> message) async {
+    DateTime now = DateTime.now();
     print('=======onMessage========');
     print('message: $message');
+    print('=======Message Hour =======');
+    print(now.hour.toString() + ":" + now.minute.toString() + ":"
+        + now.second.toString());
     final argumento = message['data']['alert'];
     _mensajesStreamController.sink.add(argumento);
   }
@@ -62,6 +66,7 @@ class PushNotificationsProvider {
     final argumento = message['data']['alert'];
     _mensajesStreamController.sink.add(argumento);
   }
+
 
   dispose() {
     _mensajesStreamController?.close();

@@ -77,11 +77,10 @@ Widget errorInfo(String mensaje, Color color) {
 Widget iconFont(IconData icono, BuildContext context, String texto) {
   final size = MediaQuery.of(context).size;
   return Container(
-    height: double.infinity,
-    width: double.infinity,
-    padding: EdgeInsets.all(30.0),
+    padding: EdgeInsets.all(150.0),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
       Icon(icono, color: Colors.grey, size: size.width * 0.2),
       SizedBox(height: 10.0),

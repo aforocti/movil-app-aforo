@@ -23,6 +23,7 @@ class AlertProvider {
       return Future.error('Sin conexion');
     } else {
       final resp = await http.get(url);
+      print(url);
       final List<dynamic> decodedData = json.decode(resp.body);
       final alerts = new Alerts.fromJsonList(decodedData).items;
       DateFormat format = DateFormat("yyyy-MM-dd H:m:s");
