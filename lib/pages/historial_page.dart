@@ -72,7 +72,7 @@ class HistorialPage extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 10.0),
             child: Text(alert.area, style: TextStyle(fontSize: 18.0)),
           ),
-          subtitle: Text('${alert.date}'),
+          subtitle: Text('${alert.date} - ${alert.hour}'),
           leading: Container(
               padding: EdgeInsets.only(right: 12.0),
               decoration: BoxDecoration(

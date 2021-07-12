@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:connectivity/connectivity.dart';
@@ -131,7 +132,7 @@ class _InfoPageState extends State<InfoPage> {
       var lim = double.parse(item.limit);
       if(double.parse(item.devices) < lim*0.7){
         col = Colors.green;
-      }else if(double.parse(item.devices) < lim*0.7 && double.parse(item.devices) < double.parse(item.limit)){
+      }else if(double.parse(item.devices) >= lim*0.7 && double.parse(item.devices) < double.parse(item.limit)){
         col = Colors.orange;
       }else{
         col = Colors.red;
@@ -172,13 +173,10 @@ class _InfoPageState extends State<InfoPage> {
                       TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
               title: Text(item.name, style: TextStyle(fontSize: 16)),
               subtitle: Text(item.model),
-              trailing: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
+              trailing: Wrap(
                   children: [
-                    Icon(Icons.supervised_user_circle,color: col),
+                    Icon(Icons.supervised_user_circle,color: col,size: 38),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                       Text('Lím: ${item.limit}'),
