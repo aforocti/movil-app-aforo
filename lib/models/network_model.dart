@@ -9,18 +9,22 @@ class NetworkModel {
     NetworkModel({
         this.name,
         this.id,
+        this.capacidad,
     });
 
     String name;
     String id;
+    String capacidad;
 
     factory NetworkModel.fromJson(Map<String, dynamic> json) => NetworkModel(
         name: json["name"],
         id: json["id"],
+        capacidad: json["capacity"],
     );
 
     Map<String, dynamic> toJson() => {
         "name": name,
         "id": id,
+        "capacity": capacidad,
     };
 }

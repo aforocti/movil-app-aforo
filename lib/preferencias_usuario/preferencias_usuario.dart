@@ -32,6 +32,10 @@ class PreferenciasUsuario {
   get nombreNetwork =>  _prefs.getString('nombreNetwork') ?? '';
   set nombreNetwork( String value ) => _prefs.setString('nombreNetwork', value);
 
+  // GET y SET del _nameNetwork
+  get capacidad =>  _prefs.getString('capacidad') ?? '';
+  set capacidad( String value ) => _prefs.setString('capacidad', value);
+
   // GET y SET del nombreUsuario
   get nombreUsuario => _prefs.getString('nombreUsuario') ?? '';
   set nombreUsuario( String value ) => _prefs.setString('nombreUsuario', value);

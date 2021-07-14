@@ -40,7 +40,9 @@ class _PlanosPageState extends State<PlanosPage> {
         if (snapshot.hasError) {
           return Column(children: [
             utils.errorInfo("Erros en conexión.", Colors.red),
-            utils.iconFont(Icons.wifi_off, context, '')
+            Expanded(
+                child: utils.iconFont(Icons.wifi_off, context, '')
+            )
           ]);
         } else if (snapshot.hasData) {
           if (snapshot.data.isEmpty) {

@@ -20,6 +20,7 @@ class _NetworkPageState extends State<NetworkPage> {
   bool _isButtonEnable = true;
   String _nombreNetwork = '';
   String _nombreToken = '';
+  String _capacidad = '';
 
   @override
   Widget build(BuildContext context) {
@@ -70,9 +71,10 @@ class _NetworkPageState extends State<NetworkPage> {
             _userLogged(),
             SizedBox(height: 15.0),
             _texto(
-                'Para crear tu nueva red y generar el token ingresa un nombre descriptivo de tu red'),
+                'Para crear tu nueva red y generar el token ingresa un nombre descriptivo de tu red y la capacidad maxima de personas en esa zona.'),
             SizedBox(height: 5.0),
             _inputNetworkName(),
+            _inputCapacity(),
             _networkButton(context),
             SizedBox(height: 15.0),
             _texto(
@@ -126,6 +128,29 @@ class _NetworkPageState extends State<NetworkPage> {
         textAlign: TextAlign.center,
         onChanged: (value) => setState(() {
           _nombreNetwork = value;
+        }),
+        style: TextStyle(fontSize: 18.0),
+      ),
+    );
+  }
+
+  Widget _inputCapacity() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+        child: TextField(
+          keyboardType: TextInputType.number,
+          maxLength: 30,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            hintText: 'ejm: 90',
+            hintStyle: TextStyle(color: Colors.black38)),
+        cursorColor: utils.getColor('color6'),
+        textAlign: TextAlign.center,
+        onChanged: (value) => setState(() {
+          _capacidad = value;
         }),
         style: TextStyle(fontSize: 18.0),
       ),
@@ -204,8 +229,9 @@ class _NetworkPageState extends State<NetworkPage> {
         Future.delayed(Duration(seconds: 2), () {})
             .then((value) => setState(() => _isButtonEnable = true));
         NetworkModel network =
-            await networkProvider.crearNetwork(_nombreNetwork);
+            await networkProvider.crearNetwork(_nombreNetwork,_capacidad);
         _prefs.tokenNetwork = network.id;
+        _prefs.capacidad = network.capacidad;
         _prefs.nombreNetwork = network.name;
         await userProvider.crearUser(_prefs.nombreUsuario, _prefs.tokenNetwork);
         await deviceProvider.crearDevice(network.id, _prefs.fcmToken);
@@ -215,6 +241,7 @@ class _NetworkPageState extends State<NetworkPage> {
             .then((value) => setState(() => _isButtonEnable = true));
         _prefs.nombreNetwork = '';
         _prefs.tokenNetwork = '';
+        _prefs.capacidad = '';
         utils.mostrarAlerta(context,
             title: 'Error', content: 'Error inesperado');
       }

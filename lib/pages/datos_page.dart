@@ -57,7 +57,9 @@ class _InfoPageState extends State<InfoPage> {
           return Column(
             children: [
               utils.errorInfo("Error en la conexión", Colors.red),
-              utils.iconFont(Icons.wifi_off, context, '')
+              Expanded(
+                  child: utils.iconFont(Icons.wifi_off, context, '')
+              )
             ],
           );
         } else if (snapshot.hasData) {
@@ -176,6 +178,7 @@ class _InfoPageState extends State<InfoPage> {
               trailing: Wrap(
                   children: [
                     Icon(Icons.supervised_user_circle,color: col,size: 38),
+                    SizedBox(width: 20.0),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

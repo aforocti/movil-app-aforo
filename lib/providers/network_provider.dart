@@ -9,9 +9,9 @@ class NetworkProvider {
 
   final String _url = ApiUrl().getUrl();
 
-  Future<NetworkModel> crearNetwork(String name) async {
+  Future<NetworkModel> crearNetwork(String name, String capacidad) async {
     final url = '$_url/api/networks';
-    final body = json.encode({'name':name});
+    final body = json.encode({'name':name,'capacity':capacidad});
     Map<String,String> headers = {
       'Content-type':'application/json',
       'Accept':'application/json'
