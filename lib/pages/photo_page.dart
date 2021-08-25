@@ -89,7 +89,7 @@ class _PhotoPageState extends State<PhotoPage> {
             );
           } else if (snapshot.data != null ) {
             return FadeInImage(
-              placeholder: AssetImage('assets/no-image.jpg'),
+              placeholder: AssetImage('assets/not-found.png'),
               fit: BoxFit.fill,
               image: NetworkImage(snapshot.data),
             );

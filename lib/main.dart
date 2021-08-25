@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
     ]);
     return Provider(
         child: MaterialApp(
-          title: 'Tinkvice',
+          title: 'AforoApp',
           debugShowCheckedModeBanner: false,
           navigatorKey: navigatorKey,
           initialRoute: 'splash',

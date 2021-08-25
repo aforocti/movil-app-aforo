@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: utils.setColor('color6', 'color2'),
-        title: Text('Tinkvice',
+        title: Text('AforoApp',
             style: TextStyle(color: utils.setColor('color1', 'color6'))),
         actions: [
           IconButton(
