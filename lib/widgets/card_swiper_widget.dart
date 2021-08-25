@@ -88,8 +88,8 @@ class _CardSwiperWidgetState extends State<CardSwiperWidget> {
       child: Container(
         child: Text(
             (widget.mapas[index].piso == 0)
-                ? 'PLANTA BAJA'
-                : 'PISO ${widget.mapas[index].piso}',
+                ? 'GROUND FLOOR'
+                : 'FLOOR ${widget.mapas[index].piso}',
             style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold)),
         color: Colors.white24,
       ),

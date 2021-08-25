@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         leading: Container(
           padding: EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
           child: Image(
-              fit: BoxFit.fill, image: AssetImage('assets/ic_appbar.png')),
+              fit: BoxFit.fill, image: AssetImage('assets/ic_splash.png')),
         ),
         elevation: 5.0,
         titleSpacing: 6.0,

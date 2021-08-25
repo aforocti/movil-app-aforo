@@ -23,11 +23,11 @@ class AlertProvider {
       return Future.error('Sin conexion');
     } else {
       final resp = await http.get(url);
-      print(url);
       final List<dynamic> decodedData = json.decode(resp.body);
       final alerts = new Alerts.fromJsonList(decodedData).items;
-      DateFormat format = DateFormat("yyyy-MM-dd H:m:s");
-      //alerts.sort((a, b) => (format.parse(b.date)).compareTo(format.parse(a.date)));
+      DateFormat format = DateFormat("dd/MM/yyyy H:m:s");
+      print(alerts[0].date + " " + alerts[0].hour);
+      alerts.sort((a, b) => (format.parse(b.date + " " + b.hour)).compareTo(format.parse(a.date + " " + a.hour)));
       return alerts;
     }
   }

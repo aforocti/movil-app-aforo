@@ -41,7 +41,7 @@ class _InfoPageState extends State<InfoPage> {
           child: Container(
             color: utils.setColor('color6t5', 'color2'),
             child: Tab(
-                child: Text('INFORMACIÓN DE RED',
+                child: Text('NETWORK INFORMATION',
                     style: TextStyle(
                         color: utils.getColor('color6'), fontSize: 18))),
           ),
@@ -132,9 +132,9 @@ class _InfoPageState extends State<InfoPage> {
     for (var item in aps) {
       var col = Colors.grey;
       var lim = double.parse(item.limit);
-      if(double.parse(item.devices) < lim*0.7){
+      if(double.parse(item.devices) <= lim*0.5){
         col = Colors.green;
-      }else if(double.parse(item.devices) >= lim*0.7 && double.parse(item.devices) < double.parse(item.limit)){
+      }else if(double.parse(item.devices) > lim*0.5 && double.parse(item.devices) < double.parse(item.limit)*0.75){
         col = Colors.orange;
       }else{
         col = Colors.red;
@@ -182,8 +182,8 @@ class _InfoPageState extends State<InfoPage> {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                      Text('Lím: ${item.limit}'),
-                      Text((item.piso == "0") ? 'Piso: PB' : 'Piso: ${item.piso}P'),
+                      Text('Limit: ${item.limit}'),
+                      Text((item.piso == "0") ? 'Floor: GF' : 'Floor: ${item.piso}F'),
                   ],
                 ),
               ]),
@@ -212,7 +212,7 @@ class _InfoPageState extends State<InfoPage> {
       color: utils.getColor('color5'),
       height: double.minPositive,
       minWidth: double.minPositive,
-      child: Text('Ubicar', style: TextStyle(color: Colors.white)),
+      child: Text('Location', style: TextStyle(color: Colors.white)),
       onPressed: () async {
         List<ImageModel> planos = await imageProvider.cargarImages();
         for (ImageModel item in planos) {

@@ -17,7 +17,7 @@ class HistorialPage extends StatelessWidget {
           child: Container(
             color: utils.setColor('color6t5', 'color2'),
             child: Tab(
-                child: Text('HISTORIAL DE ALERTAS',
+                child: Text('HISTORY OF ALERTS',
                     style: TextStyle(
                       color: utils.getColor('color6'), fontSize: 18))),
           ),
@@ -85,7 +85,7 @@ class HistorialPage extends StatelessWidget {
           trailing: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('dispositivos', style: TextStyle(fontSize: 12.0)),
+              Text('Devices', style: TextStyle(fontSize: 12.0)),
               Text('${alert.deviceNumber}', style: TextStyle(fontSize: 19.0))
             ],
           ),

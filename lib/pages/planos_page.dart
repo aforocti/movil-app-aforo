@@ -22,7 +22,7 @@ class _PlanosPageState extends State<PlanosPage> {
         child: Container(
           color: utils.setColor('color6t5', 'color2'),
           child: Tab(
-              child: Text('PLANOS',
+              child: Text('BUILDING',
                   style: TextStyle(
                       color: utils.getColor('color6'), fontSize: 18))),
         ),
