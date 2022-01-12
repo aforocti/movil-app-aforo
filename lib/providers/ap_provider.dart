@@ -52,6 +52,9 @@ class ApProvider {
 
   Future<bool> actualizarPisoLimite(
       String mac, String limite, String piso) async {
+    print(mac);
+    print(limite);
+    print(piso);
     final body = json.encode({"limit": limite, "piso": piso});
     Map<String,String> headers = {
       'Content-type':'application/json',

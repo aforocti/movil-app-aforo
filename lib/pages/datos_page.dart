@@ -53,6 +53,7 @@ class _InfoPageState extends State<InfoPage> {
     return FutureBuilder(
       future: apProvider.cargarWlcsAps(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        print(snapshot.data);
         if (snapshot.hasError) {
           return Column(
             children: [

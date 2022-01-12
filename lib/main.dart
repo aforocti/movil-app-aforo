@@ -13,7 +13,7 @@ import 'package:app_deteccion_personas/providers/push_notifications_provider.dar
 import 'package:app_deteccion_personas/pages/login_page.dart';
 
 
-void main() async {
+void main() async {   
 
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = new PreferenciasUsuario();
@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
     ]);
     return Provider(
         child: MaterialApp(
-          title: 'AforoApp',
+          title: 'WiCrowd Count',
           debugShowCheckedModeBanner: false,
           navigatorKey: navigatorKey,
           initialRoute: 'splash',
