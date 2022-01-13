@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
     ]);
     return Provider(
         child: MaterialApp(
-          title: 'AforoApp',
+          title: 'WiCrowd Count',
           debugShowCheckedModeBanner: false,
           navigatorKey: navigatorKey,
           initialRoute: 'splash',

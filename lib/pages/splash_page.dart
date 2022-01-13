@@ -21,7 +21,7 @@ class _SplashPageState extends State<SplashPage> {
     return new SplashScreen(
       seconds: 2,
       navigateAfterSeconds: selectPage(),
-      title: new Text('Bienvenido a AforoApp',
+      title: new Text('Bienvenido a WifiCrowd Spy',
           style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
       image: Image(image: AssetImage('assets/ic_splash.png')),
       backgroundColor: utils.getColor('color2'),
