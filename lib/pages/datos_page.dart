@@ -260,14 +260,14 @@ class _InfoPageState extends State<InfoPage> {
             return AlertDialog(
               title: Column(
                 children: [
-                  Text("Update"),
+                  Text("Actualizar"),
                   Text(model, style: TextStyle(fontWeight: FontWeight.normal))
                 ],
               ),
               content: Column(
                 children: [
                   Row(children: [
-                    Text('Limit'),
+                    Text('Límite'),
                     Expanded(child: Container()),
                     IconButton(
                         icon: Icon(Icons.arrow_back_ios),
@@ -287,7 +287,7 @@ class _InfoPageState extends State<InfoPage> {
                         }),
                   ]),
                   Row(children: [
-                    Text('Floor'),
+                    Text('Piso'),
                     Expanded(child: Container()),
                     IconButton(
                         icon: Icon(Icons.arrow_back_ios),

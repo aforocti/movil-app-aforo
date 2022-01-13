@@ -38,15 +38,12 @@ class _CardSwiperWidgetState extends State<CardSwiperWidget> {
             final y =
                 (double.parse(snapshot.data[i].dy) * widget.bodyHeight / 100) -
                     widget.bodyWidth / 4;
-            var colora = Color.fromRGBO(0, 0, 0, 100);
-            var devices = double.parse(snapshot.data[i].devices);
-            var lim = double.parse(snapshot.data[i].limit);
-            if(devices <= lim*0.5){
-              colora = Color.fromRGBO(87, 198, 62, 0.5);
-            }else if(devices > lim*0.5 && devices < lim*0.75){
-              colora = Color.fromRGBO(224, 168, 22, 0.5);
-            }else{
+            var colora = Color.fromRGBO(87, 198, 62, 0.5);
+            if( double.parse(snapshot.data[i].devices) >= double.parse(snapshot.data[i].limit)){
               colora = Color.fromRGBO(255, 0, 0, 0.5);
+            }else if(double.parse(snapshot.data[i].devices) < double.parse(snapshot.data[i].limit)
+              && double.parse(snapshot.data[i].devices) >= double.parse(snapshot.data[i].limit)*0.7){
+              colora = Color.fromRGBO(224, 168, 22, 0.5);
             }
             lista.add(ApOnMap(
               piso: snapshot.data[i].piso,
@@ -102,7 +99,7 @@ class _CardSwiperWidgetState extends State<CardSwiperWidget> {
       Container(
         decoration: BoxDecoration(border: Border.all(color: Colors.black26)),
         child: FadeInImage(
-          placeholder: AssetImage('assets/not-found.png'),
+          placeholder: AssetImage('assets/no-image.jpg'),
           fit: BoxFit.fill,
           image: NetworkImage(widget.mapas[index].url),
         ),

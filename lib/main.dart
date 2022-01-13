@@ -50,7 +50,11 @@ class _MyAppState extends State<MyApp> {
     ]);
     return Provider(
         child: MaterialApp(
+<<<<<<< HEAD
           title: 'WiCrowd Count',
+=======
+          title: 'Tinkvice',
+>>>>>>> parent of af9d4b5 ([ADD] new images, fix building)
           debugShowCheckedModeBanner: false,
           navigatorKey: navigatorKey,
           initialRoute: 'splash',

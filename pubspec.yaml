@@ -42,7 +42,6 @@ dependencies:
   image_picker: ^0.6.7+17
   mime_type: ^0.3.2
   flutter_swiper: ^1.1.6
-  intl: ^0.15.7
 
 dev_dependencies:
   flutter_test:

@@ -20,7 +20,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: utils.setColor('color6', 'color2'),
+<<<<<<< HEAD
         title: Text('WifiCrowd Spy',
+=======
+        title: Text('Tinkvice',
+>>>>>>> parent of af9d4b5 ([ADD] new images, fix building)
             style: TextStyle(color: utils.setColor('color1', 'color6'))),
         actions: [
           IconButton(
