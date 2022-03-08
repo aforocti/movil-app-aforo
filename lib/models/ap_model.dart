@@ -31,19 +31,21 @@ class ApModel {
     this.dy,
   });
 
-  factory ApModel.fromJson(Map<String, dynamic> json) => ApModel(
-    wlcId: json["wlc_id"],
-    networkId: json["network_id"],
-    mac: json["mac"],
-    model: json["model"],
-    name: json["name"],
-    piso: json["piso"],
-    devices: json["devices"],
-    limit: json["limit"],
-    active: json["active"],
-    dx: json["dx"],
-    dy: json["dy"],
-  );
+  factory ApModel.fromJson(Map<String, dynamic> json) {
+    return ApModel(
+        wlcId: json["wlc_id"].toString(),
+        networkId: json["network_id"].toString(),
+        mac: json["mac"].toString(),
+        model: json["model"].toString(),
+        name: json["name"].toString(),
+        piso: json["piso"].toString(),
+        devices: json["devices"].toString(),
+        limit: json["limit"].toString(),
+        active: json["active"].toString(),
+        dx: json["dx"].toString(),
+        dy: json["dy"].toString()
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "wlc_id": wlcId,
@@ -61,15 +63,14 @@ class ApModel {
 }
 
 class Aps {
-  List<ApModel> items = new List();
+  List<ApModel> items = [];
 
   Aps();
 
   Aps.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;
-
-    for (var item in jsonList) {
-      final ap = new ApModel.fromJson(item);
+    for (var json in jsonList) {
+      var ap = new ApModel.fromJson(json);
       items.add(ap);
     }
   }

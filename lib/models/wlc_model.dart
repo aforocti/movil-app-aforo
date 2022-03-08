@@ -16,9 +16,9 @@ class WlcModel {
   WlcModel({this.networkId, this.mac, this.manufacturerName, this.productName});
 
   factory WlcModel.fromJson(Map<String, dynamic> json) => WlcModel(
-      networkId: json["network_id"],
-      mac: json["mac"],
-      manufacturerName: json["manufacturer_name"],
+      networkId: json["network_id"].toString(),
+      mac: json["mac"].toString(),
+      manufacturerName: json["manufacturer_name"].toString(),
       productName: json["product_name"]);
 
   Map<String, dynamic> toJson() => {
@@ -30,7 +30,8 @@ class WlcModel {
 }
 
 class Wlcs {
-  List<WlcModel> items = new List();
+  List<WlcModel> items = [];
+
 
   Wlcs();
 

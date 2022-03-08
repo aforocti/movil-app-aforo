@@ -17,9 +17,9 @@ class NetworkModel {
     String capacidad;
 
     factory NetworkModel.fromJson(Map<String, dynamic> json) => NetworkModel(
-        name: json["name"],
-        id: json["id"],
-        capacidad: json["capacity"],
+        name: json["name"].toString(),
+        id: json["id"].toString(),
+        capacidad: json["capacity"].toString(),
     );
 
     Map<String, dynamic> toJson() => {

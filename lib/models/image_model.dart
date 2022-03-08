@@ -26,7 +26,7 @@ class ImageModel {
 }
 
 class Images {
-  List<ImageModel> items = new List();
+  List<ImageModel> items = [];
 
   Images();
 

@@ -17,13 +17,13 @@ class AlertModel {
   AlertModel({this.networkId, this.area, this.deviceNumber, this.hour, this.date, this.id, this.type});
 
   factory AlertModel.fromJson(Map<String, dynamic> json) => AlertModel(
-    id           : json["id"],
-    networkId    : json["network_id"],
-    area         : json["area"],
-    deviceNumber : json["device_number"],
-    hour         : json["hour"],
-    date         : json["date"],
-    type         : json["type"]
+    id           : json["id"].toString(),
+    networkId    : json["network_id"].toString(),
+    area         : json["area"].toString(),
+    deviceNumber : json["device_number"].toString(),
+    hour         : json["hour"].toString(),
+    date         : json["date"].toString(),
+    type         : json["type"].toString()
   );
 
   Map<String, dynamic> toJson() => {
@@ -38,7 +38,7 @@ class AlertModel {
 }
 
 class Alerts {
-  List<AlertModel> items = new List();
+  List<AlertModel> items = [];
 
   Alerts();
 

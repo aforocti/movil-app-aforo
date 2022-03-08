@@ -14,8 +14,8 @@ class DeviceModel {
     String token;
 
     factory DeviceModel.fromJson(Map<String, dynamic> json) => DeviceModel(
-        networkId: json["network_id"],
-        token: json["token"],
+        networkId: json["network_id"].toString(),
+        token: json["token"].toString(),
     );
 
     Map<String, dynamic> toJson() => {

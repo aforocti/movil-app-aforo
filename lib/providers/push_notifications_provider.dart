@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:app_deteccion_personas/preferencias_usuario/preferencias_usuario.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'api_url.dart';
 
 class PushNotificationsProvider {
   final prefs = new PreferenciasUsuario();

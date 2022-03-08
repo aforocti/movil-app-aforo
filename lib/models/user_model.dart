@@ -15,8 +15,8 @@ class UserModel {
     String networkId;
 
     factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        user: json["user"],
-        networkId: json["network_id"],
+        user: json["user"].toString(),
+        networkId: json["network_id"].toString(),
     );
 
     Map<String, dynamic> toJson() => {

@@ -30,7 +30,6 @@ class ApProvider {
   Future<List<dynamic>> cargarWlcsAps() async {
     final url = '$_url/api/network/${_prefs.tokenNetwork}/wlcs';
     var connectivityResult = await (Connectivity().checkConnectivity());
-
     if (connectivityResult == ConnectivityResult.none) {
       await Future.delayed(Duration(milliseconds: 500)); // for animation
       return Future.error('Sin conexion');
@@ -46,6 +45,7 @@ class ApProvider {
         final aps = new Aps.fromJsonList(decodedData).items;
         item.aps = aps;
       }
+      print(wlcs.items);
       return wlcs.items;
     }
   }
